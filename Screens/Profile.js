@@ -15,6 +15,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import Slider from '@react-native-community/slider';
+import { SelectList } from 'react-native-dropdown-select-list'
 
 
 //GLUCARE
@@ -187,7 +188,21 @@ export default function Profile({ navigation }) {
               >
                 Gender
               </Text>
-              <SelectDropdown
+              
+              <View style={{
+                width: 300,
+                paddingTop: 10,
+                color: '#FFFFF'
+              }}>
+                <SelectList 
+                  setSelected={setGender}
+                  data={genderList}
+                  placeholder="Select gender"
+                  search='false'
+                />
+              </View>
+
+              {/* <SelectDropdown
                 data={genderList}
                 onSelect={(selectedItem, index) => {
                   setGender(selectedItem);
@@ -195,7 +210,7 @@ export default function Profile({ navigation }) {
                 style={{
                   backgroundColor: "rgba(255, 255, 255, 0.8)",
                 }}
-              />
+              /> */}
             </View>
           </View>
 
