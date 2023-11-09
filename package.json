@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
     "@react-native-community/hooks": "^3.0.0",
+    "@react-native-community/slider": "^4.4.3",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.16",
@@ -19,6 +20,7 @@
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "ml-regression-simple-linear": "^3.0.0",
+    "rc-slider": "^10.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.6",

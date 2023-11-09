@@ -14,14 +14,17 @@ import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import SelectDropdown from "react-native-select-dropdown";
+import Slider from '@react-native-community/slider';
+
 
 //GLUCARE
 export default function Profile({ navigation }) {
+
   const [name, setName] = useState("User");
-  const [age, setAge] = useState();
+  const [age, setAge] = useState(0);
   const [gender, setGender] = useState("MALE");
-  const [height, setHeight] = useState();
-  const [weight, setWeight] = useState();
+  const [height, setHeight] = useState(0);
+  const [weight, setWeight] = useState(0);
   const [activity, setActivity] = useState();
 
   const genderList = ["MALE", "FEMALE"];
@@ -150,25 +153,23 @@ export default function Profile({ navigation }) {
               >
                 Age
               </Text>
-              <View
-                style={{
-                  height: 38,
-                  width: "75%",
-                  borderColor: "rgba(0, 72, 125, 0.23)",
-                  borderWidth: 2.75,
-                  borderRadius: 4,
-                  marginVertical: 6,
-                  justifyContent: "center",
-                  paddingLeft: 8,
-                  backgroundColor: "rgba(255, 255, 255, 0.5)",
-                }}
-              >
-                <TextInput
-                  value={age}
-                  keyboardType="numeric"
-                  onChangeText={(value) => setAge(value)}
-                  editable={true}
-                />
+              <View style={{ flexDirection: 'row' }}>
+                <Text
+                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)", paddingTop: 5, paddingLeft: 11, justifyContent: 'flex-start' }}
+                >
+                  {age}
+                </Text>
+                <View style={{position: 'absolute', paddingLeft: 40}}> 
+                  < Slider 
+                    style={{width: 300, height: 35}}
+                    minimumValue={0}
+                    maximumValue={99}
+                    minimumTrackTintColor="#FFFFFF"
+                    maximumTrackTintColor="#000000"
+                    onValueChange={(value) => {setAge(value); value = Math.round(value)}}
+                    step={1}
+                  />
+                </View>
               </View>
             </View>
           </View>
@@ -209,27 +210,25 @@ export default function Profile({ navigation }) {
               <Text
                 style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)" }}
               >
-                Height
+                Height(in cm)
               </Text>
-              <View
-                style={{
-                  height: 38,
-                  width: "75%",
-                  borderColor: "rgba(0, 72, 125, 0.23)",
-                  borderWidth: 2.75,
-                  borderRadius: 4,
-                  marginVertical: 6,
-                  justifyContent: "center",
-                  paddingLeft: 8,
-                  backgroundColor: "rgba(255, 255, 255, 0.5)",
-                }}
-              >
-                <TextInput
-                  value={height}
-                  keyboardType="numeric"
-                  onChangeText={(value) => setHeight(value)}
-                  editable={true}
-                />
+              <View style={{ flexDirection: 'row' }}>
+                <Text
+                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)", paddingTop: 5, paddingLeft: 11, justifyContent: 'flex-start' }}
+                >
+                  {height}
+                </Text>
+                <View style={{position: 'absolute', paddingLeft: 40}}> 
+                  < Slider 
+                    style={{width: 300, height: 35}}
+                    minimumValue={0}
+                    maximumValue={213}
+                    minimumTrackTintColor="#FFFFFF"
+                    maximumTrackTintColor="#000000"
+                    onValueChange={(value) => {setHeight(value); value = Math.round(value)}}
+                    step={1}
+                  />
+                </View>
               </View>
             </View>
           </View>
@@ -245,27 +244,25 @@ export default function Profile({ navigation }) {
               <Text
                 style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)" }}
               >
-                Weight
+                Weight(in kg)
               </Text>
-              <View
-                style={{
-                  height: 38,
-                  width: "75%",
-                  borderColor: "rgba(0, 72, 125, 0.23)",
-                  borderWidth: 2.75,
-                  borderRadius: 4,
-                  marginVertical: 6,
-                  justifyContent: "center",
-                  paddingLeft: 8,
-                  backgroundColor: "rgba(255, 255, 255, 0.5)",
-                }}
-              >
-                <TextInput
-                  value={weight}
-                  keyboardType="numeric"
-                  onChangeText={(value) => setWeight(value)}
-                  editable={true}
-                />
+              <View style={{ flexDirection: 'row' }}>
+                <Text
+                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)", paddingTop: 5, paddingLeft: 11, justifyContent: 'flex-start' }}
+                >
+                  {weight}
+                </Text>
+                <View style={{position: 'absolute', paddingLeft: 40}}> 
+                  < Slider 
+                    style={{width: 300, height: 35}}
+                    minimumValue={0}
+                    maximumValue={120}
+                    minimumTrackTintColor="#FFFFFF"
+                    maximumTrackTintColor="#000000"
+                    onValueChange={(value) => {setWeight(value); value = Math.round(value)}}
+                    step={1}
+                  />
+                </View>
               </View>
             </View>
           </View>
