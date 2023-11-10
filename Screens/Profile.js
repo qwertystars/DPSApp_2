@@ -82,7 +82,9 @@ export default function Profile({ navigation }) {
           justifyContent: "center",
         }}
       >
-        <ScrollView>
+        <ScrollView style={{
+          height: 200
+        }}>
           <View
             style={{
               alignItems: "center",
@@ -120,8 +122,8 @@ export default function Profile({ navigation }) {
                 style={{
                   height: 38,
                   width: "75%",
-                  borderColor: "rgba(0, 72, 125, 0.23)",
-                  borderWidth: 2.75,
+                  borderColor: "rgba(0, 72, 125, 0.5)",
+                  borderWidth: 2.75, //2.75
                   borderRadius: 4,
                   marginVertical: 6,
                   justifyContent: "center",
@@ -210,6 +212,7 @@ export default function Profile({ navigation }) {
                 flexDirection: "column",
                 marginBottom: 6,
                 paddingHorizontal: 8,
+                paddingTop: 10
               }}
             >
               <Text
@@ -244,6 +247,7 @@ export default function Profile({ navigation }) {
                 flexDirection: "column",
                 marginBottom: 6,
                 paddingHorizontal: 8,
+                paddingTop: 10
               }}
             >
               <Text
@@ -271,6 +275,10 @@ export default function Profile({ navigation }) {
               </View>
             </View>
           </View>
+
+          <View style={{
+            height: 130
+          }} />
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>

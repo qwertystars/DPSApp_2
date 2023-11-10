@@ -39,14 +39,14 @@ export default function App() {
           name = 'BottomTabNavigation'
           component={BottomTabNav}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen 
           name='Profile'
           component={Profile}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
