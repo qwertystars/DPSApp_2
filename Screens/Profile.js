@@ -201,16 +201,6 @@ export default function Profile({ navigation }) {
                   search='false'
                 />
               </View>
-
-              {/* <SelectDropdown
-                data={genderList}
-                onSelect={(selectedItem, index) => {
-                  setGender(selectedItem);
-                }}
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                }}
-              /> */}
             </View>
           </View>
 
@@ -279,31 +269,6 @@ export default function Profile({ navigation }) {
                   />
                 </View>
               </View>
-            </View>
-          </View>
-
-          <View>
-            <View
-              style={{
-                flexDirection: "column",
-                marginBottom: 6,
-                paddingHorizontal: 8,
-              }}
-            >
-              <Text
-                style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)" }}
-              >
-                Activity
-              </Text>
-              <SelectDropdown
-                data={activityList}
-                onSelect={(selectedItem, index) => {
-                  set(selectedItem);
-                }}
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                }}
-              />
             </View>
           </View>
         </ScrollView>
