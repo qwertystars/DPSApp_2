@@ -18,20 +18,8 @@ import SelectDropdown from "react-native-select-dropdown";
 import Slider from "@react-native-community/slider";
 import { SelectList } from "react-native-dropdown-select-list";
 import { Dimensions } from "react-native";
-import { Ailments } from "../Screens";
 
-//GLUCARE
-export default function Profile({ navigation }) {
-  const [name, setName] = useState("User");
-  const [age, setAge] = useState(0);
-  const [gender, setGender] = useState("MALE");
-  const [height, setHeight] = useState(0);
-  const [weight, setWeight] = useState(0);
-  const [bloodGrp, setBloodGrp] = useState("AB+");
-
-  const genderList = ["MALE", "FEMALE"];
-  const bloodGrpList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
-
+export default function Ailments({ navigation }) {
   return (
     <SafeAreaView
       style={{
@@ -54,7 +42,7 @@ export default function Profile({ navigation }) {
             fontWeight: "bold",
           }}
         >
-          Profile
+          Ailments
         </Text>
       </View>
 
@@ -69,7 +57,6 @@ export default function Profile({ navigation }) {
         <ScrollView
           style={{
             height: 200,
-            paddingLeft: 7,
           }}
         >
           <View
@@ -85,8 +72,8 @@ export default function Profile({ navigation }) {
                 height: 170,
                 borderRadius: 85,
                 position: "relative",
+                paddingLeft: "33.61%",
                 paddingTop: "20.88%",
-                alignSelf: "center",
                 opacity: 0.9,
               }}
             />
@@ -182,7 +169,6 @@ export default function Profile({ navigation }) {
                 flexDirection: "column",
                 marginBottom: 6,
                 paddingHorizontal: 8,
-                paddingTop: 8,
               }}
             >
               <Text
@@ -302,44 +288,11 @@ export default function Profile({ navigation }) {
             </View>
           </View>
 
-          <View>
-            <View
-              style={{
-                flexDirection: "column",
-                marginBottom: 6,
-                paddingHorizontal: 8,
-                paddingTop: 8,
-              }}
-            >
-              <Text
-                style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)" }}
-              >
-                Blood Group
-              </Text>
-
-              <View
-                style={{
-                  width: "80%",
-                  paddingTop: 10,
-                  color: "#FFFFF",
-                }}
-              >
-                <SelectList
-                  setSelected={setBloodGrp}
-                  data={bloodGrpList}
-                  placeholder="Select blood group"
-                  search="false"
-                />
-              </View>
-            </View>
-          </View>
-
           <View
             style={{
-              paddingTop: 18,
+              paddingTop: 15,
               alignItems: "left",
               paddingLeft: 6,
-              flexDirection: "row",
             }}
           >
             <TouchableOpacity
@@ -352,7 +305,6 @@ export default function Profile({ navigation }) {
                 borderRadius: 5,
                 borderWidth: 3,
               }}
-              onPress={() => (window.location.href = "Ailments.js")}
             >
               <Text
                 style={{
@@ -364,16 +316,7 @@ export default function Profile({ navigation }) {
               >
                 Ailments
               </Text>
-              <MaterialIcons
-                name="keyboard-arrow-right"
-                size={24}
-                style={{
-                  position: "absolute",
-                  paddingLeft: 290,
-                  paddingTop: 5,
-                  color: "rgba(170, 219, 255, 0.87)",
-                }}
-              />
+              <MaterialIcons name="keyboard-arr" />
             </TouchableOpacity>
           </View>
 
