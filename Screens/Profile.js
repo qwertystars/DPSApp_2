@@ -9,18 +9,18 @@ import {
   Image,
   TextInput,
   ImageBackground,
+  Button,
 } from "react-native";
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import SelectDropdown from "react-native-select-dropdown";
-import Slider from '@react-native-community/slider';
-import { SelectList } from 'react-native-dropdown-select-list'
-
+import Slider from "@react-native-community/slider";
+import { SelectList } from "react-native-dropdown-select-list";
+import { Dimensions } from "react-native";
 
 //GLUCARE
 export default function Profile({ navigation }) {
-
   const [name, setName] = useState("User");
   const [age, setAge] = useState(0);
   const [gender, setGender] = useState("MALE");
@@ -53,16 +53,6 @@ export default function Profile({ navigation }) {
           justifyContent: "center",
         }}
       >
-        {/* <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            position: "absolute",
-            left: 0,
-          }}
-        >
-          <MaterialIcons name="keyboard-arrow-left" size={24} color={"#000"} />
-        </TouchableOpacity> */}
-
         <Text
           style={{
             fontSize: 20,
@@ -82,9 +72,12 @@ export default function Profile({ navigation }) {
           justifyContent: "center",
         }}
       >
-        <ScrollView style={{
-          height: 200
-        }}>
+        <ScrollView
+          style={{
+            height: 200,
+            paddingLeft: 7,
+          }}
+        >
           <View
             style={{
               alignItems: "center",
@@ -98,8 +91,8 @@ export default function Profile({ navigation }) {
                 height: 170,
                 borderRadius: 85,
                 position: "relative",
-                paddingLeft: "33.61%",
                 paddingTop: "20.88%",
+                alignSelf: "center",
                 opacity: 0.9,
               }}
             />
@@ -121,14 +114,14 @@ export default function Profile({ navigation }) {
               <View
                 style={{
                   height: 38,
-                  width: "75%",
+                  width: "80%",
                   borderColor: "rgba(0, 72, 125, 0.5)",
                   borderWidth: 2.75, //2.75
                   borderRadius: 4,
                   marginVertical: 6,
                   justifyContent: "center",
                   paddingLeft: 8,
-                  backgroundColor: "rgba(255, 255, 255, 0.5)",
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
                 }}
               >
                 <TextInput
@@ -156,20 +149,32 @@ export default function Profile({ navigation }) {
               >
                 Age
               </Text>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: "row" }}>
                 <Text
-                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)", paddingTop: 5, paddingLeft: 11, justifyContent: 'flex-start' }}
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingTop: 5,
+                    paddingLeft: 11,
+                    justifyContent: "flex-start",
+                  }}
                 >
                   {age}
                 </Text>
-                <View style={{position: 'absolute', paddingLeft: 40}}> 
-                  < Slider 
-                    style={{width: 300, height: 35}}
+                <View style={{ position: "absolute", paddingLeft: 40 }}>
+                  <Slider
+                    style={{
+                      width: (Dimensions.get("window").width * 70) / 100,
+                      height: 35,
+                    }}
                     minimumValue={0}
                     maximumValue={99}
                     minimumTrackTintColor="#FFFFFF"
                     maximumTrackTintColor="#000000"
-                    onValueChange={(value) => {setAge(value); value = Math.round(value)}}
+                    onValueChange={(value) => {
+                      setAge(value);
+                      value = Math.round(value);
+                    }}
                     step={1}
                   />
                 </View>
@@ -183,6 +188,7 @@ export default function Profile({ navigation }) {
                 flexDirection: "column",
                 marginBottom: 6,
                 paddingHorizontal: 8,
+                paddingTop: 8,
               }}
             >
               <Text
@@ -190,17 +196,19 @@ export default function Profile({ navigation }) {
               >
                 Gender
               </Text>
-              
-              <View style={{
-                width: 300,
-                paddingTop: 10,
-                color: '#FFFFF'
-              }}>
-                <SelectList 
+
+              <View
+                style={{
+                  width: "80%",
+                  paddingTop: 10,
+                  color: "#FFFFF",
+                }}
+              >
+                <SelectList
                   setSelected={setGender}
                   data={genderList}
                   placeholder="Select gender"
-                  search='false'
+                  search="false"
                 />
               </View>
             </View>
@@ -212,7 +220,7 @@ export default function Profile({ navigation }) {
                 flexDirection: "column",
                 marginBottom: 6,
                 paddingHorizontal: 8,
-                paddingTop: 10
+                paddingTop: 10,
               }}
             >
               <Text
@@ -220,20 +228,32 @@ export default function Profile({ navigation }) {
               >
                 Height(in cm)
               </Text>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: "row" }}>
                 <Text
-                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)", paddingTop: 5, paddingLeft: 11, justifyContent: 'flex-start' }}
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingTop: 5,
+                    paddingLeft: 11,
+                    justifyContent: "flex-start",
+                  }}
                 >
                   {height}
                 </Text>
-                <View style={{position: 'absolute', paddingLeft: 40}}> 
-                  < Slider 
-                    style={{width: 300, height: 35}}
+                <View style={{ position: "absolute", paddingLeft: 40 }}>
+                  <Slider
+                    style={{
+                      width: (Dimensions.get("window").width * 70) / 100,
+                      height: 35,
+                    }}
                     minimumValue={0}
                     maximumValue={213}
                     minimumTrackTintColor="#FFFFFF"
                     maximumTrackTintColor="#000000"
-                    onValueChange={(value) => {setHeight(value); value = Math.round(value)}}
+                    onValueChange={(value) => {
+                      setHeight(value);
+                      value = Math.round(value);
+                    }}
                     step={1}
                   />
                 </View>
@@ -247,7 +267,7 @@ export default function Profile({ navigation }) {
                 flexDirection: "column",
                 marginBottom: 6,
                 paddingHorizontal: 8,
-                paddingTop: 10
+                paddingTop: 10,
               }}
             >
               <Text
@@ -255,20 +275,32 @@ export default function Profile({ navigation }) {
               >
                 Weight(in kg)
               </Text>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: "row" }}>
                 <Text
-                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)", paddingTop: 5, paddingLeft: 11, justifyContent: 'flex-start' }}
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingTop: 5,
+                    paddingLeft: 11,
+                    justifyContent: "flex-start",
+                  }}
                 >
                   {weight}
                 </Text>
-                <View style={{position: 'absolute', paddingLeft: 40}}> 
-                  < Slider 
-                    style={{width: 300, height: 35}}
+                <View style={{ position: "absolute", paddingLeft: 40 }}>
+                  <Slider
+                    style={{
+                      width: (Dimensions.get("window").width * 70) / 100,
+                      height: 35,
+                    }}
                     minimumValue={0}
                     maximumValue={120}
                     minimumTrackTintColor="#FFFFFF"
                     maximumTrackTintColor="#000000"
-                    onValueChange={(value) => {setWeight(value); value = Math.round(value)}}
+                    onValueChange={(value) => {
+                      setWeight(value);
+                      value = Math.round(value);
+                    }}
                     step={1}
                   />
                 </View>
@@ -276,9 +308,53 @@ export default function Profile({ navigation }) {
             </View>
           </View>
 
-          <View style={{
-            height: 130
-          }} />
+          <View
+            style={{
+              paddingTop: 18,
+              alignItems: "left",
+              paddingLeft: 6,
+              flexDirection: "row",
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                height: 40,
+                width: "80%",
+                backgroundColor: "#2e6698",
+                paddingTop: 5,
+                borderColor: "#37688d",
+                borderRadius: 5,
+                borderWidth: 3,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: "rgba(170, 219, 255, 0.87)",
+                  paddingLeft: 2,
+                  justifyContent: "flex-start",
+                }}
+              >
+                Ailments
+              </Text>
+              <MaterialIcons
+                name="keyboard-arrow-right"
+                size={24}
+                style={{
+                  position: "absolute",
+                  paddingLeft: 290,
+                  paddingTop: 5,
+                  color: "rgba(170, 219, 255, 0.87)",
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              height: 130,
+            }}
+          />
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>
