@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
+  ImageBackground
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
@@ -24,15 +25,6 @@ export default function Main({ navigation }) {
           justifyContent: "center",
         }}
       >
-        {/* <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            position: "absolute",
-            left: 0,
-          }}
-        >
-          <MaterialIcons name="keyboard-arrow-left" size={24} color={"#000"} />
-        </TouchableOpacity> */}
 
         <Text
           style={{
@@ -44,6 +36,17 @@ export default function Main({ navigation }) {
           Home
         </Text>
       </View>
+
+      <ImageBackground
+        source={require("../assets/_bg.png")}
+        resizeMode="cover"
+        style={{
+          flex: 1,
+          justifyContent: "center",
+        }}
+      >
+
+      </ImageBackground>
     </SafeAreaView>
   );
 }
