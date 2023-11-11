@@ -7,6 +7,7 @@ import { useCallback } from 'react'
 import React from 'react'
 import BottomTabNav from './Navigations/BottomTabNav'
 import { Profile } from './Screens'
+import { Main } from './Screens'
 import { SimpleLinearRegression } from 'ml-regression-simple-linear'
 
 SplashScreen.preventAutoHideAsync();
@@ -45,6 +46,13 @@ export default function App() {
         <Stack.Screen 
           name='Profile'
           component={Profile}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen 
+          name='Main'
+          component={Main}
           options={{
             headerShown: false,
           }}

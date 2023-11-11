@@ -53,7 +53,7 @@ export default function Profile({ navigation }) {
           justifyContent: "center",
         }}
       >
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{
             position: "absolute",
@@ -61,7 +61,7 @@ export default function Profile({ navigation }) {
           }}
         >
           <MaterialIcons name="keyboard-arrow-left" size={24} color={"#000"} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <Text
           style={{
