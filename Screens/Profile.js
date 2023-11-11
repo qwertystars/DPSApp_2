@@ -352,7 +352,7 @@ export default function Profile({ navigation }) {
                 borderRadius: 5,
                 borderWidth: 3,
               }}
-              onPress={() => (window.location.href = "Ailments.js")}
+              onPress={() => navigation.navigate("BetterAilments")}
             >
               <Text
                 style={{

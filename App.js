@@ -8,20 +8,13 @@ import React from "react";
 import BottomTabNav from "./Navigations/BottomTabNav";
 import { Profile } from "./Screens";
 import { Main } from "./Screens";
-import { Ailmetnts } from "./Screens";
+import BetterAilments from "./Screens/BetterAilments";
 import { SimpleLinearRegression } from "ml-regression-simple-linear";
-import Ailments from "./Screens/Ailments";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    //black: require('./assets/fonts/Inter-Black.ttf'),
-    //bold: require('./assets/fonts/Inter-Bold.ttf'),
-    //medium: require('./assets/fonts/Inter-Medium.ttf'),
-    //regular: require('./assets/fonts/Inter-Regular.ttf'),
-    //semiBold: require('./assets/fonts/Inter-SemiBold.ttf'),
-  });
+  const [fontsLoaded] = useFonts({});
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -51,16 +44,16 @@ export default function App() {
           }}
         />
         <Stack.Screen
+          name="BetterAilments"
+          component={BetterAilments}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="Main"
           component={Main}
           options={{
             headerShown: false,
           }}
-        />
-        <Stack.Screen
-          name="Ailments"
-          component={Ailments}
-          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
