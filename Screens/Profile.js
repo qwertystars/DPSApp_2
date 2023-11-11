@@ -21,6 +21,7 @@ import { Dimensions } from "react-native";
 import { Ailments } from "../Screens";
 import * as SecureStore from "expo-secure-store";
 
+
 //GLUCARE
 export default function Profile({ navigation }) {
   const [name, setName] = useState("User");
