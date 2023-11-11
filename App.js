@@ -9,7 +9,6 @@ import BottomTabNav from "./Navigations/BottomTabNav";
 import { Profile } from "./Screens";
 import { Main } from "./Screens";
 import BetterAilments from "./Screens/BetterAilments";
-import { SimpleLinearRegression } from "ml-regression-simple-linear";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();

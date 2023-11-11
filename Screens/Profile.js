@@ -29,7 +29,7 @@ export default function Profile({ navigation }) {
   const [weight, setWeight] = useState(0);
   const [bloodGrp, setBloodGrp] = useState("AB+");
 
-  const genderList = ["MALE", "FEMALE"];
+  const genderList = ["MALE", "FEMALE", "OTHER"];
   const bloodGrpList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
   return (
@@ -369,7 +369,7 @@ export default function Profile({ navigation }) {
                 size={24}
                 style={{
                   position: "absolute",
-                  paddingLeft: 290,
+                  paddingLeft: "85%",
                   paddingTop: 5,
                   color: "rgba(170, 219, 255, 0.87)",
                 }}
