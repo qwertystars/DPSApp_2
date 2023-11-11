@@ -11,6 +11,7 @@ import React from "react";
 import { SimpleLinearRegression } from "ml-regression-simple-linear";
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 export default function Main({ navigation }) {
   //Simple addition of dates goes to next month
@@ -95,7 +96,24 @@ export default function Main({ navigation }) {
             paddingTop: 20,
           }}
         /> */}
-        <Text>29</Text>
+        <Text
+          style={{
+            fontSize: 50,
+            alignSelf: "center",
+            color: "rgba(170, 219, 255, 0.87)",
+          }}
+        >
+          29
+        </Text>
+        <Text
+          style={{
+            fontSize: 25,
+            alignSelf: "center",
+            color: "rgba(170, 219, 255, 0.87)",
+          }}
+        >
+          Days till next checkup
+        </Text>
       </ImageBackground>
     </SafeAreaView>
   );

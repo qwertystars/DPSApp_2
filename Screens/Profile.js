@@ -11,7 +11,7 @@ import {
   ImageBackground,
   Button,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import SelectDropdown from "react-native-select-dropdown";
@@ -19,6 +19,7 @@ import Slider from "@react-native-community/slider";
 import { SelectList } from "react-native-dropdown-select-list";
 import { Dimensions } from "react-native";
 import { Ailments } from "../Screens";
+import * as SecureStore from "expo-secure-store";
 
 //GLUCARE
 export default function Profile({ navigation }) {
@@ -31,6 +32,44 @@ export default function Profile({ navigation }) {
 
   const genderList = ["MALE", "FEMALE", "OTHER"];
   const bloodGrpList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
+
+  const getNameDB = async () => {
+    let result = await SecureStore.getItemAsync("Name");
+    if (result) setName(result);
+    else setName("User");
+  };
+
+  const getAgeDB = async () => {
+    let result = await SecureStore.getItemAsync("Age");
+    if (result) setAge(parseInt(result));
+    else setAge(50);
+  };
+
+  const getGenderDB = async () => {
+    let result = await SecureStore.getItemAsync("Gender");
+    if (result) setGender(result);
+    else setGender("MALE");
+  };
+
+  useEffect(() => {
+    getNameDB();
+    getAgeDB();
+    getGenderDB();
+  }, []);
+
+  async function handleChangeName() {
+    await SecureStore.setItemAsync("Name", name);
+  }
+
+  async function handleChangeAge() {
+    await SecureStore.setItemAsync("Age", age.toString());
+  }
+
+  async function handleChangeGender() {
+    await SecureStore.setItemAsync("Gender", gender);
+  }
+
+  //TODO Handle change gender (for dropdown on general scale)
 
   return (
     <SafeAreaView
@@ -120,7 +159,11 @@ export default function Profile({ navigation }) {
               >
                 <TextInput
                   value={name}
-                  onChangeText={(value) => setName(value)}
+                  onChangeText={(value) => {
+                    setName(value);
+                    handleChangeName();
+                    //SecureStore.setItemAsync("Name", value);
+                  }}
                   editable={true}
                   style={{
                     color: "rgba(18, 18, 18, 0.7)",
@@ -163,11 +206,13 @@ export default function Profile({ navigation }) {
                     }}
                     minimumValue={0}
                     maximumValue={99}
+                    value={age}
                     minimumTrackTintColor="#FFFFFF"
                     maximumTrackTintColor="#000000"
                     onValueChange={(value) => {
                       setAge(value);
                       value = Math.round(value);
+                      handleChangeAge();
                     }}
                     step={1}
                   />
