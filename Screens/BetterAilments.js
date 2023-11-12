@@ -5,6 +5,7 @@ import {
   StatusBar,
   ImageBackground,
   View,
+  Button,
 } from "react-native";
 import {
   SimpleLineIcons,
@@ -26,26 +27,30 @@ export default BetterAilments = ({ navigation }) => {
   const [arthiritis, setArthiritis] = useState(false);
 
   const Ailments = [];
-
+ 
   const click = () => {
     if (diabetes == true) {
-      Ailments.push("Diabetes");
-    }
+        Ailments.push(true);
+    } else Ailments.push(false);
     if (preDiabetes == true) {
-      Ailments.push("PreDiabetes");
-    }
+      Ailments.push(true);
+    } else Ailments.push(false);
     if (highBloodPressure == true) {
-      Ailments.push("HighBloodPressure");
-    }
+      Ailments.push(true);
+    } else Ailments.push(false);
     if (lowBloodPressure == true) {
-      Ailments.push("LowBloodPressure");
-    }
+      Ailments.push(true);
+    } else Ailments.push(false);
     if (obesity == true) {
-      Ailments.push("Obesity");
-    }
+      Ailments.push(true);
+    } else Ailments.push(false);
+    if (cholesterol == true) {
+          Ailments.push(true);
+    } else Ailments.push(false);
     if (arthiritis == true) {
-      Ailments.push("Arthiritis");
-    }
+        Ailments.push(true);
+    } else Ailments.push(false);
+      console.log(Ailments);
   };
 
   //-------------------------------------------------------
@@ -91,7 +96,7 @@ export default BetterAilments = ({ navigation }) => {
           }}
         >
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => {navigation.goBack();}}
             style={{
               position: "absolute",
               left: 0,
@@ -132,8 +137,7 @@ export default BetterAilments = ({ navigation }) => {
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-              setDiabetes(!diabetes);
-              console.log("Diabetes: " + diabetes);
+                setDiabetes(!diabetes);
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
@@ -219,9 +223,10 @@ export default BetterAilments = ({ navigation }) => {
               borderColor: "rgba(0, 17, 43, 0.5)",
               borderWidth: 2,
             }}
-          />
+            />
+          <Button title="Update" onPress = {click}/>
         </View>
       </ImageBackground>
-    </SafeAreaView>
+      </SafeAreaView>
   );
 };
