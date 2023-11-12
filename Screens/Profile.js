@@ -21,7 +21,6 @@ import { Dimensions } from "react-native";
 import { Ailments } from "../Screens";
 import * as SecureStore from "expo-secure-store";
 
-
 //GLUCARE
 export default function Profile({ navigation }) {
   const [name, setName] = useState("User");
@@ -197,7 +196,6 @@ export default function Profile({ navigation }) {
                   onChangeText={(value) => {
                     setName(value);
                     handleChangeName();
-                    //SecureStore.setItemAsync("Name", value);
                   }}
                   editable={true}
                   style={{
@@ -285,7 +283,6 @@ export default function Profile({ navigation }) {
                   search="false"
                   onSelect={() => {
                     handleChangeGender();
-                    //console.log(gender);
                   }}
                 />
               </View>
