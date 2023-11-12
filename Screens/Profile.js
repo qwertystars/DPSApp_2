@@ -48,13 +48,34 @@ export default function Profile({ navigation }) {
   const getGenderDB = async () => {
     let result = await SecureStore.getItemAsync("Gender");
     if (result) setGender(result);
-    else console.log(result);
+    else setGender("Select Gender");
+  };
+
+  const getHeightDB = async () => {
+    let result = await SecureStore.getItemAsync("Height");
+    if (result) setHeight(parseInt(result));
+    else setHeight(140);
+  };
+
+  const getWeightDB = async () => {
+    let result = await SecureStore.getItemAsync("Weight");
+    if (result) setWeight(parseInt(result));
+    else setWeight(74);
+  };
+
+  const getBloodGroupDB = async () => {
+    let result = await SecureStore.getItemAsync("BloodGrp");
+    if (result) setBloodGrp(result);
+    else setBloodGrp("Select Blood Group");
   };
 
   useEffect(() => {
     getNameDB();
     getAgeDB();
     getGenderDB();
+    getHeightDB();
+    getWeightDB();
+    getBloodGroupDB();
   }, []);
 
   async function handleChangeName() {
@@ -67,6 +88,18 @@ export default function Profile({ navigation }) {
 
   async function handleChangeGender() {
     await SecureStore.setItemAsync("Gender", gender);
+  }
+
+  async function handleChangeHeight() {
+    await SecureStore.setItemAsync("Height", height.toString());
+  }
+
+  async function handleChangeWeight() {
+    await SecureStore.setItemAsync("Weight", weight.toString());
+  }
+
+  async function handleChangeBloodGroup() {
+    await SecureStore.setItemAsync("BloodGrp", bloodGrp);
   }
 
   //TODO Handle change gender (for dropdown asw)
@@ -250,8 +283,8 @@ export default function Profile({ navigation }) {
                   placeholder={gender}
                   search="false"
                   onSelect={() => {
-                    handleChangeGender;
-                    console.log(gender);
+                    handleChangeGender();
+                    //console.log(gender);
                   }}
                 />
               </View>
@@ -292,11 +325,13 @@ export default function Profile({ navigation }) {
                     }}
                     minimumValue={0}
                     maximumValue={213}
+                    value={height}
                     minimumTrackTintColor="#FFFFFF"
                     maximumTrackTintColor="#000000"
                     onValueChange={(value) => {
                       setHeight(value);
                       value = Math.round(value);
+                      handleChangeHeight();
                     }}
                     step={1}
                   />
@@ -339,11 +374,13 @@ export default function Profile({ navigation }) {
                     }}
                     minimumValue={0}
                     maximumValue={120}
+                    value={weight}
                     minimumTrackTintColor="#FFFFFF"
                     maximumTrackTintColor="#000000"
                     onValueChange={(value) => {
                       setWeight(value);
                       value = Math.round(value);
+                      handleChangeWeight();
                     }}
                     step={1}
                   />
@@ -377,8 +414,11 @@ export default function Profile({ navigation }) {
                 <SelectList
                   setSelected={setBloodGrp}
                   data={bloodGrpList}
-                  placeholder="Select blood group"
+                  placeholder={bloodGrp}
                   search="false"
+                  onSelect={() => {
+                    handleChangeBloodGroup();
+                  }}
                 />
               </View>
             </View>
@@ -412,14 +452,14 @@ export default function Profile({ navigation }) {
                   justifyContent: "flex-start",
                 }}
               >
-                Ailments
+                Medical History
               </Text>
               <MaterialIcons
                 name="keyboard-arrow-right"
                 size={24}
                 style={{
                   position: "absolute",
-                  paddingLeft: "85%",
+                  paddingLeft: "90%",
                   paddingTop: 5,
                   color: "rgba(170, 219, 255, 0.87)",
                 }}
