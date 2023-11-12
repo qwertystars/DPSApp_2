@@ -16,33 +16,33 @@ import { CheckBox } from "react-native-elements";
 import { React, useState, useEffect } from "react";
 
 export default BetterAilments = ({ navigation }) => {
-  const [Diabetes, setDiabetes] = useState(false);
-  const [PreDiabetes, setPreDiabetes] = useState(false);
-  const [HighBloodPressure, setHighBloodPressure] = useState(false);
-  const [LowBloodPressure, setLowBloodPressure] = useState(false);
-  const [Obesity, setObesity] = useState(false);
-  const [Cholesterol, setCholesterol] = useState(false);
-  const [Arthiritis, setArthiritis] = useState(false);
+  const [diabetes, setDiabetes] = useState(false);
+  const [preDiabetes, setPreDiabetes] = useState(false);
+  const [highBloodPressure, setHighBloodPressure] = useState(false);
+  const [lowBloodPressure, setLowBloodPressure] = useState(false);
+  const [obesity, setObesity] = useState(false);
+  const [cholesterol, setCholesterol] = useState(false);
+  const [arthiritis, setArthiritis] = useState(false);
 
   const Ailments = [];
 
   const click = () => {
-    if (Diabetes == true) {
+    if (diabetes == true) {
       Ailments.push("Diabetes");
     }
-    if (PreDiabetes == true) {
+    if (preDiabetes == true) {
       Ailments.push("PreDiabetes");
     }
-    if (HighBloodPressure == true) {
+    if (highBloodPressure == true) {
       Ailments.push("HighBloodPressure");
     }
-    if (LowBloodPressure == true) {
+    if (lowBloodPressure == true) {
       Ailments.push("LowBloodPressure");
     }
-    if (Obesity == true) {
+    if (obesity == true) {
       Ailments.push("Obesity");
     }
-    if (Arthiritis == true) {
+    if (arthiritis == true) {
       Ailments.push("Arthiritis");
     }
   };
@@ -105,10 +105,10 @@ export default BetterAilments = ({ navigation }) => {
         >
           <CheckBox
             title="Diabetes"
-            checked={Diabetes}
+            checked={diabetes}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setDiabetes(!Diabetes)}
+            onPress={() => setDiabetes(!diabetes)}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -118,10 +118,10 @@ export default BetterAilments = ({ navigation }) => {
           />
           <CheckBox
             title="PreDiabetes"
-            checked={PreDiabetes}
+            checked={preDiabetes}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setPreDiabetes(!PreDiabetes)}
+            onPress={() => setPreDiabetes(!preDiabetes)}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -131,10 +131,10 @@ export default BetterAilments = ({ navigation }) => {
           />
           <CheckBox
             title="High Blood Pressure"
-            checked={HighBloodPressure}
+            checked={highBloodPressure}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setHighBloodPressure(!HighBloodPressure)}
+            onPress={() => setHighBloodPressure(!highBloodPressure)}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -144,10 +144,10 @@ export default BetterAilments = ({ navigation }) => {
           />
           <CheckBox
             title="Low Blood Pressure"
-            checked={LowBloodPressure}
+            checked={lowBloodPressure}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setLowBloodPressure(!LowBloodPressure)}
+            onPress={() => setLowBloodPressure(!lowBloodPressure)}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -157,10 +157,10 @@ export default BetterAilments = ({ navigation }) => {
           />
           <CheckBox
             title="Obesity"
-            checked={Obesity}
+            checked={obesity}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setObesity(!Obesity)}
+            onPress={() => setObesity(!obesity)}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -170,10 +170,10 @@ export default BetterAilments = ({ navigation }) => {
           />
           <CheckBox
             title="Cholesterol"
-            checked={Cholesterol}
+            checked={cholesterol}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setCholesterol(!Cholesterol)}
+            onPress={() => setCholesterol(!cholesterol)}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -183,10 +183,10 @@ export default BetterAilments = ({ navigation }) => {
           />
           <CheckBox
             title="Arthiritis"
-            checked={Arthiritis}
+            checked={arthiritis}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setArthiritis(!Arthiritis)}
+            onPress={() => setArthiritis(!arthiritis)}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
