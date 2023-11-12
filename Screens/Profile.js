@@ -238,7 +238,7 @@ export default function Profile({ navigation }) {
                       height: 35,
                     }}
                     minimumValue={0}
-                    maximumValue={99}
+                    maximumValue={127}
                     value={age}
                     minimumTrackTintColor="#FFFFFF"
                     maximumTrackTintColor="#000000"

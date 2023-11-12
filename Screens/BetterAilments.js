@@ -14,6 +14,7 @@ import {
 } from "@expo/vector-icons";
 import { CheckBox } from "react-native-elements";
 import { React, useState, useEffect } from "react";
+import * as SecureStore from "expo-secure-store";
 
 export default BetterAilments = ({ navigation }) => {
   const [diabetes, setDiabetes] = useState(false);
@@ -46,6 +47,27 @@ export default BetterAilments = ({ navigation }) => {
       Ailments.push("Arthiritis");
     }
   };
+
+  //-------------------------------------------------------
+
+  const getValueDB = async (key) => {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) return result == "true" ? true : false;
+    else return false;
+  };
+
+  async function setValueDB(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  useEffect(() => {
+    getValueDB("diabetes").then((value) => {
+      //console.log(value);
+    });
+  }, []);
+
+  //-------------------------------------------------------
+
   return (
     <SafeAreaView
       style={{
@@ -98,7 +120,8 @@ export default BetterAilments = ({ navigation }) => {
             marginHorizontal: 12,
             marginTop: "5%",
             flexDirection: "column",
-            justifyContent: "center",
+            //justifyContent: "center",
+            paddingTop: 20,
             backgroundColor: "rgba(109, 149, 222, 0.2)",
             height: "90%",
           }}
@@ -108,7 +131,10 @@ export default BetterAilments = ({ navigation }) => {
             checked={diabetes}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setDiabetes(!diabetes)}
+            onPress={() => {
+              setDiabetes(!diabetes);
+              console.log("Diabetes: " + diabetes);
+            }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
