@@ -48,7 +48,7 @@ export default function Profile({ navigation }) {
   const getGenderDB = async () => {
     let result = await SecureStore.getItemAsync("Gender");
     if (result) setGender(result);
-    else setGender("MALE");
+    else console.log(result);
   };
 
   useEffect(() => {
@@ -69,7 +69,8 @@ export default function Profile({ navigation }) {
     await SecureStore.setItemAsync("Gender", gender);
   }
 
-  //TODO Handle change gender (for dropdown on general scale)
+  //TODO Handle change gender (for dropdown asw)
+  //Problem in gender save SecureStore
 
   return (
     <SafeAreaView
@@ -246,8 +247,12 @@ export default function Profile({ navigation }) {
                 <SelectList
                   setSelected={setGender}
                   data={genderList}
-                  placeholder="Select gender"
+                  placeholder={gender}
                   search="false"
+                  onSelect={() => {
+                    handleChangeGender;
+                    console.log(gender);
+                  }}
                 />
               </View>
             </View>
