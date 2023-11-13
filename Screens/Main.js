@@ -22,6 +22,7 @@ export default function Main({ navigation }) {
   // console.log(today.toDateString());
   // const newDate = new Date(today.toDateString());
   // console.log(newDate.toDateString());
+ 
 
   let today = new Date();
   let checkupDate = new Date();
@@ -123,35 +124,51 @@ export default function Main({ navigation }) {
             style={{
               height: 50,
               width: "98%",
-              backgroundColor: "#rgba(217,87,92,0.8)",
+              backgroundColor: "rgba(250,62,62,0.7)",
               borderRadius: 15,
-              borderColor: "#e9454b",
+              borderColor: "#96333d",
               borderWidth: 3.5,
               alignSelf: "center",
             }}
           >
-            <Text style={{}}>Get checkup done today!!</Text>
+            <Text style={{
+             fontFamily: "ITC Avant Garde Gothic",
+             fontWeight: "bold",
+             fontSize: 22,
+             paddingTop: "1%",
+             paddingLeft: "5%",
+             color: "rgba(255,198,196,1)",
+             }}>
+             Get checkup done today!!
+            </Text>
 
             <TouchableOpacity
               style={{
                 position: "absolute",
                 paddingTop: 5,
-                paddingLeft: 305,
+                paddingLeft: "83%",
               }}
               onPress={() => {
-                //setShowAlert(false);
-                //ResetCheckupDuration();
+                setShowAlert(false);
+                ResetCheckupDuration();
               }}
             >
               <View
                 style={{
                   height: 30,
-                  width: 80,
-                  backgroundColor: "#FFF",
+                  width: 50,
+                  backgroundColor: "rgba(255,198,196,1)",
                   borderRadius: 10,
                 }}
               >
-                <Text>DONE</Text>
+                <Text style={{
+                  fontFamily: "ITC Avant Garde Gothic",
+                  fontWeight: "bold",
+                  fontSize: 16,
+                  paddingVertical: 4,
+                  alignSelf: "center",
+                  color: "#96333d",
+                }}>DONE</Text>
               </View>
             </TouchableOpacity>
           </View>
