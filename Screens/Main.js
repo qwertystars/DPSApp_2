@@ -18,14 +18,13 @@ import * as SecureStore from "expo-secure-store";
 export default function Main({ navigation }) {
   //Simple addition of dates goes to next month
 
-  const today = new Date();
-  //today.setDate(today.getDate() + 3);
-  let checkupDate = new Date();
-
   //console.log((temp1 - temp2) / (1000 * 60 * 60 * 24));
   // console.log(today.toDateString());
   // const newDate = new Date(today.toDateString());
   // console.log(newDate.toDateString());
+
+  let today = new Date();
+  let checkupDate = new Date();
 
   const checkupDuration = 20;
 
@@ -34,25 +33,33 @@ export default function Main({ navigation }) {
 
   const [showAlert, setShowAlert] = useState(true);
 
-  const getValueDB = async (key) => {
+  const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
     if (result) return result;
     else return "";
   };
 
-  async function setValueDB(key, value) {
+  async function SetValueDB(key, value) {
     await SecureStore.setItemAsync(key, value);
+  }
+
+  function ResetCheckupDuration() {
+    checkupDate.setDate(checkupDate.getDate() + checkupDuration);
+    checkupDate.setHours(0, 0, 0);
+    setCheckupDay(checkupDate);
+    SetValueDB("checkupDate", checkupDate.toDateString());
+    setRemainingDays(checkupDuration);
   }
 
   //SecureStore.deleteItemAsync("checkupDate");
 
   useEffect(() => {
-    getValueDB("checkupDate").then((value) => {
+    today = new Date();
+    checkupDate = new Date();
+
+    GetValueDB("checkupDate").then((value) => {
       if (value == "") {
-        checkupDate.setDate(checkupDate.getDate() + checkupDuration);
-        setCheckupDay(checkupDate);
-        setValueDB("checkupDate", checkupDate.toDateString());
-        setRemainingDays(checkupDuration);
+        ResetCheckupDuration();
       } else {
         checkupDate = new Date(value);
         setRemainingDays(
@@ -61,6 +68,12 @@ export default function Main({ navigation }) {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (remainingDays == 0) {
+      setShowAlert(true);
+    }
+  }, [remainingDays]);
 
   return (
     <SafeAreaView
@@ -96,6 +109,15 @@ export default function Main({ navigation }) {
           //justifyContent: "center",
         }}
       >
+        {/* <View
+          style={{
+            position: "absolute",
+            height: 60,
+            width: 60,
+            backgroundColor: "#FFF",
+          }}
+        ></View> */}
+
         <View style={{ paddingTop: 10, display: showAlert ? "flex" : "none" }}>
           <View
             style={{
@@ -116,7 +138,10 @@ export default function Main({ navigation }) {
                 paddingTop: 5,
                 paddingLeft: 305,
               }}
-              onPress={() => setShowAlert(false)}
+              onPress={() => {
+                //setShowAlert(false);
+                //ResetCheckupDuration();
+              }}
             >
               <View
                 style={{
