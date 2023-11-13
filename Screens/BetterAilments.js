@@ -17,6 +17,7 @@ import { CheckBox } from "react-native-elements";
 import { React, useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 
+// NOT boolean value niye kaaj korte hobe stubid react native
 export default BetterAilments = ({ navigation }) => {
   const [diabetes, setDiabetes] = useState(false);
   const [preDiabetes, setPreDiabetes] = useState(false);
@@ -25,35 +26,6 @@ export default BetterAilments = ({ navigation }) => {
   const [obesity, setObesity] = useState(false);
   const [cholesterol, setCholesterol] = useState(false);
   const [arthiritis, setArthiritis] = useState(false);
-
-  const Ailments = [];
- 
-  const click = () => {
-    if (diabetes == true) {
-        Ailments.push(true);
-    } else Ailments.push(false);
-    if (preDiabetes == true) {
-      Ailments.push(true);
-    } else Ailments.push(false);
-    if (highBloodPressure == true) {
-      Ailments.push(true);
-    } else Ailments.push(false);
-    if (lowBloodPressure == true) {
-      Ailments.push(true);
-    } else Ailments.push(false);
-    if (obesity == true) {
-      Ailments.push(true);
-    } else Ailments.push(false);
-    if (cholesterol == true) {
-          Ailments.push(true);
-    } else Ailments.push(false);
-    if (arthiritis == true) {
-        Ailments.push(true);
-    } else Ailments.push(false);
-      console.log(Ailments);
-  };
-
-  //-------------------------------------------------------
 
   const getValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -67,11 +39,33 @@ export default BetterAilments = ({ navigation }) => {
 
   useEffect(() => {
     getValueDB("diabetes").then((value) => {
-      //console.log(value);
+      setDiabetes(value == true ? true : false);
+    });
+
+    getValueDB("preDiabetes").then((value) => {
+      setPreDiabetes(value == true ? true : false);
+    });
+
+    getValueDB("highBloodPressure").then((value) => {
+      setHighBloodPressure(value == true ? true : false);
+    });
+
+    getValueDB("lowBloodPressure").then((value) => {
+      setLowBloodPressure(value == true ? true : false);
+    });
+
+    getValueDB("obesity").then((value) => {
+      setObesity(value == true ? true : false);
+    });
+
+    getValueDB("cholesterol").then((value) => {
+      setCholesterol(value == true ? true : false);
+    });
+
+    getValueDB("arthiritis").then((value) => {
+      setArthiritis(value == true ? true : false);
     });
   }, []);
-
-  //-------------------------------------------------------
 
   return (
     <SafeAreaView
@@ -96,7 +90,9 @@ export default BetterAilments = ({ navigation }) => {
           }}
         >
           <TouchableOpacity
-            onPress={() => {navigation.goBack();}}
+            onPress={() => {
+              navigation.goBack();
+            }}
             style={{
               position: "absolute",
               left: 0,
@@ -137,7 +133,8 @@ export default BetterAilments = ({ navigation }) => {
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-                setDiabetes(!diabetes);
+              setDiabetes(!diabetes);
+              setValueDB("diabetes", diabetes == true ? "false" : "true");
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
@@ -151,7 +148,10 @@ export default BetterAilments = ({ navigation }) => {
             checked={preDiabetes}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setPreDiabetes(!preDiabetes)}
+            onPress={() => {
+              setPreDiabetes(!preDiabetes);
+              setValueDB("preDiabetes", preDiabetes == true ? "false" : "true");
+            }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -164,7 +164,13 @@ export default BetterAilments = ({ navigation }) => {
             checked={highBloodPressure}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setHighBloodPressure(!highBloodPressure)}
+            onPress={() => {
+              setHighBloodPressure(!highBloodPressure);
+              setValueDB(
+                "highBloodPressure",
+                highBloodPressure == true ? "false" : "true"
+              );
+            }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -177,7 +183,13 @@ export default BetterAilments = ({ navigation }) => {
             checked={lowBloodPressure}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setLowBloodPressure(!lowBloodPressure)}
+            onPress={() => {
+              setLowBloodPressure(!lowBloodPressure);
+              setValueDB(
+                "lowBloodPressure",
+                lowBloodPressure == true ? "false" : "true"
+              );
+            }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -190,7 +202,10 @@ export default BetterAilments = ({ navigation }) => {
             checked={obesity}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setObesity(!obesity)}
+            onPress={() => {
+              setObesity(!obesity);
+              setValueDB("obesity", obesity == true ? "false" : "true");
+            }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -203,7 +218,10 @@ export default BetterAilments = ({ navigation }) => {
             checked={cholesterol}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setCholesterol(!cholesterol)}
+            onPress={() => {
+              setCholesterol(!cholesterol);
+              setValueDB("cholesterol", cholesterol == true ? "false" : "true");
+            }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
@@ -216,17 +234,20 @@ export default BetterAilments = ({ navigation }) => {
             checked={arthiritis}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => setArthiritis(!arthiritis)}
+            onPress={() => {
+              setArthiritis(!arthiritis);
+              setValueDB("arthiritis", arthiritis == true ? "false" : "true");
+            }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
               backgroundColor: "rgba(178, 198, 217, 0.83)",
               borderColor: "rgba(0, 17, 43, 0.5)",
               borderWidth: 2,
             }}
-            />
-          <Button title="Update" onPress = {click}/>
+          />
+          {/* <Button title="Update" onPress={click} /> */}
         </View>
       </ImageBackground>
-      </SafeAreaView>
+    </SafeAreaView>
   );
 };

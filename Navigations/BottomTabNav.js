@@ -22,7 +22,7 @@ const screenOptions = {
     left: 0,
     elevation: 0,
     height: 60,
-    backgroundColor: "rgba(93, 152, 255, 0.83)",
+    backgroundColor: "rgba(93, 152, 255, 0.94)",
   },
 };
 

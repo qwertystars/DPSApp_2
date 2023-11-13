@@ -5,19 +5,62 @@ import {
   StatusBar,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { SimpleLinearRegression } from "ml-regression-simple-linear";
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+import { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 
 export default function Main({ navigation }) {
   //Simple addition of dates goes to next month
+
   const today = new Date();
-  today.setDate(today.getDate() - 12);
-  console.log(today);
+  //today.setDate(today.getDate() + 3);
+  let checkupDate = new Date();
+
+  //console.log((temp1 - temp2) / (1000 * 60 * 60 * 24));
+  // console.log(today.toDateString());
+  // const newDate = new Date(today.toDateString());
+  // console.log(newDate.toDateString());
+
+  const checkupDuration = 20;
+
+  const [checkupDay, setCheckupDay] = useState();
+  const [remainingDays, setRemainingDays] = useState(checkupDuration);
+
+  const [showAlert, setShowAlert] = useState(true);
+
+  const getValueDB = async (key) => {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) return result;
+    else return "";
+  };
+
+  async function setValueDB(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  //SecureStore.deleteItemAsync("checkupDate");
+
+  useEffect(() => {
+    getValueDB("checkupDate").then((value) => {
+      if (value == "") {
+        checkupDate.setDate(checkupDate.getDate() + checkupDuration);
+        setCheckupDay(checkupDate);
+        setValueDB("checkupDate", checkupDate.toDateString());
+        setRemainingDays(checkupDuration);
+      } else {
+        checkupDate = new Date(value);
+        setRemainingDays(
+          Math.floor((checkupDate - today) / (1000 * 60 * 60 * 24))
+        );
+      }
+    });
+  }, []);
 
   return (
     <SafeAreaView
@@ -53,6 +96,41 @@ export default function Main({ navigation }) {
           //justifyContent: "center",
         }}
       >
+        <View style={{ paddingTop: 10, display: showAlert ? "flex" : "none" }}>
+          <View
+            style={{
+              height: 50,
+              width: "98%",
+              backgroundColor: "#rgba(217,87,92,0.8)",
+              borderRadius: 15,
+              borderColor: "#e9454b",
+              borderWidth: 3.5,
+              alignSelf: "center",
+            }}
+          >
+            <Text style={{}}>Get checkup done today!!</Text>
+
+            <TouchableOpacity
+              style={{
+                position: "absolute",
+                paddingTop: 5,
+                paddingLeft: 305,
+              }}
+              onPress={() => setShowAlert(false)}
+            >
+              <View
+                style={{
+                  height: 30,
+                  width: 80,
+                  backgroundColor: "#FFF",
+                  borderRadius: 10,
+                }}
+              >
+                <Text>DONE</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
         {/* <LineChart
           data={{
             labels: ["January", "February", "March", "April", "May", "June"],
@@ -103,7 +181,7 @@ export default function Main({ navigation }) {
             color: "rgba(170, 219, 255, 0.87)",
           }}
         >
-          29
+          {remainingDays}
         </Text>
         <Text
           style={{
