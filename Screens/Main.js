@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  Button,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
@@ -15,6 +16,7 @@ import { Dimensions } from "react-native";
 import { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 
+
 export default function Main({ navigation }) {
   //Simple addition of dates goes to next month
 
@@ -22,7 +24,10 @@ export default function Main({ navigation }) {
   // console.log(today.toDateString());
   // const newDate = new Date(today.toDateString());
   // console.log(newDate.toDateString());
- 
+
+    const MenuClicked = () => {
+        navigation.toggleDrawer();
+    }
 
   let today = new Date();
   let checkupDate = new Date();
@@ -32,7 +37,7 @@ export default function Main({ navigation }) {
   const [checkupDay, setCheckupDay] = useState();
   const [remainingDays, setRemainingDays] = useState(checkupDuration);
 
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -52,7 +57,7 @@ export default function Main({ navigation }) {
     setRemainingDays(checkupDuration);
   }
 
-  //SecureStore.deleteItemAsync("checkupDate");
+  SecureStore.deleteItemAsync("checkupDate");
 
   useEffect(() => {
     today = new Date();
@@ -76,6 +81,7 @@ export default function Main({ navigation }) {
     }
   }, [remainingDays]);
 
+
   return (
     <SafeAreaView
       style={{
@@ -88,14 +94,34 @@ export default function Main({ navigation }) {
         style={{
           marginHorizontal: 12,
           flexDirection: "row",
-          justifyContent: "center",
+          justifyContent: "flex-start",
         }}
-      >
+          >
+        <TouchableOpacity
+            style={{
+                height: 40,
+                width: 40,
+                backgroundColor: "rgba(255,255,255,0)",
+            }}
+            onPress={MenuClicked}
+        >
+            <MaterialIcons
+                name="menu"
+                size={24}
+                style={{
+                    position: "absolute",
+                    paddingLeft: 0,
+                    paddingTop: 0,
+                    color: "rgba(170, 219, 255, 0.87)",
+                }}
+            />
+        </TouchableOpacity>
         <Text
           style={{
             fontSize: 20,
             fontFamily: "sans-serif",
             fontWeight: "bold",
+            paddingLeft: "30%",
           }}
         >
           Home
@@ -132,7 +158,7 @@ export default function Main({ navigation }) {
             }}
           >
             <Text style={{
-             fontFamily: "ITC Avant Garde Gothic",
+             fontFamily: "sans-serif",
              fontWeight: "bold",
              fontSize: 22,
              paddingTop: "1%",
@@ -162,7 +188,7 @@ export default function Main({ navigation }) {
                 }}
               >
                 <Text style={{
-                  fontFamily: "ITC Avant Garde Gothic",
+                  fontFamily: "sans-serif",
                   fontWeight: "bold",
                   fontSize: 16,
                   paddingVertical: 4,
@@ -233,8 +259,8 @@ export default function Main({ navigation }) {
           }}
         >
           Days till next checkup
-        </Text>
-      </ImageBackground>
+              </Text>
+       </ImageBackground>
     </SafeAreaView>
   );
 }

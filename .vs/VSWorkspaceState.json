@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
     "\\Navigations",
     "\\Screens"
   ],
+  "SelectedNode": "\\Navigations\\BottomTabNav.js",
   "PreviewInSolutionExplorer": false
 }
