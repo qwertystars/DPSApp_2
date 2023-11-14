@@ -418,6 +418,7 @@ export default function Main({ navigation }) {
             </View>
           </View>
 
+          {/* Workout page button */}
           <View
             style={{
               paddingTop: 30,
@@ -433,6 +434,7 @@ export default function Main({ navigation }) {
             />
           </View>
 
+          {/* Diet page button */}
           <View
             style={{
               paddingTop: 15,
