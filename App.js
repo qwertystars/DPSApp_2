@@ -9,6 +9,10 @@ import BottomTabNav from "./Navigations/BottomTabNav";
 import { Profile } from "./Screens";
 import { Main } from "./Screens";
 import BetterAilments from "./Screens/BetterAilments";
+import GlucoseGraph from "./Screens/GlucoseGraph";
+import BloodPressureGraph from "./Screens/BloodPressureGraph";
+import DietChart from "./Screens/DietChart";
+import WorkoutPlan from "./Screens/WorkoutPlan";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -50,6 +54,34 @@ export default function App() {
         <Stack.Screen
           name="Main"
           component={Main}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Glucose"
+          component={GlucoseGraph}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="BloodPressure"
+          component={BloodPressureGraph}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="DietChart"
+          component={DietChart}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="WorkoutPlan"
+          component={WorkoutPlan}
           options={{
             headerShown: false,
           }}

@@ -8,6 +8,7 @@ import {
   Alert,
   Button,
   ScrollView,
+  Image,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
@@ -200,26 +201,27 @@ export default function Main({ navigation }) {
               </TouchableOpacity>
             </View>
           </View>
-
-          <Text
-            style={{
-              fontSize: 50,
-              alignSelf: "center",
-              color: "rgba(170, 219, 255, 0.87)",
-            }}
-          >
-            {remainingDays}
-          </Text>
-          <Text
-            style={{
-              fontSize: 25,
-              alignSelf: "center",
-              color: "rgba(170, 219, 255, 0.87)",
-            }}
-          >
-            Days till next checkup
-          </Text>
-
+          <View
+             style={{ backgroundColor:"rgba(0, 33, 59, 0.3)"}}>
+               <Text
+                 style={{
+                   fontSize: 50,
+                   alignSelf: "center",
+                   color: "rgba(180, 229, 255, 0.87)",
+                 }}
+               >
+                 {remainingDays}
+               </Text>
+               <Text
+                 style={{
+                   fontSize: 25,
+                   alignSelf: "center",
+                   color: "rgba(190, 239, 255, 0.87)",
+                 }}
+               >
+                 Days till next checkup
+               </Text>
+          </View>
           <View
             style={{
               height: 260,
@@ -241,15 +243,17 @@ export default function Main({ navigation }) {
                   },
                 ],
               }}
-              width={(Dimensions.get("window").width * 75) / 100} // from react-native
+              width={(Dimensions.get("window").width * 70) / 100} // from react-native
               height={190}
               yAxisLabel="$"
               yAxisSuffix="k"
               yAxisInterval={1} // optional, defaults to 1
               chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "#fb8c00",
-                backgroundGradientTo: "#ffa726",
+                  backgroundColor: "#00dee2", 
+                  backgroundGradientFrom: "rgba(74, 137, 255, 1)",
+                  backgroundGradientFromOpacity: 0.8,
+                  backgroundGradientTo: "rgba(74, 183, 255, 1)",
+                  backgroundGradientToOpacity: 0.8,
                 decimalPlaces: 2, // optional, defaults to 2dp
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -259,7 +263,7 @@ export default function Main({ navigation }) {
                 propsForDots: {
                   r: "6",
                   strokeWidth: "2",
-                  stroke: "#ffa726",
+                    stroke: "#0051d4",
                 },
               }}
               style={{
@@ -273,49 +277,85 @@ export default function Main({ navigation }) {
             <View
               style={{
                 position: "absolute",
-                paddingTop: 60,
-                paddingLeft: 332,
+                paddingTop: 40,
+                paddingLeft: "80%",
               }}
             >
               <TouchableOpacity
                 style={{
-                  height: 50,
-                  width: 50,
-                  backgroundColor: "#FFF",
-                }}
-              ></TouchableOpacity>
+                  height: 70,
+                  width: 60,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  borderRadius: 10,
+                }}>
+                    <MaterialIcons
+                        name="add-chart"
+                        size={64}
+                        color={"#00213b"}
+                    />
+              </TouchableOpacity>
             </View>
 
             <View
               style={{
                 position: "absolute",
-                paddingTop: 120,
-                paddingLeft: 332,
+                paddingTop: 130,
+                paddingLeft: "80%",
               }}
             >
               <TouchableOpacity
                 style={{
-                  height: 50,
-                  width: 50,
-                  backgroundColor: "#F3E",
-                }}
-              ></TouchableOpacity>
+                  height: 70,
+                  width: 60,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  borderRadius: 10,
+                }}>
+                    <MaterialIcons
+                        name="history"
+                        size={64}
+                        color={"#00213b"}
+                    />
+              </TouchableOpacity>
             </View>
 
             <View
               style={{
                 position: "absolute",
                 paddingTop: 225,
-                paddingLeft: 20,
+                alignSelf: "center",
               }}
             >
+                          {//GLUCOSE SHOW MORE BUTTON}
               <TouchableOpacity
                 style={{
                   height: 40,
                   width: 290,
-                  backgroundColor: "#623",
+                  backgroundColor: "#00213b",
+                  borderRadius: 5,
                 }}
-              ></TouchableOpacity>
+                onPress={() => navigation.navigate("Glucose")}>
+                 <Text
+                     style={{
+                         fontSize: 22,
+                         color: "rgba(170, 219, 255,1)",
+                         paddingLeft: "30%",
+                         paddingVertical: 5,
+                         alignItems: "center",
+                     }}
+                 >
+                     Show More
+                 </Text>
+                 <MaterialIcons
+                     name="keyboard-arrow-right"
+                     size={24}
+                     style={{
+                         position: "absolute",
+                         paddingLeft: "90%",
+                         paddingVertical: 8,
+                         color: "rgba(170, 219, 255, 1)",
+                     }}
+                 />
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -340,15 +380,19 @@ export default function Main({ navigation }) {
                   },
                 ],
               }}
-              width={(Dimensions.get("window").width * 75) / 100} // from react-native
+              width={(Dimensions.get("window").width * 70) / 100} // from react-native
               height={190}
               yAxisLabel="$"
               yAxisSuffix="k"
               yAxisInterval={1} // optional, defaults to 1
               chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "#fb8c00",
-                backgroundGradientTo: "#ffa726",
+                  backgroundColor: "#00dee2",
+                  backgroundGradientFrom: "rgba(74, 137, 255, 1)",
+                  backgroundGradientFromOpacity: 0.8,
+                  backgroundGradientTo: "rgba(74, 183, 255, 1)",
+                  backgroundGradientToOpacity: 0.8,
+                  borderRadius: 16,
+                  borderColor: "#0051d4",
                 decimalPlaces: 2, // optional, defaults to 2dp
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -358,7 +402,7 @@ export default function Main({ navigation }) {
                 propsForDots: {
                   r: "6",
                   strokeWidth: "2",
-                  stroke: "#ffa726",
+                    stroke: "#0051d4",
                 },
               }}
               style={{
@@ -372,49 +416,86 @@ export default function Main({ navigation }) {
             <View
               style={{
                 position: "absolute",
-                paddingTop: 60,
-                paddingLeft: 332,
+                paddingTop: 40,
+                paddingLeft: "80%",
               }}
             >
               <TouchableOpacity
                 style={{
-                  height: 50,
-                  width: 50,
-                  backgroundColor: "#FFF",
-                }}
-              ></TouchableOpacity>
+                  height: 70,
+                  width: 60,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  borderRadius: 10,
+                }}>
+                    <MaterialIcons
+                        name="add-chart"
+                        size={64}
+                        color={"#00213b"}
+                    />
+              </TouchableOpacity>
             </View>
 
             <View
               style={{
                 position: "absolute",
-                paddingTop: 120,
-                paddingLeft: 332,
+                paddingTop: 130,
+                paddingLeft: "80%",
               }}
             >
               <TouchableOpacity
                 style={{
-                  height: 50,
-                  width: 50,
-                  backgroundColor: "#F3E",
-                }}
-              ></TouchableOpacity>
+                  height: 70,
+                  width: 60,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  borderRadius: 10,
+                }}>
+                    <MaterialIcons
+                        name="history"
+                        size={64}
+                        color={"#00213b"}
+                    />
+              </TouchableOpacity>
             </View>
 
             <View
               style={{
                 position: "absolute",
                 paddingTop: 225,
-                paddingLeft: 20,
+                alignSelf: "center",
               }}
             >
+                          {//BP SHOW MORE BUTTON}
               <TouchableOpacity
                 style={{
                   height: 40,
                   width: 290,
-                  backgroundColor: "#623",
+                  backgroundColor: "#00213b",
+                  borderRadius: 5,
                 }}
-              ></TouchableOpacity>
+                onPress={() => navigation.navigate("BloodPressure")}
+              >
+                  <Text
+                      style={{
+                          fontSize: 22,
+                          color: "rgba(170, 219, 255,1)",
+                          paddingLeft: "30%",
+                          paddingVertical:5,
+                          alignItems: "center",
+                      }}
+                  >
+                      Show More
+                  </Text>
+                  <MaterialIcons
+                      name="keyboard-arrow-right"
+                      size={24}
+                      style={{
+                          position: "absolute",
+                          paddingLeft: "90%",
+                          paddingVertical: 8,
+                          color: "rgba(170, 219, 255, 1)",
+                      }}
+                  />
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -422,32 +503,56 @@ export default function Main({ navigation }) {
           <View
             style={{
               paddingTop: 30,
+              flexDirection: "row",
+              justifyContent: "center",
             }}
           >
             <TouchableOpacity
               style={{
-                height: 40,
-                width: "89%",
-                alignSelf: "center",
-                backgroundColor: "#FFF",
+                height: 140,
+                width: 120,
+                alignContent: "flex-end",
+                backgroundColor: "rgba(255, 255, 255, 0.3)",
+                borderRadius: 10,
+                justifyContent: "center",
               }}
-            />
-          </View>
-
+              onPress={() => navigation.navigate("WorkoutPlan")}
+            >
+               <Image
+                   source={require("../assets/WorkoutPlan.png")}
+                   style={{
+                       width: 100,
+                       height: 100,
+                       position: "absolute",
+                       paddingTop: 40,
+                       alignSelf: "center",
+                   }}
+               />
+            </TouchableOpacity>
+                      <View style={{ width: 40}}></View>
           {/* Diet page button */}
-          <View
-            style={{
-              paddingTop: 15,
-            }}
-          >
             <TouchableOpacity
               style={{
-                height: 40,
-                width: "89%",
-                alignSelf: "center",
-                backgroundColor: "#FFF",
+                height: 140,
+                width: 120,
+                alignContent: "flex-end",
+                backgroundColor: "rgba(255, 255, 255, 0.3)",
+                borderRadius: 10,
+                justifyContent: "center",
               }}
-            />
+              onPress={() => navigation.navigate("DietChart")}
+            >
+               <Image
+                   source={require("../assets/DietChart.png")}
+                   style={{
+                       width: 100,
+                       height: 100,
+                       position: "absolute",
+                       paddingTop: 40,
+                       alignSelf: "center",
+                   }}
+               />
+            </TouchableOpacity>
           </View>
 
           <View
