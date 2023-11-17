@@ -26,8 +26,8 @@ export default function GlucoseGraph({ navigation }) {
           marginHorizontal: 0,
           flexDirection: "row",
           justifyContent: "center",
-          backgroundColor: "rgba(109, 149, 222, 0.7)",
-          height: "5%",
+          // backgroundColor: "rgba(109, 149, 222, 0.7)",
+          // height: "5%",
         }}
       >
         <TouchableOpacity
@@ -54,7 +54,7 @@ export default function GlucoseGraph({ navigation }) {
             color: "rgba(0, 17, 43, 0.9)",
           }}
         >
-          Ailments
+          Glucose History
         </Text>
       </View>
     </SafeAreaView>

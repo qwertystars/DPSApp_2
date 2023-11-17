@@ -9,6 +9,7 @@ import {
   Button,
   ScrollView,
   Image,
+  TextInput,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
@@ -19,17 +20,20 @@ import { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 
 export default function Main({ navigation }) {
-  let glucoseReadings = [];
+  let glucoseReadings = [0];
 
   let today = new Date();
   let checkupDate = new Date();
 
-  const checkupDuration = 20;
+  const checkupDuration = 2;
 
   const [checkupDay, setCheckupDay] = useState();
   const [remainingDays, setRemainingDays] = useState(checkupDuration);
 
   const [showAlert, setShowAlert] = useState(false);
+
+  const [readingContainder, setReadingContainer] = useState(false);
+  const [newReading, setNewReading] = useState(0);
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -50,7 +54,7 @@ export default function Main({ navigation }) {
   }
 
   //SecureStore.deleteItemAsync("checkupDate");
-  SecureStore.deleteItemAsync("glucoseReadings");
+  //SecureStore.deleteItemAsync("glucoseReadings");
 
   useEffect(() => {
     today = new Date();
@@ -69,8 +73,13 @@ export default function Main({ navigation }) {
 
     GetValueDB("glucoseReadings").then((value) => {
       if (value == "") {
+        SetValueDB("glucoseReadings", "0");
+        glucoseReadings = [0];
       } else {
         glucoseReadings = value.split(",");
+        glucoseReadings.forEach((value, index) => {
+          glucoseReadings[index] = parseInt(value);
+        });
         console.log(glucoseReadings);
       }
     });
@@ -124,18 +133,121 @@ export default function Main({ navigation }) {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1,
             paddingTop: 180,
-            display: "none",
+            display: readingContainder == true ? "flex" : "none",
           }}
         >
           <View
             style={{
-              height: "40%",
+              height: (Dimensions.get("window").height * 25) / 100,
               width: "70%",
               backgroundColor: "#FFF",
               alignSelf: "center",
-              paddingTop: 30,
+              paddingTop: 10,
+              borderRadius: 20,
             }}
-          ></View>
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              New Reading
+            </Text>
+
+            <Text
+              style={{
+                paddingTop: 20,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Blood Glucose Reading (mmol/mol)
+            </Text>
+
+            <View
+              style={{
+                paddingTop: 0,
+              }}
+            >
+              <View
+                style={{
+                  height: 38,
+                  width: "80%",
+                  borderColor: "rgba(0, 72, 125, 0.5)",
+                  borderWidth: 2.75, //2.75
+                  borderRadius: 4,
+                  marginVertical: 6,
+                  justifyContent: "center",
+                  paddingLeft: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  alignSelf: "center",
+                }}
+              >
+                <TextInput
+                  keyboardType="numeric"
+                  onChangeText={(value) => {
+                    setNewReading(value);
+                  }}
+                  editable={true}
+                  style={{
+                    color: "rgba(18, 18, 18, 0.7)",
+                  }}
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                paddingTop: 20,
+                width: "100%",
+                //alignSelf: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  height: 40,
+                  width: "50%",
+                  backgroundColor: "#00213b",
+                  borderRadius: 5,
+                  alignSelf: "center",
+                  flexDirection: "row",
+                }}
+                onPress={() => {
+                  setReadingContainer(false);
+                  glucoseReadings.push(newReading);
+                  console.log(glucoseReadings);
+                  SetValueDB("glucoseReadings", glucoseReadings.join(","));
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 15,
+                    color: "rgba(170, 219, 255,1)",
+                    paddingLeft: "10%",
+                    paddingVertical: 5,
+                    alignItems: "center",
+                    paddingTop: 10,
+                  }}
+                >
+                  Confirm
+                </Text>
+                <MaterialIcons
+                  name="check"
+                  size={24}
+                  style={{
+                    //paddingLeft: "90%",
+                    //paddingVertical: 8,
+                    color: "rgba(170, 219, 255, 1)",
+                    paddingTop: 8,
+                    paddingLeft: 40,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
 
         <ScrollView>
@@ -228,24 +340,16 @@ export default function Main({ navigation }) {
           >
             <LineChart
               data={{
-                //labels: ["January", "February", "March", "April", "May", "June"],
                 datasets: [
                   {
-                    data: [
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                    ],
+                    data: glucoseReadings,
                   },
                 ],
               }}
               width={(Dimensions.get("window").width * 70) / 100} // from react-native
               height={190}
-              yAxisLabel="$"
-              yAxisSuffix="k"
+              //yAxisLabel="$"
+              //yAxisSuffix="mmol/mol"
               yAxisInterval={1} // optional, defaults to 1
               chartConfig={{
                 backgroundColor: "#00dee2",
@@ -281,14 +385,22 @@ export default function Main({ navigation }) {
               }}
             >
               <TouchableOpacity
+                onPress={() => setReadingContainer(true)}
                 style={{
                   height: 70,
-                  width: 60,
+                  width: 70,
                   backgroundColor: "rgba(255, 255, 255, 0.3)",
                   borderRadius: 10,
                 }}
               >
-                <MaterialIcons name="add-chart" size={64} color={"#00213b"} />
+                <MaterialIcons
+                  name="add-chart"
+                  size={64}
+                  color={"#00213b"}
+                  style={{
+                    alignSelf: "center",
+                  }}
+                />
               </TouchableOpacity>
             </View>
 
@@ -302,12 +414,19 @@ export default function Main({ navigation }) {
               <TouchableOpacity
                 style={{
                   height: 70,
-                  width: 60,
+                  width: 70,
                   backgroundColor: "rgba(255, 255, 255, 0.3)",
                   borderRadius: 10,
                 }}
               >
-                <MaterialIcons name="history" size={64} color={"#00213b"} />
+                <MaterialIcons
+                  name="history"
+                  size={64}
+                  color={"#00213b"}
+                  style={{
+                    alignSelf: "center",
+                  }}
+                />
               </TouchableOpacity>
             </View>
 
@@ -416,12 +535,19 @@ export default function Main({ navigation }) {
               <TouchableOpacity
                 style={{
                   height: 70,
-                  width: 60,
+                  width: 70,
                   backgroundColor: "rgba(255, 255, 255, 0.3)",
                   borderRadius: 10,
                 }}
               >
-                <MaterialIcons name="add-chart" size={64} color={"#00213b"} />
+                <MaterialIcons
+                  name="add-chart"
+                  size={64}
+                  color={"#00213b"}
+                  style={{
+                    alignSelf: "center",
+                  }}
+                />
               </TouchableOpacity>
             </View>
 
@@ -435,12 +561,17 @@ export default function Main({ navigation }) {
               <TouchableOpacity
                 style={{
                   height: 70,
-                  width: 60,
+                  width: 70,
                   backgroundColor: "rgba(255, 255, 255, 0.3)",
                   borderRadius: 10,
                 }}
               >
-                <MaterialIcons name="history" size={64} color={"#00213b"} />
+                <MaterialIcons
+                  name="history"
+                  size={64}
+                  color={"#00213b"}
+                  style={{ alignSelf: "center" }}
+                />
               </TouchableOpacity>
             </View>
 
@@ -488,7 +619,7 @@ export default function Main({ navigation }) {
           {/* Workout page button */}
           <View
             style={{
-              paddingTop: 30,
+              paddingTop: 80,
               flexDirection: "row",
               justifyContent: "center",
             }}
