@@ -20,8 +20,6 @@ import { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 
 export default function Main({ navigation }) {
-  let glucoseReadings = [0];
-
   let today = new Date();
   let checkupDate = new Date();
 
@@ -34,6 +32,8 @@ export default function Main({ navigation }) {
 
   const [readingContainder, setReadingContainer] = useState(false);
   const [newReading, setNewReading] = useState(0);
+
+  const [glucoseReadings, setGlucoseReadings] = useState([4]);
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -71,18 +71,19 @@ export default function Main({ navigation }) {
       }
     });
 
-    GetValueDB("glucoseReadings").then((value) => {
-      if (value == "") {
-        SetValueDB("glucoseReadings", "0");
-        glucoseReadings = [0];
-      } else {
-        glucoseReadings = value.split(",");
-        glucoseReadings.forEach((value, index) => {
-          glucoseReadings[index] = parseInt(value);
-        });
-        console.log(glucoseReadings);
-      }
-    });
+    // GetValueDB("glucoseReadings").then((value) => {
+    //   if (value == "") {
+    //     console.log("empty hehe");
+    //     SetValueDB("glucoseReadings", "4");
+    //     glucoseReadings = [4];
+    //   } else {
+    //     glucoseReadings = value.split(",");
+    //     glucoseReadings.forEach((value, index) => {
+    //       glucoseReadings[index] = parseInt(value);
+    //     });
+    //     console.log(glucoseReadings);
+    //   }
+    // });
   }, []);
 
   useEffect(() => {
@@ -90,6 +91,11 @@ export default function Main({ navigation }) {
       setShowAlert(true);
     }
   }, [remainingDays]);
+
+  // useEffect(() => {
+  //   console.log(glucoseReadings + "e");
+  //   //SetValueDB("glucoseReadings", glucoseReadings.join(","));
+  // }, [glucoseReadings]);
 
   return (
     <SafeAreaView
@@ -189,7 +195,7 @@ export default function Main({ navigation }) {
                 <TextInput
                   keyboardType="numeric"
                   onChangeText={(value) => {
-                    setNewReading(value);
+                    setNewReading(parseInt(value));
                   }}
                   editable={true}
                   style={{
@@ -218,8 +224,16 @@ export default function Main({ navigation }) {
                 onPress={() => {
                   setReadingContainer(false);
                   glucoseReadings.push(newReading);
-                  console.log(glucoseReadings);
-                  SetValueDB("glucoseReadings", glucoseReadings.join(","));
+                  // SetValueDB(
+                  //   "glucoseReadings",
+                  //   glucoseReadings.join(",") + "," + newReading
+                  // ).then(() =>
+                  //   GetValueDB("glucoseReadings").then((value) => {
+                  //     console.log(value);
+                  //     console.log(glucoseReadings + "FU");
+                  //   })
+                  // );
+                  console.log(glucoseReadings + "r");
                 }}
               >
                 <Text
