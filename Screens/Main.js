@@ -71,6 +71,22 @@ export default function Main({ navigation }) {
       }
     });
 
+    GetValueDB("glucoseReadings").then((value) => {
+      if (value == "") {
+        console.log("empty hehheheheh");
+        SetValueDB("glucoseReadings", "4,5");
+        setGlucoseReadings([4, 5]);
+      } else {
+        let arr = value.split(",");
+        console.log(arr);
+        arr.forEach((value, index) => {
+          arr[index] = parseInt(value);
+        });
+        console.log(arr);
+        setGlucoseReadings(arr);
+      }
+    });
+
     // GetValueDB("glucoseReadings").then((value) => {
     //   if (value == "") {
     //     console.log("empty hehe");
@@ -92,10 +108,10 @@ export default function Main({ navigation }) {
     }
   }, [remainingDays]);
 
-  // useEffect(() => {
-  //   console.log(glucoseReadings + "e");
-  //   //SetValueDB("glucoseReadings", glucoseReadings.join(","));
-  // }, [glucoseReadings]);
+  useEffect(() => {
+    console.log(glucoseReadings + "e");
+    //SetValueDB("glucoseReadings", glucoseReadings.join(","));
+  }, [glucoseReadings]);
 
   return (
     <SafeAreaView
@@ -224,6 +240,9 @@ export default function Main({ navigation }) {
                 onPress={() => {
                   setReadingContainer(false);
                   glucoseReadings.push(newReading);
+                  SetValueDB("glucoseReadings", glucoseReadings.join(",")).then(
+                    () => console.log("Added")
+                  );
                   // SetValueDB(
                   //   "glucoseReadings",
                   //   glucoseReadings.join(",") + "," + newReading
@@ -347,49 +366,81 @@ export default function Main({ navigation }) {
               Days till next checkup
             </Text>
           </View>
+
           <View
             style={{
-              height: 260,
+              paddingTop: 30,
             }}
           >
-            <LineChart
-              data={{
-                datasets: [
-                  {
-                    data: glucoseReadings,
-                  },
-                ],
-              }}
-              width={(Dimensions.get("window").width * 70) / 100} // from react-native
-              height={190}
-              //yAxisLabel="$"
-              //yAxisSuffix="mmol/mol"
-              yAxisInterval={1} // optional, defaults to 1
-              chartConfig={{
-                backgroundColor: "#00dee2",
-                backgroundGradientFrom: "rgba(74, 137, 255, 1)",
-                backgroundGradientFromOpacity: 0.8,
-                backgroundGradientTo: "rgba(74, 183, 255, 1)",
-                backgroundGradientToOpacity: 0.8,
-                decimalPlaces: 2, // optional, defaults to 2dp
-                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                style: {
-                  borderRadius: 16,
-                },
-                propsForDots: {
-                  r: "6",
-                  strokeWidth: "2",
-                  stroke: "#0051d4",
-                },
-              }}
+            <View
               style={{
-                marginVertical: 8,
-                borderRadius: 16,
-                paddingTop: 15,
-                paddingLeft: 10,
+                height: (Dimensions.get("window").height * 5) / 100,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+                alignSelf: "center",
               }}
-            />
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  alignSelf: "center",
+                  color: "rgba(180, 229, 255, 0.87)",
+                }}
+              >
+                Blood Glucose
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              height: 240,
+            }}
+          >
+            <TouchableOpacity onPress={() => navigation.navigate("Glucose")}>
+              <LineChart
+                data={{
+                  labels: [
+                    "                                                             CLICK FOR MORE INFO",
+                  ],
+                  datasets: [
+                    {
+                      data: glucoseReadings,
+                    },
+                  ],
+                }}
+                width={(Dimensions.get("window").width * 70) / 100} // from react-native
+                height={190}
+                //yAxisLabel="$"
+                //yAxisSuffix="mmol/mol"
+                yAxisInterval={1} // optional, defaults to 1
+                chartConfig={{
+                  backgroundColor: "#00dee2",
+                  backgroundGradientFrom: "rgba(74, 137, 255, 1)",
+                  backgroundGradientFromOpacity: 0.8,
+                  backgroundGradientTo: "rgba(74, 183, 255, 1)",
+                  backgroundGradientToOpacity: 0.8,
+                  decimalPlaces: 2, // optional, defaults to 2dp
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  labelColor: (opacity = 1) =>
+                    `rgba(255, 255, 255, ${opacity})`,
+                  style: {
+                    borderRadius: 16,
+                  },
+                  propsForDots: {
+                    r: "6",
+                    strokeWidth: "2",
+                    stroke: "#0051d4",
+                  },
+                }}
+                style={{
+                  marginVertical: 8,
+                  borderRadius: 16,
+                  paddingTop: 15,
+                  paddingLeft: 10,
+                }}
+              />
+            </TouchableOpacity>
 
             <View
               style={{
@@ -444,7 +495,7 @@ export default function Main({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            <View
+            {/* <View
               style={{
                 position: "absolute",
                 paddingTop: 225,
@@ -482,6 +533,31 @@ export default function Main({ navigation }) {
                   }}
                 />
               </TouchableOpacity>
+            </View> */}
+          </View>
+
+          <View
+            style={{
+              paddingTop: 30,
+            }}
+          >
+            <View
+              style={{
+                height: (Dimensions.get("window").height * 5) / 100,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+                alignSelf: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  alignSelf: "center",
+                  color: "rgba(180, 229, 255, 0.87)",
+                }}
+              >
+                Blood Pressure
+              </Text>
             </View>
           </View>
 
