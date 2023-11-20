@@ -30,10 +30,16 @@ export default function Main({ navigation }) {
 
   const [showAlert, setShowAlert] = useState(false);
 
-  const [readingContainder, setReadingContainer] = useState(false);
+  const [readingContainderGlucose, setReadingContainerGlucose] =
+    useState(false);
+  const [readingConatinerPressure, setReadingConatinerPressure] =
+    useState(false);
   const [newReading, setNewReading] = useState(0);
+  const [newReading2, setNewReading2] = useState(0);
 
-  const [glucoseReadings, setGlucoseReadings] = useState([4]);
+  const [glucoseReadings, setGlucoseReadings] = useState([0]);
+  const [pressureReadings, setPressurereadings] = useState([0]);
+  //const [dateUploadedGlucose, setDateUploadedGlucose] = useState([today]);
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -74,8 +80,8 @@ export default function Main({ navigation }) {
     GetValueDB("glucoseReadings").then((value) => {
       if (value == "") {
         console.log("empty hehheheheh");
-        SetValueDB("glucoseReadings", "4,5");
-        setGlucoseReadings([4, 5]);
+        SetValueDB("glucoseReadings", "");
+        setGlucoseReadings([0]);
       } else {
         let arr = value.split(",");
         console.log(arr);
@@ -86,20 +92,6 @@ export default function Main({ navigation }) {
         setGlucoseReadings(arr);
       }
     });
-
-    // GetValueDB("glucoseReadings").then((value) => {
-    //   if (value == "") {
-    //     console.log("empty hehe");
-    //     SetValueDB("glucoseReadings", "4");
-    //     glucoseReadings = [4];
-    //   } else {
-    //     glucoseReadings = value.split(",");
-    //     glucoseReadings.forEach((value, index) => {
-    //       glucoseReadings[index] = parseInt(value);
-    //     });
-    //     console.log(glucoseReadings);
-    //   }
-    // });
   }, []);
 
   useEffect(() => {
@@ -136,7 +128,7 @@ export default function Main({ navigation }) {
             //paddingLeft: "43%",
           }}
         >
-          Home
+          MediCoach
         </Text>
       </View>
 
@@ -155,7 +147,7 @@ export default function Main({ navigation }) {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1,
             paddingTop: 180,
-            display: readingContainder == true ? "flex" : "none",
+            display: readingContainderGlucose == true ? "flex" : "none",
           }}
         >
           <View
@@ -209,7 +201,7 @@ export default function Main({ navigation }) {
                 }}
               >
                 <TextInput
-                  keyboardType="numeric"
+                  keyboardType="number-pad"
                   onChangeText={(value) => {
                     setNewReading(parseInt(value));
                   }}
@@ -238,20 +230,190 @@ export default function Main({ navigation }) {
                   flexDirection: "row",
                 }}
                 onPress={() => {
-                  setReadingContainer(false);
-                  glucoseReadings.push(newReading);
+                  setReadingContainerGlucose(false);
+                  if (glucoseReadings.length == 1 && glucoseReadings[0] == 0) {
+                    glucoseReadings[0] = newReading;
+                  } else {
+                    glucoseReadings.push(newReading);
+                  }
                   SetValueDB("glucoseReadings", glucoseReadings.join(",")).then(
                     () => console.log("Added")
                   );
-                  // SetValueDB(
-                  //   "glucoseReadings",
-                  //   glucoseReadings.join(",") + "," + newReading
-                  // ).then(() =>
-                  //   GetValueDB("glucoseReadings").then((value) => {
-                  //     console.log(value);
-                  //     console.log(glucoseReadings + "FU");
-                  //   })
-                  // );
+                  console.log(glucoseReadings + "r");
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 15,
+                    color: "rgba(170, 219, 255,1)",
+                    paddingLeft: "10%",
+                    paddingVertical: 5,
+                    alignItems: "center",
+                    paddingTop: 10,
+                  }}
+                >
+                  Confirm
+                </Text>
+                <MaterialIcons
+                  name="check"
+                  size={24}
+                  style={{
+                    //paddingLeft: "90%",
+                    //paddingVertical: 8,
+                    color: "rgba(170, 219, 255, 1)",
+                    paddingTop: 8,
+                    paddingLeft: 40,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        {/* TODO: Sort out the pressure stuff */}
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1,
+            paddingTop: 180,
+            display: readingConatinerPressure == true ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: (Dimensions.get("window").height * 25) / 100,
+              width: "70%",
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              paddingTop: 10,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              New Reading
+            </Text>
+
+            <Text
+              style={{
+                paddingTop: 20,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Systolic Blood Pressure Reading (mmHg)
+            </Text>
+
+            <View
+              style={{
+                paddingTop: 0,
+              }}
+            >
+              <View
+                style={{
+                  height: 38,
+                  width: "80%",
+                  borderColor: "rgba(0, 72, 125, 0.5)",
+                  borderWidth: 2.75, //2.75
+                  borderRadius: 4,
+                  marginVertical: 6,
+                  justifyContent: "center",
+                  paddingLeft: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  alignSelf: "center",
+                }}
+              >
+                <TextInput
+                  keyboardType="number-pad"
+                  onChangeText={(value) => {
+                    setNewReading(parseInt(value));
+                  }}
+                  editable={true}
+                  style={{
+                    color: "rgba(18, 18, 18, 0.7)",
+                  }}
+                />
+              </View>
+            </View>
+
+            <Text
+              style={{
+                paddingTop: 20,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Disatolic Blood Pressure Reading (mmHg)
+            </Text>
+
+            <View
+              style={{
+                paddingTop: 0,
+              }}
+            >
+              <View
+                style={{
+                  height: 38,
+                  width: "80%",
+                  borderColor: "rgba(0, 72, 125, 0.5)",
+                  borderWidth: 2.75, //2.75
+                  borderRadius: 4,
+                  marginVertical: 6,
+                  justifyContent: "center",
+                  paddingLeft: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  alignSelf: "center",
+                }}
+              >
+                <TextInput
+                  keyboardType="number-pad"
+                  onChangeText={(value) => {
+                    setNewReading2(parseInt(value));
+                  }}
+                  editable={true}
+                  style={{
+                    color: "rgba(18, 18, 18, 0.7)",
+                  }}
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                paddingTop: 20,
+                width: "100%",
+                //alignSelf: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  height: 40,
+                  width: "50%",
+                  backgroundColor: "#00213b",
+                  borderRadius: 5,
+                  alignSelf: "center",
+                  flexDirection: "row",
+                }}
+                onPress={() => {
+                  setReadingConatinerPressure(false);
+                  if (glucoseReadings.length == 1 && glucoseReadings[0] == 0) {
+                    glucoseReadings[0] = newReading;
+                  } else {
+                    glucoseReadings.push(newReading);
+                  }
+                  SetValueDB("glucoseReadings", glucoseReadings.join(",")).then(
+                    () => console.log("Added")
+                  );
                   console.log(glucoseReadings + "r");
                 }}
               >
@@ -450,7 +612,7 @@ export default function Main({ navigation }) {
               }}
             >
               <TouchableOpacity
-                onPress={() => setReadingContainer(true)}
+                onPress={() => setReadingContainerGlucose(true)}
                 style={{
                   height: 70,
                   width: 70,
