@@ -18,6 +18,7 @@ import { LineChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 import { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
+import { SelectList } from "react-native-dropdown-select-list";
 
 export default function Main({ navigation }) {
   let today = new Date();
@@ -25,15 +26,22 @@ export default function Main({ navigation }) {
 
   const checkupDuration = 2;
 
+  const [allYears, setAllYears] = useState([]);
+
   const [checkupDay, setCheckupDay] = useState();
   const [remainingDays, setRemainingDays] = useState(checkupDuration);
+  const [dateReading, setDateReading] = useState();
+  const [monthReading, setMonthReading] = useState();
+  const [yearReading, setYearReading] = useState();
 
   const [showAlert, setShowAlert] = useState(false);
 
   const [readingContainder, setReadingContainer] = useState(false);
+  const [readingContainerPrev, setReadingContainerPrev] = useState(false);
   const [newReading, setNewReading] = useState(0);
 
   const [glucoseReadings, setGlucoseReadings] = useState([0]);
+  const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -59,6 +67,10 @@ export default function Main({ navigation }) {
   useEffect(() => {
     today = new Date();
     checkupDate = new Date();
+
+    for (var i = today.getFullYear(); i >= 1970; i--) {
+      allYears.push(i);
+    }
 
     GetValueDB("checkupDate").then((value) => {
       if (value == "") {
@@ -242,6 +254,190 @@ export default function Main({ navigation }) {
                   //     console.log(glucoseReadings + "FU");
                   //   })
                   // );
+                  console.log(glucoseReadings + "r");
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 15,
+                    color: "rgba(170, 219, 255,1)",
+                    paddingLeft: "10%",
+                    paddingVertical: 5,
+                    alignItems: "center",
+                    paddingTop: 10,
+                  }}
+                >
+                  Confirm
+                </Text>
+                <MaterialIcons
+                  name="check"
+                  size={24}
+                  style={{
+                    //paddingLeft: "90%",
+                    //paddingVertical: 8,
+                    color: "rgba(170, 219, 255, 1)",
+                    paddingTop: 8,
+                    paddingLeft: 40,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1,
+            paddingTop: 120,
+            display: readingContainerPrev == true ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: (Dimensions.get("window").height * 58) / 100,
+              width: "90%",
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              paddingTop: 10,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              New Reading
+            </Text>
+
+            <Text
+              style={{
+                paddingTop: 20,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Blood Glucose Reading (mmol/mol)
+            </Text>
+
+            <View
+              style={{
+                paddingTop: 0,
+              }}
+            >
+              <View
+                style={{
+                  height: 38,
+                  width: "80%",
+                  borderColor: "rgba(0, 72, 125, 0.5)",
+                  borderWidth: 2.75, //2.75
+                  borderRadius: 4,
+                  marginVertical: 6,
+                  justifyContent: "center",
+                  paddingLeft: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  alignSelf: "center",
+                }}
+              >
+                <TextInput
+                  keyboardType="numeric"
+                  onChangeText={(value) => {
+                    setNewReading(parseInt(value));
+                  }}
+                  editable={true}
+                  style={{
+                    color: "rgba(18, 18, 18, 0.7)",
+                  }}
+                />
+              </View>
+            </View>
+
+            <Text
+              style={{
+                paddingTop: 10,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Date
+            </Text>
+
+            <View
+              style={{
+                flexDirection: "row",
+                //alignContent: "center",
+              }}
+            >
+              <View
+                style={{
+                  paddingLeft: 10,
+                  width: 120,
+                }}
+              >
+                <SelectList
+                  data={[
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                    18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+                  ]}
+                  setSelected={setDateReading}
+                />
+              </View>
+              <View
+                style={{
+                  paddingLeft: 10,
+                  width: 120,
+                }}
+              >
+                <SelectList
+                  data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+                  setSelected={setMonthReading}
+                />
+              </View>
+              <View
+                style={{
+                  paddingLeft: 10,
+                  width: 120,
+                }}
+              >
+                <SelectList data={allYears} setSelected={setYearReading} />
+              </View>
+            </View>
+
+            <View
+              style={{
+                paddingTop: 20,
+                width: "100%",
+                //alignSelf: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  height: 40,
+                  width: "50%",
+                  backgroundColor: "#00213b",
+                  borderRadius: 5,
+                  alignSelf: "center",
+                  flexDirection: "row",
+                }}
+                onPress={() => {
+                  setReadingContainerPrev(false);
+                  if (glucoseReadings.length == 1 && glucoseReadings[0] == 0) {
+                    glucoseReadings[0] = newReading;
+                  } else {
+                    glucoseReadings.push(newReading);
+                  }
+                  SetValueDB("glucoseReadings", glucoseReadings.join(",")).then(
+                    () => console.log("Added")
+                  );
+
                   console.log(glucoseReadings + "r");
                 }}
               >
@@ -473,6 +669,7 @@ export default function Main({ navigation }) {
                   backgroundColor: "rgba(255, 255, 255, 0.3)",
                   borderRadius: 10,
                 }}
+                onPress={() => setReadingContainerPrev(true)}
               >
                 <MaterialIcons
                   name="history"
