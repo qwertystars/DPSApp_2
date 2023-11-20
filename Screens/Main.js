@@ -63,6 +63,7 @@ export default function Main({ navigation }) {
 
   //SecureStore.deleteItemAsync("checkupDate");
   //SecureStore.deleteItemAsync("glucoseReadings");
+  //SecureStore.deleteItemAsync("glucoseReadingsDates");
 
   useEffect(() => {
     today = new Date();
@@ -96,6 +97,23 @@ export default function Main({ navigation }) {
         });
         console.log(arr);
         setGlucoseReadings(arr);
+      }
+    });
+
+    GetValueDB("glucoseReadingsDates").then((value) => {
+      if (value == "") {
+        console.log("ompty hehheheheh");
+        SetValueDB("glucoseReadingsDates", "");
+        setGlucoseReadingsDates([0]);
+      } else {
+        if (glucoseReadingsDates.length > 1 && glucoseReadingsDates[0] != 0) {
+          let arr = value.split(",");
+          arr.forEach((value) => {
+            let d = new Date(value);
+            glucoseReadingsDates.push(d);
+            console.log(d);
+          });
+        }
       }
     });
   }, []);
@@ -428,17 +446,54 @@ export default function Main({ navigation }) {
                   flexDirection: "row",
                 }}
                 onPress={() => {
-                  setReadingContainerPrev(false);
-                  if (glucoseReadings.length == 1 && glucoseReadings[0] == 0) {
-                    glucoseReadings[0] = newReading;
-                  } else {
-                    glucoseReadings.push(newReading);
-                  }
-                  SetValueDB("glucoseReadings", glucoseReadings.join(",")).then(
-                    () => console.log("Added")
-                  );
+                  let d = new Date(yearReading, monthReading - 1, dateReading);
+                  if (d < today) {
+                    setReadingContainerPrev(false);
 
-                  console.log(glucoseReadings + "r");
+                    if (
+                      glucoseReadings.length == 1 &&
+                      glucoseReadings[0] == 0
+                    ) {
+                      glucoseReadings[0] = newReading;
+                    } else {
+                      glucoseReadings.push(newReading);
+                    }
+
+                    SetValueDB(
+                      "glucoseReadings",
+                      glucoseReadings.join(",")
+                    ).then(() => console.log("Added"));
+
+                    if (
+                      glucoseReadingsDates.length == 1 &&
+                      glucoseReadingsDates[0] == 0
+                    ) {
+                      glucoseReadingsDates[0] = d;
+                    } else {
+                      glucoseReadingsDates.push(d);
+
+                      glucoseReadingsDates.sort((a, b) => {
+                        return a - b;
+                      });
+
+                      // const temp = glucoseReadingsDates;
+                      // let tempGlcRd = [];
+
+                      // glucoseReadingsDates.forEach((value, index) => {
+                      //   var i = temp.find((element) => element == value);
+                      //   tempGlcRd.push(temp[i]);
+                      // });
+
+                      // setGlucoseReadings(tempGlcRd);
+                    }
+
+                    console.log(glucoseReadingsDates);
+                    console.log(glucoseReadings + "r");
+                  } else {
+                    {
+                      Alert.alert("Invalid date", "Invalid date entered");
+                    }
+                  }
                 }}
               >
                 <Text

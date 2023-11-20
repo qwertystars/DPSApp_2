@@ -26,6 +26,8 @@ export default BetterAilments = ({ navigation }) => {
   const [obesity, setObesity] = useState(false);
   const [cholesterol, setCholesterol] = useState(false);
   const [arthiritis, setArthiritis] = useState(false);
+  const [migraine, setMigraine] = useState(false);
+  const [pulmonaryDisease, setPulmonaryDisease] = useState(false);
 
   const getValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -63,6 +65,14 @@ export default BetterAilments = ({ navigation }) => {
     });
 
     getValueDB("arthiritis").then((value) => {
+      setArthiritis(value == true ? true : false);
+    });
+
+    getValueDB("migraine").then((value) => {
+      setArthiritis(value == true ? true : false);
+    });
+
+    getValueDB("pulmonaryDisease").then((value) => {
       setArthiritis(value == true ? true : false);
     });
   }, []);
@@ -113,7 +123,7 @@ export default BetterAilments = ({ navigation }) => {
               color: "rgba(0, 17, 43, 0.9)",
             }}
           >
-            Ailments
+            Medical History
           </Text>
         </View>
         <View
@@ -245,7 +255,42 @@ export default BetterAilments = ({ navigation }) => {
               borderWidth: 2,
             }}
           />
-          {/* <Button title="Update" onPress={click} /> */}
+          <CheckBox
+            title="Migraine"
+            checked={migraine}
+            checkedColor="rgba(0, 17, 43, 0.9)"
+            uncheckedColor="rgba(0, 17, 43, 0.9)"
+            onPress={() => {
+              setMigraine(!migraine);
+              setValueDB("migraine", migraine == true ? "false" : "true");
+            }}
+            textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
+            containerStyle={{
+              backgroundColor: "rgba(178, 198, 217, 0.83)",
+              borderColor: "rgba(0, 17, 43, 0.5)",
+              borderWidth: 2,
+            }}
+          />
+          <CheckBox
+            title="Pulmonary Disease"
+            checked={pulmonaryDisease}
+            checkedColor="rgba(0, 17, 43, 0.9)"
+            uncheckedColor="rgba(0, 17, 43, 0.9)"
+            onPress={() => {
+              setPulmonaryDisease(!pulmonaryDisease);
+              setValueDB(
+                "pulmonaryDisease",
+                pulmonaryDisease == true ? "false" : "true"
+              );
+            }}
+            textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
+            containerStyle={{
+              backgroundColor: "rgba(178, 198, 217, 0.83)",
+              borderColor: "rgba(0, 17, 43, 0.5)",
+              borderWidth: 2,
+            }}
+          />
+          {/*<Button title="Update" onPress={click} />*/}
         </View>
       </ImageBackground>
     </SafeAreaView>

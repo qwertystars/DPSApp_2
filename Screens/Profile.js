@@ -20,6 +20,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { Dimensions } from "react-native";
 import { Ailments } from "../Screens";
 import * as SecureStore from "expo-secure-store";
+import * as ImagePicker from "expo-image-picker";
 
 //GLUCARE
 export default function Profile({ navigation }) {
@@ -32,6 +33,10 @@ export default function Profile({ navigation }) {
 
   const genderList = ["MALE", "FEMALE", "OTHER"];
   const bloodGrpList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
+
+  const [SelectedImage, setSelectedImage] = useState(
+    "https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
+  );
 
   const getNameDB = async () => {
     let result = await SecureStore.getItemAsync("Name");
@@ -69,6 +74,15 @@ export default function Profile({ navigation }) {
     else setBloodGrp("Select Blood Group");
   };
 
+  const getProfilePicDB = async () => {
+    let result = await SecureStore.getItemAsync("profilePic");
+    if (result) setSelectedImage(result);
+    else
+      setSelectedImage(
+        "https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
+      );
+  };
+
   useEffect(() => {
     getNameDB();
     getAgeDB();
@@ -76,6 +90,7 @@ export default function Profile({ navigation }) {
     getHeightDB();
     getWeightDB();
     getBloodGroupDB();
+    getProfilePicDB();
   }, []);
 
   async function handleChangeName() {
@@ -104,6 +119,25 @@ export default function Profile({ navigation }) {
 
   //TODO Handle change gender (for dropdown asw)
   //Problem in gender save SecureStore
+
+  const handleImageSelector = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    //console.log(result);
+
+    if (!result.cancelled) {
+      setSelectedImage(result.assets[0].uri);
+    }
+
+    await SecureStore.setItemAsync("profilePic", SelectedImage).then(() =>
+      console.log(SelectedImage)
+    );
+  };
 
   return (
     <SafeAreaView
@@ -151,18 +185,20 @@ export default function Profile({ navigation }) {
               marginVertical: 22,
             }}
           >
-            <Image
-              source={require("../assets/user.png")}
-              style={{
-                width: 170,
-                height: 170,
-                borderRadius: 85,
-                position: "relative",
-                paddingTop: "20.88%",
-                alignSelf: "center",
-                opacity: 0.9,
-              }}
-            />
+            <TouchableOpacity onPress={handleImageSelector}>
+              <Image
+                style={{
+                  width: 170,
+                  height: 170,
+                  borderRadius: 85,
+                  position: "relative",
+                  paddingTop: "20.88%",
+                  alignSelf: "center",
+                  opacity: 0.9,
+                }}
+                source={{ uri: SelectedImage }}
+              />
+            </TouchableOpacity>
           </View>
 
           <View>
