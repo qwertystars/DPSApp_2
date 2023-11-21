@@ -19,6 +19,7 @@ import Slider from "@react-native-community/slider";
 import { SelectList } from "react-native-dropdown-select-list";
 import { Dimensions } from "react-native";
 import { Ailments } from "../Screens";
+import { Allergies } from "../Screens";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 
@@ -460,45 +461,83 @@ export default function Profile({ navigation }) {
 
           <View
             style={{
-              paddingTop: 18,
               alignItems: "left",
               paddingLeft: 6,
-              flexDirection: "row",
+              flexDirection: "column",
+              paddingTop: 5,
             }}
           >
-            <TouchableOpacity
-              style={{
-                height: 40,
-                width: "80%",
-                backgroundColor: "#2e6698",
-                paddingTop: 5,
-                borderColor: "#37688d",
-                borderRadius: 5,
-                borderWidth: 3,
-              }}
-              onPress={() => navigation.navigate("BetterAilments")}
-            >
-              <Text
+            <View>
+              <TouchableOpacity
                 style={{
-                  fontSize: 17,
-                  color: "rgba(170, 219, 255, 0.87)",
-                  paddingLeft: 2,
-                  justifyContent: "flex-start",
-                }}
-              >
-                Medical History
-              </Text>
-              <MaterialIcons
-                name="keyboard-arrow-right"
-                size={24}
-                style={{
-                  position: "absolute",
-                  paddingLeft: "90%",
+                  height: 40,
+                  width: "80%",
+                  backgroundColor: "#2e6698",
                   paddingTop: 5,
-                  color: "rgba(170, 219, 255, 0.87)",
+                  borderColor: "#37688d",
+                  borderRadius: 5,
+                  borderWidth: 3,
                 }}
-              />
-            </TouchableOpacity>
+                onPress={() => navigation.navigate("BetterAilments")}
+              >
+                <Text
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingLeft: 2,
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  Medical History
+                </Text>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  style={{
+                    position: "absolute",
+                    paddingLeft: "90%",
+                    paddingTop: 5,
+                    color: "rgba(170, 219, 255, 0.87)",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ paddingTop: 15 }}>
+              <TouchableOpacity
+                style={{
+                  height: 40,
+                  width: "80%",
+                  backgroundColor: "#2e6698",
+                  paddingTop: 5,
+                  borderColor: "#37688d",
+                  borderRadius: 5,
+                  borderWidth: 3,
+                }}
+                onPress={() => navigation.navigate("Allergies")}
+              >
+                <Text
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingLeft: 2,
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  Allergies
+                </Text>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  style={{
+                    position: "absolute",
+                    paddingLeft: "90%",
+                    paddingTop: 5,
+                    color: "rgba(170, 219, 255, 0.87)",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View

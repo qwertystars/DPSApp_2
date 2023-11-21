@@ -13,6 +13,7 @@ import GlucoseGraph from "./Screens/GlucoseGraph";
 import BloodPressureGraph from "./Screens/BloodPressureGraph";
 import DietChart from "./Screens/DietChart";
 import WorkoutPlan from "./Screens/WorkoutPlan";
+import Allergies from "./Screens/Allergies";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -50,6 +51,13 @@ export default function App() {
           name="BetterAilments"
           component={BetterAilments}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Allergies"
+          component={Allergies}
+          options={{
+            headerShown: false,
+          }}
         />
         <Stack.Screen
           name="Main"

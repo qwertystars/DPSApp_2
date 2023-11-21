@@ -42,6 +42,8 @@ export default function Main({ navigation }) {
 
   const [glucoseReadings, setGlucoseReadings] = useState([0]);
   const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
+  const [glucoseDatePassed, setGlucoseDatePassed] = useState([]);
+  const [glucosePrediction, setGlucosePrediction] = useState([]);
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -106,14 +108,14 @@ export default function Main({ navigation }) {
         SetValueDB("glucoseReadingsDates", "");
         setGlucoseReadingsDates([0]);
       } else {
-        if (glucoseReadingsDates.length > 1 && glucoseReadingsDates[0] != 0) {
-          let arr = value.split(",");
-          arr.forEach((value) => {
-            let d = new Date(value);
-            glucoseReadingsDates.push(d);
-            console.log(d);
-          });
-        }
+        let arr = value.split(",");
+        const temp = [];
+        arr.forEach((value) => {
+          let d = new Date(value);
+          temp.push(d);
+          console.log(d);
+        });
+        setGlucoseReadingsDates(temp);
       }
     });
   }, []);
@@ -128,6 +130,23 @@ export default function Main({ navigation }) {
     console.log(glucoseReadings + "e");
     //SetValueDB("glucoseReadings", glucoseReadings.join(","));
   }, [glucoseReadings]);
+
+  useEffect(() => {
+    const temp = [];
+    for (var i = 0; i < glucoseReadingsDates.length; i++) {
+      var daysPassed =
+        (glucoseReadingsDates[i] - glucoseReadingsDates[0]) /
+        (1000 * 60 * 60 * 24);
+      temp.push(daysPassed);
+    }
+    setGlucoseDatePassed(temp);
+    console.log(glucoseDatePassed);
+
+    // const regression = new SimpleLinearRegression(
+    //   glucoseReadings,
+    //   glucoseDatePassed
+    // );
+  }, [glucoseReadingsDates]);
 
   return (
     <SafeAreaView
@@ -459,11 +478,6 @@ export default function Main({ navigation }) {
                       glucoseReadings.push(newReading);
                     }
 
-                    SetValueDB(
-                      "glucoseReadings",
-                      glucoseReadings.join(",")
-                    ).then(() => console.log("Added"));
-
                     if (
                       glucoseReadingsDates.length == 1 &&
                       glucoseReadingsDates[0] == 0
@@ -472,20 +486,41 @@ export default function Main({ navigation }) {
                     } else {
                       glucoseReadingsDates.push(d);
 
+                      const temp = [];
+                      glucoseReadingsDates.forEach((value) => {
+                        temp.push(value);
+                      });
+
                       glucoseReadingsDates.sort((a, b) => {
                         return a - b;
                       });
 
-                      // const temp = glucoseReadingsDates;
-                      // let tempGlcRd = [];
+                      const tempGlcRd = [];
 
-                      // glucoseReadingsDates.forEach((value, index) => {
-                      //   var i = temp.find((element) => element == value);
-                      //   tempGlcRd.push(temp[i]);
-                      // });
+                      glucoseReadingsDates.forEach((value, index) => {
+                        var i = temp.indexOf(value);
+                        tempGlcRd.push(glucoseReadings[i]);
+                        console.log(tempGlcRd);
+                      });
 
+                      for (var i = 0; i < glucoseReadings.length; i++) {
+                        glucoseReadings[i] = tempGlcRd[i];
+                      }
                       // setGlucoseReadings(tempGlcRd);
+                      // console.log(glucoseReadings + " ///>>>");
                     }
+
+                    SetValueDB(
+                      "glucoseReadings",
+                      glucoseReadings.join(",")
+                    ).then(() => console.log(glucoseReadings + " zamina"));
+
+                    SetValueDB(
+                      "glucoseReadingsDates",
+                      glucoseReadingsDates.join(",")
+                    ).then(() =>
+                      console.log(glucoseReadingsDates + " mina eh eh")
+                    );
 
                     console.log(glucoseReadingsDates);
                     console.log(glucoseReadings + "r");

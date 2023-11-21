@@ -18,16 +18,15 @@ import { React, useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 
 // NOT boolean value niye kaaj korte hobe stubid react native
-export default BetterAilments = ({ navigation }) => {
-  const [diabetes, setDiabetes] = useState(false);
-  const [preDiabetes, setPreDiabetes] = useState(false);
-  const [highBloodPressure, setHighBloodPressure] = useState(false);
-  const [lowBloodPressure, setLowBloodPressure] = useState(false);
-  const [obesity, setObesity] = useState(false);
-  const [cholesterol, setCholesterol] = useState(false);
-  const [arthiritis, setArthiritis] = useState(false);
-  const [migraine, setMigraine] = useState(false);
-  const [pulmonaryDisease, setPulmonaryDisease] = useState(false);
+export default Allergies = ({ navigation }) => {
+  const [lactose, setLactose] = useState(false);
+  const [eggs, setEggs] = useState(false);
+  const [peanuts, setPeanuts] = useState(false);
+  const [soy, setSoy] = useState(false);
+  const [treeNuts, setTreeNuts] = useState(false);
+  const [seaFood, setSeaFood] = useState(false);
+  const [pollen, setPollen] = useState(false);
+  const [dust, setDust] = useState(false);
 
   const getValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -40,40 +39,36 @@ export default BetterAilments = ({ navigation }) => {
   }
 
   useEffect(() => {
-    getValueDB("diabetes").then((value) => {
-      setDiabetes(value == true ? true : false);
+    getValueDB("lactose").then((value) => {
+      setLactose(value == true ? true : false);
     });
 
-    getValueDB("preDiabetes").then((value) => {
-      setPreDiabetes(value == true ? true : false);
+    getValueDB("eggs").then((value) => {
+      setEggs(value == true ? true : false);
     });
 
-    getValueDB("highBloodPressure").then((value) => {
-      setHighBloodPressure(value == true ? true : false);
+    getValueDB("peanuts").then((value) => {
+      setPeanuts(value == true ? true : false);
     });
 
-    getValueDB("lowBloodPressure").then((value) => {
-      setLowBloodPressure(value == true ? true : false);
+    getValueDB("soy").then((value) => {
+      setSoy(value == true ? true : false);
     });
 
-    getValueDB("obesity").then((value) => {
-      setObesity(value == true ? true : false);
+    getValueDB("treeNuts").then((value) => {
+      setTreeNuts(value == true ? true : false);
     });
 
-    getValueDB("cholesterol").then((value) => {
-      setCholesterol(value == true ? true : false);
+    getValueDB("seaFood").then((value) => {
+      setSeaFood(value == true ? true : false);
     });
 
-    getValueDB("arthiritis").then((value) => {
-      setArthiritis(value == true ? true : false);
+    getValueDB("pollen").then((value) => {
+      setPollen(value == true ? true : false);
     });
 
-    getValueDB("migraine").then((value) => {
-      setMigraine(value == true ? true : false);
-    });
-
-    getValueDB("pulmonaryDisease").then((value) => {
-      setPulmonaryDisease(value == true ? true : false);
+    getValueDB("dust").then((value) => {
+      setDust(value == true ? true : false);
     });
   }, []);
 
@@ -123,7 +118,7 @@ export default BetterAilments = ({ navigation }) => {
               color: "rgba(0, 17, 43, 0.9)",
             }}
           >
-            Medical History
+            Allergies
           </Text>
         </View>
         <View
@@ -138,13 +133,13 @@ export default BetterAilments = ({ navigation }) => {
           }}
         >
           <CheckBox
-            title="Diabetes"
-            checked={diabetes}
+            title="Lactose"
+            checked={lactose}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-              setDiabetes(!diabetes);
-              setValueDB("diabetes", diabetes == true ? "false" : "true");
+              setLactose(!lactose);
+              setValueDB("lactose", lactose == true ? "false" : "true");
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
@@ -154,13 +149,13 @@ export default BetterAilments = ({ navigation }) => {
             }}
           />
           <CheckBox
-            title="PreDiabetes"
-            checked={preDiabetes}
+            title="Eggs"
+            checked={eggs}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-              setPreDiabetes(!preDiabetes);
-              setValueDB("preDiabetes", preDiabetes == true ? "false" : "true");
+              setEggs(!eggs);
+              setValueDB("eggs", eggs == true ? "false" : "true");
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
@@ -170,16 +165,13 @@ export default BetterAilments = ({ navigation }) => {
             }}
           />
           <CheckBox
-            title="High Blood Pressure"
-            checked={highBloodPressure}
+            title="Peanuts"
+            checked={peanuts}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-              setHighBloodPressure(!highBloodPressure);
-              setValueDB(
-                "highBloodPressure",
-                highBloodPressure == true ? "false" : "true"
-              );
+              setPeanuts(!peanuts);
+              setValueDB("peanuts", peanuts == true ? "false" : "true");
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
@@ -189,16 +181,13 @@ export default BetterAilments = ({ navigation }) => {
             }}
           />
           <CheckBox
-            title="Low Blood Pressure"
-            checked={lowBloodPressure}
+            title="Soy"
+            checked={soy}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-              setLowBloodPressure(!lowBloodPressure);
-              setValueDB(
-                "lowBloodPressure",
-                lowBloodPressure == true ? "false" : "true"
-              );
+              setSoy(!soy);
+              setValueDB("soy", soy == true ? "false" : "true");
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
@@ -208,13 +197,13 @@ export default BetterAilments = ({ navigation }) => {
             }}
           />
           <CheckBox
-            title="Obesity"
-            checked={obesity}
+            title="Tree Nuts"
+            checked={treeNuts}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-              setObesity(!obesity);
-              setValueDB("obesity", obesity == true ? "false" : "true");
+              setTreeNuts(!treeNuts);
+              setValueDB("treeNuts", treeNuts == true ? "false" : "true");
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
@@ -224,13 +213,13 @@ export default BetterAilments = ({ navigation }) => {
             }}
           />
           <CheckBox
-            title="Cholesterol"
-            checked={cholesterol}
+            title="Sea Food"
+            checked={seaFood}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-              setCholesterol(!cholesterol);
-              setValueDB("cholesterol", cholesterol == true ? "false" : "true");
+              setSeaFood(!seaFood);
+              setValueDB("seaFood", seaFood == true ? "false" : "true");
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
@@ -240,13 +229,13 @@ export default BetterAilments = ({ navigation }) => {
             }}
           />
           <CheckBox
-            title="Arthiritis"
-            checked={arthiritis}
+            title="Pollen"
+            checked={pollen}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-              setArthiritis(!arthiritis);
-              setValueDB("arthiritis", arthiritis == true ? "false" : "true");
+              setPollen(!pollen);
+              setValueDB("pollen", pollen == true ? "false" : "true");
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
@@ -256,32 +245,13 @@ export default BetterAilments = ({ navigation }) => {
             }}
           />
           <CheckBox
-            title="Migraine"
-            checked={migraine}
+            title="Dust"
+            checked={dust}
             checkedColor="rgba(0, 17, 43, 0.9)"
             uncheckedColor="rgba(0, 17, 43, 0.9)"
             onPress={() => {
-              setMigraine(!migraine);
-              setValueDB("migraine", migraine == true ? "false" : "true");
-            }}
-            textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
-            containerStyle={{
-              backgroundColor: "rgba(178, 198, 217, 0.83)",
-              borderColor: "rgba(0, 17, 43, 0.5)",
-              borderWidth: 2,
-            }}
-          />
-          <CheckBox
-            title="Pulmonary Disease"
-            checked={pulmonaryDisease}
-            checkedColor="rgba(0, 17, 43, 0.9)"
-            uncheckedColor="rgba(0, 17, 43, 0.9)"
-            onPress={() => {
-              setPulmonaryDisease(!pulmonaryDisease);
-              setValueDB(
-                "pulmonaryDisease",
-                pulmonaryDisease == true ? "false" : "true"
-              );
+              setDust(!dust);
+              setValueDB("dust", dust == true ? "false" : "true");
             }}
             textStyle={{ color: "rgba(0, 17, 43, 0.9)" }}
             containerStyle={{
