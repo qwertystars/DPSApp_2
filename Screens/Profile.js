@@ -29,11 +29,13 @@ export default function Profile({ navigation }) {
   const [age, setAge] = useState(0);
   const [gender, setGender] = useState("MALE");
   const [height, setHeight] = useState(0);
+  const [unit, setUnit] = useState("cm");
   const [weight, setWeight] = useState(0);
   const [bloodGrp, setBloodGrp] = useState("AB+");
 
   const genderList = ["MALE", "FEMALE", "OTHER"];
   const bloodGrpList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
+  const unitList = ["cm", "inches"];
 
   const [SelectedImage, setSelectedImage] = useState(
     "https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
@@ -63,6 +65,12 @@ export default function Profile({ navigation }) {
     else setHeight(140);
   };
 
+  const getUnitDB = async () => {
+    let result = await SecureStore.getItemAsync("Unit");
+    if (result) setUnit(result);
+    else setUnit("Select Unit");
+  };
+
   const getWeightDB = async () => {
     let result = await SecureStore.getItemAsync("Weight");
     if (result) setWeight(parseInt(result));
@@ -89,6 +97,7 @@ export default function Profile({ navigation }) {
     getAgeDB();
     getGenderDB();
     getHeightDB();
+    getUnitDB();
     getWeightDB();
     getBloodGroupDB();
     getProfilePicDB();
@@ -106,6 +115,10 @@ export default function Profile({ navigation }) {
     await SecureStore.setItemAsync("Gender", gender);
   }
 
+  async function handleChangeUnit() {
+    await SecureStore.setItemAsync("Unit", unit);
+  }
+
   async function handleChangeHeight() {
     await SecureStore.setItemAsync("Height", height.toString());
   }
@@ -117,9 +130,6 @@ export default function Profile({ navigation }) {
   async function handleChangeBloodGroup() {
     await SecureStore.setItemAsync("BloodGrp", bloodGrp);
   }
-
-  //TODO Handle change gender (for dropdown asw)
-  //Problem in gender save SecureStore
 
   const handleImageSelector = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -335,11 +345,30 @@ export default function Profile({ navigation }) {
                 paddingTop: 10,
               }}
             >
-              <Text
-                style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)" }}
-              >
-                Height(in cm)
-              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text
+                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)" }}
+                >
+                  Height
+                </Text>
+
+                <View
+                  style={{
+                    height: 17,
+                    width: "auto",
+                  }}
+                >
+                  <SelectList
+                    setSelected={setUnit}
+                    data={unitList}
+                    placeholder={unit}
+                    search="false"
+                    onSelect={() => {
+                      handleChangeUnit();
+                    }}
+                  />
+                </View>
+              </View>
               <View style={{ flexDirection: "row" }}>
                 <Text
                   style={{

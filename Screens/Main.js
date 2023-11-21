@@ -42,7 +42,7 @@ export default function Main({ navigation }) {
 
   const [glucoseReadings, setGlucoseReadings] = useState([0]);
   const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
-  const [glucoseDatePassed, setGlucoseDatePassed] = useState([]);
+  const [glucoseDatePassed, setGlucoseDatePassed] = useState([0]);
   const [glucosePrediction, setGlucosePrediction] = useState([]);
 
   const GetValueDB = async (key) => {
@@ -113,7 +113,6 @@ export default function Main({ navigation }) {
         arr.forEach((value) => {
           let d = new Date(value);
           temp.push(d);
-          console.log(d);
         });
         setGlucoseReadingsDates(temp);
       }
@@ -139,8 +138,18 @@ export default function Main({ navigation }) {
         (1000 * 60 * 60 * 24);
       temp.push(daysPassed);
     }
-    setGlucoseDatePassed(temp);
+    while (glucoseDatePassed.length > 0) {
+      glucoseDatePassed.pop();
+    }
+    temp.forEach((value) => {
+      glucoseDatePassed.push(value);
+    });
     console.log(glucoseDatePassed);
+
+    setTimeout(() => {
+      console.log(glucoseReadings + " heeh boii");
+      console.log(glucoseDatePassed + " eheh buoyy");
+    }, 100);
 
     // const regression = new SimpleLinearRegression(
     //   glucoseReadings,
