@@ -36,6 +36,7 @@ export default function Profile({ navigation }) {
   const genderList = ["MALE", "FEMALE", "OTHER"];
   const bloodGrpList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
   const unitList = ["cm", "inches"];
+  const [heightUnit, setHeightUnit] = useState(0);
 
   const [SelectedImage, setSelectedImage] = useState(
     "https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
@@ -68,7 +69,7 @@ export default function Profile({ navigation }) {
   const getUnitDB = async () => {
     let result = await SecureStore.getItemAsync("Unit");
     if (result) setUnit(result);
-    else setUnit("Select Unit");
+    else setUnit("cm");
   };
 
   const getWeightDB = async () => {
@@ -121,6 +122,11 @@ export default function Profile({ navigation }) {
 
   async function handleChangeHeight() {
     await SecureStore.setItemAsync("Height", height.toString());
+      if (unit == "cm") {
+          setHeightUnit(height);
+      }
+      else if (unit == "inches") { setHeightUnit(Math.floor(height / 30.48) + '\'' + Math.round((height % 30.48) / 2.4)) };
+      console.log(height);
   }
 
   async function handleChangeWeight() {
@@ -345,19 +351,14 @@ export default function Profile({ navigation }) {
                 paddingTop: 10,
               }}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row" , alignItems: "center",}}>
                 <Text
-                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)" }}
+                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)", paddingRight: 10 }}
                 >
                   Height
                 </Text>
 
-                <View
-                  style={{
-                    height: 17,
-                    width: "auto",
-                  }}
-                >
+                <View styles={{ marginHorizontal: 10, }} >               
                   <SelectList
                     setSelected={setUnit}
                     data={unitList}
@@ -366,10 +367,19 @@ export default function Profile({ navigation }) {
                     onSelect={() => {
                       handleChangeUnit();
                     }}
+                    boxStyles= {{
+                        height: 35,
+                        width: 90,
+                        paddingTop: 5,
+                    }}
+                    inputStyles= {{
+                        fontSize: 12,
+                    }}
                   />
                 </View>
               </View>
               <View style={{ flexDirection: "row" }}>
+                
                 <Text
                   style={{
                     fontSize: 17,
@@ -379,7 +389,7 @@ export default function Profile({ navigation }) {
                     justifyContent: "flex-start",
                   }}
                 >
-                  {height}
+                { heightUnit }
                 </Text>
                 <View style={{ position: "absolute", paddingLeft: 40 }}>
                   <Slider
