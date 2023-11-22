@@ -131,6 +131,11 @@ export default function Main({ navigation }) {
   }, [glucoseReadings]);
 
   useEffect(() => {
+    console.log(glucosePrediction + " hehe haha");
+    //SetValueDB("glucoseReadings", glucoseReadings.join(","));
+  }, [glucosePrediction]);
+
+  useEffect(() => {
     const temp = [];
     for (var i = 0; i < glucoseReadingsDates.length; i++) {
       var daysPassed =
@@ -146,15 +151,31 @@ export default function Main({ navigation }) {
     });
     console.log(glucoseDatePassed);
 
-    setTimeout(() => {
-      console.log(glucoseReadings + " heeh boii");
-      console.log(glucoseDatePassed + " eheh buoyy");
-    }, 100);
+    // console.log(glucoseReadings.length + " heeh boii");
+    // console.log(glucoseDatePassed.length + " eheh buoyy");
 
-    // const regression = new SimpleLinearRegression(
-    //   glucoseReadings,
-    //   glucoseDatePassed
-    // );
+    if (glucoseReadings.length == glucoseDatePassed.length) {
+      const regression = new SimpleLinearRegression(
+        glucoseReadings,
+        glucoseDatePassed
+      );
+
+      setGlucosePrediction([]);
+
+      //console.log(glucoseDatePassed);
+
+      const lvar = [];
+      for (var i = 0; i < glucoseDatePassed.length; i++) {
+        var u =
+          glucoseDatePassed[glucoseDatePassed.length - 1] /
+          (glucoseDatePassed.length - 1);
+        lvar.push(parseFloat(regression.predict(u * i).toFixed(2)));
+      }
+
+      setGlucosePrediction(lvar);
+    }
+
+    console.log(glucosePrediction + "lollolol");
   }, [glucoseReadingsDates]);
 
   return (
@@ -631,6 +652,7 @@ export default function Main({ navigation }) {
               </TouchableOpacity>
             </View>
           </View>
+
           <View style={{ backgroundColor: "rgba(0, 33, 59, 0.3)" }}>
             <Text
               style={{
@@ -691,6 +713,12 @@ export default function Main({ navigation }) {
                   datasets: [
                     {
                       data: glucoseReadings,
+                    },
+                    {
+                      data:
+                        glucosePrediction == NaN || glucosePrediction == []
+                          ? glucoseReadings[0]
+                          : glucosePrediction,
                     },
                   ],
                 }}
