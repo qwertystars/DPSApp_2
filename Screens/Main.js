@@ -20,6 +20,14 @@ import { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import { SelectList } from "react-native-dropdown-select-list";
 
+//Timer: Feedback of user
+//use firebase
+//separate inouts in separate pages on first login
+//make first time open sequence
+//the question set should be asked after ailments are entered
+//interactive first login page
+//on home page give today's info like diet for today, work for today, medications
+//add notification system for workout plan
 export default function Main({ navigation }) {
   let today = new Date();
   let checkupDate = new Date();
@@ -64,8 +72,8 @@ export default function Main({ navigation }) {
   }
 
   //SecureStore.deleteItemAsync("checkupDate");
-  // SecureStore.deleteItemAsync("glucoseReadings");
-  // SecureStore.deleteItemAsync("glucoseReadingsDates");
+  //SecureStore.deleteItemAsync("glucoseReadings");
+  //SecureStore.deleteItemAsync("glucoseReadingsDates");
 
   useEffect(() => {
     today = new Date();

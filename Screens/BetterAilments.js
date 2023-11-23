@@ -207,7 +207,7 @@ export default BetterAilments = ({ navigation }) => {
               borderWidth: 2,
             }}
           />
-          <CheckBox
+          {/* <CheckBox
             title="Obesity"
             checked={obesity}
             checkedColor="rgba(0, 17, 43, 0.9)"
@@ -222,7 +222,7 @@ export default BetterAilments = ({ navigation }) => {
               borderColor: "rgba(0, 17, 43, 0.5)",
               borderWidth: 2,
             }}
-          />
+          /> */}
           <CheckBox
             title="Cholesterol"
             checked={cholesterol}
