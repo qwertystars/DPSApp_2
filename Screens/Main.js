@@ -64,8 +64,8 @@ export default function Main({ navigation }) {
   }
 
   //SecureStore.deleteItemAsync("checkupDate");
-  //SecureStore.deleteItemAsync("glucoseReadings");
-  //SecureStore.deleteItemAsync("glucoseReadingsDates");
+  // SecureStore.deleteItemAsync("glucoseReadings");
+  // SecureStore.deleteItemAsync("glucoseReadingsDates");
 
   useEffect(() => {
     today = new Date();
@@ -290,6 +290,21 @@ export default function Main({ navigation }) {
                   }
                   SetValueDB("glucoseReadings", glucoseReadings.join(",")).then(
                     () => console.log("Added")
+                  );
+                  today = new Date();
+                  if (
+                    glucoseReadingsDates.length == 1 &&
+                    glucoseReadingsDates[0] == 0
+                  ) {
+                    glucoseReadingsDates[0] = today;
+                  } else {
+                    glucoseReadingsDates.push(today);
+                  }
+                  SetValueDB(
+                    "glucoseReadingsDates",
+                    glucoseReadingsDates.join(",")
+                  ).then(() =>
+                    console.log(glucoseReadingsDates + " mina eh eh")
                   );
                   // SetValueDB(
                   //   "glucoseReadings",
