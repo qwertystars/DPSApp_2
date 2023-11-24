@@ -5,6 +5,7 @@ import {
   Fontisto,
   MaterialCommunityIcons,
   MaterialIcons,
+  ImageBackground,
 } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Main, Profile } from "../Screens";
@@ -22,7 +23,7 @@ const screenOptions = {
     left: 0,
     elevation: 0,
     height: 60,
-    backgroundColor: "rgba(93, 152, 255, 0.94)",
+    backgroundColor: "rgba(123,185,255,0.8)",
   },
 };
 

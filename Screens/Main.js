@@ -71,9 +71,26 @@ export default function Main({ navigation }) {
     setRemainingDays(checkupDuration - 1);
   }
 
+  function GlucoseDateUpdation() {
+    const temp = [];
+    for (var i = 0; i < glucoseReadingsDates.length; i++) {
+      var daysPassed =
+        (glucoseReadingsDates[i] - glucoseReadingsDates[0]) /
+        (1000 * 60 * 60 * 24);
+      temp.push(daysPassed);
+    }
+    while (glucoseDatePassed.length > 0) {
+      glucoseDatePassed.pop();
+    }
+    temp.forEach((value) => {
+      glucoseDatePassed.push(value);
+    });
+    console.log(glucoseDatePassed);
+  }
+
   //SecureStore.deleteItemAsync("checkupDate");
-  //SecureStore.deleteItemAsync("glucoseReadings");
-  //SecureStore.deleteItemAsync("glucoseReadingsDates");
+  // SecureStore.deleteItemAsync("glucoseReadings");
+  // SecureStore.deleteItemAsync("glucoseReadingsDates");
 
   useEffect(() => {
     today = new Date();
@@ -139,25 +156,10 @@ export default function Main({ navigation }) {
   }, [glucoseReadings]);
 
   useEffect(() => {
-    const temp = [];
-    for (var i = 0; i < glucoseReadingsDates.length; i++) {
-      var daysPassed =
-        (glucoseReadingsDates[i] - glucoseReadingsDates[0]) /
-        (1000 * 60 * 60 * 24);
-      temp.push(daysPassed);
-    }
-    while (glucoseDatePassed.length > 0) {
-      glucoseDatePassed.pop();
-    }
-    temp.forEach((value) => {
-      glucoseDatePassed.push(value);
-    });
-    console.log(glucoseDatePassed);
+    GlucoseDateUpdation();
 
-    setTimeout(() => {
-      console.log(glucoseReadings + " heeh boii");
-      console.log(glucoseDatePassed + " eheh buoyy");
-    }, 100);
+    console.log(glucoseReadings + " heeh boii");
+    console.log(glucoseDatePassed + " eheh buoyy");
 
     // const regression = new SimpleLinearRegression(
     //   glucoseReadings,
@@ -314,15 +316,24 @@ export default function Main({ navigation }) {
                   ).then(() =>
                     console.log(glucoseReadingsDates + " mina eh eh")
                   );
-                  // SetValueDB(
-                  //   "glucoseReadings",
-                  //   glucoseReadings.join(",") + "," + newReading
-                  // ).then(() =>
-                  //   GetValueDB("glucoseReadings").then((value) => {
-                  //     console.log(value);
-                  //     console.log(glucoseReadings + "FU");
-                  //   })
-                  // );
+
+                  const temp = [];
+                  for (var i = 0; i < glucoseReadingsDates.length; i++) {
+                    var daysPassed =
+                      (glucoseReadingsDates[i] - glucoseReadingsDates[0]) /
+                      (1000 * 60 * 60 * 24);
+                    temp.push(daysPassed);
+                  }
+                  while (glucoseDatePassed.length > 0) {
+                    glucoseDatePassed.pop();
+                  }
+                  temp.forEach((value) => {
+                    glucoseDatePassed.push(value);
+                  });
+                  console.log(glucoseDatePassed + " lolol");
+
+                  GlucoseDateUpdation();
+
                   console.log(glucoseReadings + "r");
                 }}
               >
@@ -553,6 +564,8 @@ export default function Main({ navigation }) {
                     ).then(() =>
                       console.log(glucoseReadingsDates + " mina eh eh")
                     );
+
+                    GlucoseDateUpdation();
 
                     console.log(glucoseReadingsDates);
                     console.log(glucoseReadings + "r");
