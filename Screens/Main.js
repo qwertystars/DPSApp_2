@@ -115,7 +115,8 @@ export default function Main({ navigation }) {
     }
     console.log("Predictiopn function executed");
     console.log(glucosePrediction + " Nan u dumb");
-    console.log(glucosePrediction[0] == NaN);
+    console.log(isNaN(glucosePrediction[1]));
+    console.log(glucosePrediction + " Nan u dumb");
   }
 
   //SecureStore.deleteItemAsync("checkupDate");
@@ -757,7 +758,9 @@ export default function Main({ navigation }) {
                       data: glucoseReadings,
                     },
                     {
-                      data: glucosePrediction.indexOf(NaN) == -1 ? [1] : [0],
+                      data: isNaN(glucosePrediction[1])
+                        ? []
+                        : glucosePrediction,
                     },
                   ],
                 }}
