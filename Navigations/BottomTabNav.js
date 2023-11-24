@@ -38,7 +38,7 @@ const BottomTabNav = () => {
             return (
               <SimpleLineIcons
                 name="home"
-                size={24}
+                size={26}
                 color={focused ? "#245B79" : "#F6F4F1"}
               />
             );
@@ -54,7 +54,7 @@ const BottomTabNav = () => {
             return (
               <MaterialIcons
                 name="person-outline"
-                size={24}
+                size={26}
                 color={focused ? "#245B79" : "#F6F4F1"}
               />
             );

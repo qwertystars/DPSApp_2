@@ -14,6 +14,8 @@ import BloodPressureGraph from "./Screens/BloodPressureGraph";
 import DietChart from "./Screens/DietChart";
 import WorkoutPlan from "./Screens/WorkoutPlan";
 import Allergies from "./Screens/Allergies";
+// import { Loading } from "./Screen/Loading";
+// import { Login } from "./Screen/Login";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -94,6 +96,20 @@ export default function App() {
             headerShown: false,
           }}
         />
+        {/* <Stack.Screen
+          name="Loading"
+          component={Loading}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -51,7 +51,7 @@ export default function Main({ navigation }) {
   const [glucoseReadings, setGlucoseReadings] = useState([0]);
   const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
   const [glucoseDatePassed, setGlucoseDatePassed] = useState([0]);
-  const [glucosePrediction, setGlucosePrediction] = useState([]);
+  const [glucosePrediction, setGlucosePrediction] = useState([0]);
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -86,6 +86,36 @@ export default function Main({ navigation }) {
       glucoseDatePassed.push(value);
     });
     console.log(glucoseDatePassed);
+  }
+
+  function Prediction() {
+    if (
+      glucoseDatePassed.length == glucoseReadings.length &&
+      glucoseReadings.length > 0
+    ) {
+      const regression = new SimpleLinearRegression(
+        glucoseDatePassed,
+        glucoseReadings
+      );
+
+      const temp = [];
+      for (var i = 0; i < glucoseReadings.length; i++) {
+        var e = glucoseDatePassed[glucoseDatePassed.length - 1];
+        temp.push(regression.predict(e * i));
+      }
+      console.log(temp + " pedictions");
+
+      for (var i = 0; i < glucoseDatePassed.length; i++) {
+        glucosePrediction.pop();
+      }
+
+      for (var i = 0; i < temp.length; i++) {
+        glucosePrediction.push(temp[i]);
+      }
+    }
+    console.log("Predictiopn function executed");
+    console.log(glucosePrediction + " Nan u dumb");
+    console.log(glucosePrediction[0] == NaN);
   }
 
   //SecureStore.deleteItemAsync("checkupDate");
@@ -157,14 +187,10 @@ export default function Main({ navigation }) {
 
   useEffect(() => {
     GlucoseDateUpdation();
+    Prediction();
 
     console.log(glucoseReadings + " heeh boii");
     console.log(glucoseDatePassed + " eheh buoyy");
-
-    // const regression = new SimpleLinearRegression(
-    //   glucoseReadings,
-    //   glucoseDatePassed
-    // );
   }, [glucoseReadingsDates]);
 
   return (
@@ -333,6 +359,8 @@ export default function Main({ navigation }) {
                   console.log(glucoseDatePassed + " lolol");
 
                   GlucoseDateUpdation();
+
+                  Prediction();
 
                   console.log(glucoseReadings + "r");
                 }}
@@ -727,6 +755,9 @@ export default function Main({ navigation }) {
                   datasets: [
                     {
                       data: glucoseReadings,
+                    },
+                    {
+                      data: glucosePrediction.indexOf(NaN) == -1 ? [1] : [0],
                     },
                   ],
                 }}
