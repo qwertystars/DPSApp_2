@@ -757,11 +757,11 @@ export default function Main({ navigation }) {
                     {
                       data: glucoseReadings,
                     },
-                    {
-                      data: isNaN(glucosePrediction[1])
-                        ? []
-                        : glucosePrediction,
-                    },
+                    // {
+                    //   data: isNaN(glucosePrediction[1])
+                    //     ? []
+                    //     : glucosePrediction,
+                    // },
                   ],
                 }}
                 width={(Dimensions.get("window").width * 70) / 100} // from react-native
