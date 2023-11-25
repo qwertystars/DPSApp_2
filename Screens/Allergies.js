@@ -5,7 +5,6 @@ import {
   StatusBar,
   ImageBackground,
   View,
-  Button,
 } from "react-native";
 import {
   SimpleLineIcons,
