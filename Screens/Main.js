@@ -105,13 +105,14 @@ export default function Main({ navigation }) {
       }
       console.log(temp + " pedictions");
 
-      for (var i = 0; i < glucoseDatePassed.length; i++) {
-        glucosePrediction.pop();
-      }
+      setGlucosePrediction(temp);
+      // for (var i = 0; i < glucoseDatePassed.length; i++) {
+      //   glucosePrediction.pop();
+      // }
 
-      for (var i = 0; i < temp.length; i++) {
-        glucosePrediction.push(temp[i]);
-      }
+      // for (var i = 0; i < temp.length; i++) {
+      //   glucosePrediction.push(temp[i]);
+      // }
     }
     console.log("Predictiopn function executed");
     console.log(glucosePrediction + " Nan u dumb");
@@ -172,7 +173,14 @@ export default function Main({ navigation }) {
         });
         setGlucoseReadingsDates(temp);
       }
+      //e
     });
+
+    const interval = setInterval(() => {});
+
+    GlucoseDateUpdation();
+    Prediction();
+    //e
   }, []);
 
   useEffect(() => {
@@ -724,7 +732,7 @@ export default function Main({ navigation }) {
           >
             <View
               style={{
-                height: (Dimensions.get("window").height * 6) / 100,
+                height: (Dimensions.get("window").height * 5) / 100,
                 width: "100%",
                 backgroundColor: "rgba(0, 33, 59, 0.5)",
                 alignSelf: "center",
@@ -757,11 +765,14 @@ export default function Main({ navigation }) {
                     {
                       data: glucoseReadings,
                     },
-                    // {
-                    //   data: isNaN(glucosePrediction[1])
-                    //     ? []
-                    //     : glucosePrediction,
-                    // },
+                    {
+                      data:
+                        isNaN(
+                          glucosePrediction[glucosePrediction.length - 1]
+                        ) || glucosePrediction.length == 0
+                          ? []
+                          : glucosePrediction,
+                    },
                   ],
                 }}
                 width={(Dimensions.get("window").width * 70) / 100} // from react-native
@@ -899,7 +910,7 @@ export default function Main({ navigation }) {
           >
             <View
               style={{
-                height: (Dimensions.get("window").height * 6) / 100,
+                height: (Dimensions.get("window").height * 5) / 100,
                 width: "100%",
                 backgroundColor: "rgba(0, 33, 59, 0.5)",
                 alignSelf: "center",

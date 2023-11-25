@@ -123,9 +123,10 @@ export default function Profile({ navigation }) {
   async function handleChangeHeight() {
     await SecureStore.setItemAsync("Height", height.toString());
       if (unit == "cm") {
-          setHeightUnit(height);a
+          setHeightUnit(height);
       }
-      else if (unit == "inches") { setHeightUnit(Math.floor(height / 30.48) + '\'' + Math.floor((height % 30.48) / 2.4)) };
+      else if (unit == "inches") { setHeightUnit(Math.floor(height / 30.48) + '\'' + Math.round((height % 30.48) / 2.4)) };
+      console.log(height);
   }
 
   async function handleChangeWeight() {
@@ -336,7 +337,6 @@ export default function Profile({ navigation }) {
                   onSelect={() => {
                     handleChangeGender();
                   }}
-                  inputStyles= {{color: "rgba(255,255,255,255)",}}
                 />
               </View>
             </View>
@@ -374,7 +374,6 @@ export default function Profile({ navigation }) {
                     }}
                     inputStyles= {{
                         fontSize: 12,
-                        color: "rgba(255,255,255,255)"
                     }}
                   />
                 </View>
@@ -494,7 +493,6 @@ export default function Profile({ navigation }) {
                   onSelect={() => {
                     handleChangeBloodGroup();
                   }}
-                  inputStyles= {{color: "rgba(255,255,255,255)",}}
                 />
               </View>
             </View>
@@ -513,7 +511,7 @@ export default function Profile({ navigation }) {
                 style={{
                   height: 40,
                   width: "80%",
-                  backgroundColor: "#rgba(46, 102, 152, 0.7)",
+                  backgroundColor: "#2e6698",
                   paddingTop: 5,
                   borderColor: "#37688d",
                   borderRadius: 5,
@@ -549,7 +547,7 @@ export default function Profile({ navigation }) {
                 style={{
                   height: 40,
                   width: "80%",
-                  backgroundColor: "#rgba(46, 102, 152, 0.7)",
+                  backgroundColor: "#2e6698",
                   paddingTop: 5,
                   borderColor: "#37688d",
                   borderRadius: 5,

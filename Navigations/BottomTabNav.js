@@ -9,7 +9,6 @@ import {
 } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Main, Profile } from "../Screens";
-import { useState, useEffect } from "react";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,19 +27,7 @@ const screenOptions = {
   },
 };
 
-const [loggedIn, setLoggedIn] = useState(false);
-
-
 const BottomTabNav = () => {
-    AsyncStorage.getItem("alreadyLaunched").then(value => {
-        if (value === null) {
-            AsyncStorage.setItem('alreadyLaunched', 'true');
-            setLoggedIn(true);
-        }
-        else {
-            setLoggedIn(false);
-        }
-    })
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
