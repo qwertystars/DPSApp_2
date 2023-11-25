@@ -724,7 +724,7 @@ export default function Main({ navigation }) {
           >
             <View
               style={{
-                height: (Dimensions.get("window").height * 5) / 100,
+                height: (Dimensions.get("window").height * 6) / 100,
                 width: "100%",
                 backgroundColor: "rgba(0, 33, 59, 0.5)",
                 alignSelf: "center",
@@ -899,7 +899,7 @@ export default function Main({ navigation }) {
           >
             <View
               style={{
-                height: (Dimensions.get("window").height * 5) / 100,
+                height: (Dimensions.get("window").height * 6) / 100,
                 width: "100%",
                 backgroundColor: "rgba(0, 33, 59, 0.5)",
                 alignSelf: "center",
