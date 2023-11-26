@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  ImageBackground,
 } from "react-native";
 import {
   SimpleLineIcons,
@@ -20,8 +21,7 @@ import moment from "moment";
 export default function GlucoseGraph({ navigation }) {
   const [readings, setReadings] = useState([]);
   const [dates, setDates] = useState([]);
-  const rds = [];
-  const dts = [];
+  const data = [];
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -48,7 +48,7 @@ export default function GlucoseGraph({ navigation }) {
         arr[index] = new Date(value);
       });
       setDates(arr);
-      console.log(arr);
+      console.log(dates);
     });
   }, []);
 
@@ -96,51 +96,58 @@ export default function GlucoseGraph({ navigation }) {
           Glucose History
         </Text>
       </View>
-      <View
+      <ImageBackground
+        source={require("../assets/_bg.png")}
+        resizeMode="cover"
         style={{
-          padding: 25,
+          flex: 1,
         }}
       >
         <View
           style={{
-            width: (Dimensions.get("window").width * 95) / 100,
-            height: (Dimensions.get("window").height * 5) / 100,
-            backgroundColor: "#FFF",
-            alignSelf: "center",
-            borderRadius: 10,
-            flexDirection: "row",
+            padding: 25,
           }}
         >
-          <Text>Prediction(6 months): </Text>
-          <Text>420</Text>
+          <View
+            style={{
+              width: (Dimensions.get("window").width * 95) / 100,
+              height: (Dimensions.get("window").height * 5) / 100,
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              borderRadius: 10,
+              flexDirection: "row",
+            }}
+          >
+            <Text>Prediction(6 months): </Text>
+            <Text>420</Text>
+          </View>
         </View>
-      </View>
-      <ScrollView>
-        {readings.map((value, index) => {
-          return (
-            <View
-              key={index}
-              style={{
-                paddingTop: 20,
-              }}
-            >
+        <ScrollView>
+          {readings.map((value, index) => {
+            return (
               <View
+                key={index}
                 style={{
-                  width: (Dimensions.get("window").width * 95) / 100,
-                  height: (Dimensions.get("window").height * 5) / 100,
-                  backgroundColor: "#FFF",
-                  alignSelf: "center",
-                  borderRadius: 10,
-                  flexDirection: "row",
+                  paddingTop: 20,
                 }}
               >
-                <Text>{value}</Text>
-                {/* <Text>{console.log(dates[0])}</Text> */}
+                <View
+                  style={{
+                    width: (Dimensions.get("window").width * 95) / 100,
+                    height: (Dimensions.get("window").height * 5) / 100,
+                    backgroundColor: "#FFF",
+                    alignSelf: "center",
+                    borderRadius: 10,
+                    flexDirection: "row",
+                  }}
+                >
+                  <Text>{value}</Text>
+                </View>
               </View>
-            </View>
-          );
-        })}
-      </ScrollView>
+            );
+          })}
+        </ScrollView>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
