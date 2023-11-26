@@ -44,47 +44,47 @@ export default function DietChart({ navigation }) {
         backgroundColor: "rgba(93, 152, 255, 0.83)",
       }}
     >
+      <View
+        style={{
+          marginHorizontal: 0,
+          flexDirection: "row",
+          justifyContent: "center",
+          backgroundColor: "rgba(109, 149, 222, 0.7)",
+          height: "5%",
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{
+            position: "absolute",
+            left: 0,
+          }}
+        >
+          <MaterialIcons
+            name="keyboard-arrow-left"
+            size={24}
+            color={"rgba(0, 17, 43, 0.83)"}
+          />
+        </TouchableOpacity>
+
+        <Text
+          style={{
+            fontSize: 20,
+            fontFamily: "sans-serif",
+            fontWeight: "bold",
+            color: "rgba(0, 17, 43, 0.9)",
+          }}
+        >
+          Diet Chart
+        </Text>
+      </View>
       <ImageBackground
         source={require("../assets/_bg.png")}
         resizeMode="cover"
         style={{ flex: 1 /*justifyContent: "center",*/ }}
       >
-        <View
-          style={{
-            marginHorizontal: 0,
-            flexDirection: "row",
-            justifyContent: "center",
-            backgroundColor: "rgba(109, 149, 222, 0.7)",
-            height: "5%",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}
-            style={{
-              position: "absolute",
-              left: 0,
-            }}
-          >
-            <MaterialIcons
-              name="keyboard-arrow-left"
-              size={24}
-              color={"rgba(0, 17, 43, 0.83)"}
-            />
-          </TouchableOpacity>
-
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: "sans-serif",
-              fontWeight: "bold",
-              color: "rgba(0, 17, 43, 0.9)",
-            }}
-          >
-            Diet Chart
-          </Text>
-        </View>
         <ScrollView
           style={{
             height: 200,

@@ -604,6 +604,8 @@ export default function Main({ navigation }) {
 
                     GlucoseDateUpdation();
 
+                    Prediction();
+
                     console.log(glucoseReadingsDates);
                     console.log(glucoseReadings + "r");
                   } else {

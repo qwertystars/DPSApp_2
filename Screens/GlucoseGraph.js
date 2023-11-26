@@ -4,6 +4,8 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Dimensions,
+  ScrollView,
 } from "react-native";
 import {
   SimpleLineIcons,
@@ -11,8 +13,45 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import * as SecureStore from "expo-secure-store";
+import moment from "moment";
 
 export default function GlucoseGraph({ navigation }) {
+  const [readings, setReadings] = useState([]);
+  const [dates, setDates] = useState([]);
+  const rds = [];
+  const dts = [];
+
+  const GetValueDB = async (key) => {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) return result;
+    else return "";
+  };
+  //
+
+  useEffect(() => {
+    GetValueDB("glucoseReadings").then((value) => {
+      let arr = value.split(",");
+      arr.reverse();
+      arr.forEach((value, index) => {
+        arr[index] = parseInt(arr[index]);
+      });
+      setReadings(arr);
+      console.log(arr);
+    });
+
+    GetValueDB("glucoseReadingsDates").then((value) => {
+      let arr = value.split(",");
+      arr.reverse();
+      arr.forEach((value, index) => {
+        arr[index] = new Date(value);
+      });
+      setDates(arr);
+      console.log(arr);
+    });
+  }, []);
+
   return (
     <SafeAreaView
       style={{
@@ -57,6 +96,51 @@ export default function GlucoseGraph({ navigation }) {
           Glucose History
         </Text>
       </View>
+      <View
+        style={{
+          padding: 25,
+        }}
+      >
+        <View
+          style={{
+            width: (Dimensions.get("window").width * 95) / 100,
+            height: (Dimensions.get("window").height * 5) / 100,
+            backgroundColor: "#FFF",
+            alignSelf: "center",
+            borderRadius: 10,
+            flexDirection: "row",
+          }}
+        >
+          <Text>Prediction(6 months): </Text>
+          <Text>420</Text>
+        </View>
+      </View>
+      <ScrollView>
+        {readings.map((value, index) => {
+          return (
+            <View
+              key={index}
+              style={{
+                paddingTop: 20,
+              }}
+            >
+              <View
+                style={{
+                  width: (Dimensions.get("window").width * 95) / 100,
+                  height: (Dimensions.get("window").height * 5) / 100,
+                  backgroundColor: "#FFF",
+                  alignSelf: "center",
+                  borderRadius: 10,
+                  flexDirection: "row",
+                }}
+              >
+                <Text>{value}</Text>
+                {/* <Text>{console.log(dates[0])}</Text> */}
+              </View>
+            </View>
+          );
+        })}
+      </ScrollView>
     </SafeAreaView>
   );
 }
