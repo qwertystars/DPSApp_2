@@ -14,6 +14,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { useState } from "react";
+import MealList from "./MealList";
 
 export default function DietChart({ navigation }) {
   const [mealData, setMealData] = useState(null);
@@ -21,12 +22,13 @@ export default function DietChart({ navigation }) {
 
   function getMealData() {
     fetch(
-      "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=day&targetCalories=" +
+      "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&targetCalories=" +
         calories
     )
       .then((response) => response.json())
       .then((data) => {
         setMealData(data);
+        // data.forEach((value) => console.log(value))
         console.log(data);
       })
       .catch(() => {
