@@ -22,7 +22,7 @@ export default function DietChart({ navigation }) {
 
   function getMealData() {
     fetch(
-      "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=day&targetCalories=" +
+      "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&targetCalories=" +
         calories
     )
       .then((response) => response.json())
