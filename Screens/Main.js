@@ -22,10 +22,12 @@ import { SelectList } from "react-native-dropdown-select-list";
 
 //Timer: Feedback of user
 //use firebase
+
 //separate inouts in separate pages on first login
 //make first time open sequence
-//the question set should be asked after ailments are entered
 //interactive first login page
+
+//the question set should be asked after ailments are entered
 //on home page give today's info like diet for today, work for today, medications
 //add notification system for workout plan
 export default function Main({ navigation }) {
@@ -101,7 +103,7 @@ export default function Main({ navigation }) {
       const temp = [];
       for (var i = 0; i < glucoseReadings.length; i++) {
         var e = glucoseDatePassed[glucoseDatePassed.length - 1];
-        temp.push(regression.predict(e * i));
+        temp.push(regression.predict(glucoseDatePassed[i]));
       }
       console.log(temp + " pedictions");
 

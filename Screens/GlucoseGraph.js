@@ -21,7 +21,8 @@ import moment from "moment";
 export default function GlucoseGraph({ navigation }) {
   const [readings, setReadings] = useState([]);
   const [dates, setDates] = useState([]);
-  const data = [];
+  const [exmpl, setExmpl] = useState([1, 2, 3, 4, 5, 6, 7]);
+  var data = ["e"];
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -45,10 +46,22 @@ export default function GlucoseGraph({ navigation }) {
       let arr = value.split(",");
       arr.reverse();
       arr.forEach((value, index) => {
-        arr[index] = new Date(value);
+        var x = new Date(value);
+        arr[index] = x;
+        //console.log(x.getDate());
+        data.push(x.getDate());
       });
-      setDates(arr);
-      console.log(dates);
+      let y = [];
+      for (var i = 0; i < arr.length; i++) {
+        y.push(
+          arr[i].getDate() +
+            "/" +
+            (arr[i].getMonth() + 1) +
+            "/" +
+            arr[i].getFullYear()
+        );
+      }
+      setExmpl(y);
     });
   }, []);
 
@@ -139,9 +152,11 @@ export default function GlucoseGraph({ navigation }) {
                     alignSelf: "center",
                     borderRadius: 10,
                     flexDirection: "row",
+                    //alignContent: "center",
                   }}
                 >
                   <Text>{value}</Text>
+                  <Text>{dates.length >= index ? exmpl[index] : "0"}</Text>
                 </View>
               </View>
             );
