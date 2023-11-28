@@ -27,9 +27,9 @@ export default function DietChart({ navigation }) {
     )
       .then((response) => response.json())
       .then((data) => {
-        setMealData(data);
+        setMealData(data.week.friday);
         // data.forEach((value) => console.log(value))
-        console.log(data);
+        console.log(data.week.friday);
       })
       .catch(() => {
         console.log("error");
@@ -101,7 +101,11 @@ export default function DietChart({ navigation }) {
             ></View>
           </TouchableOpacity>
 
-          {mealData && <MealList mealList={mealData} />}
+          {mealData && (
+            <View style={{ paddingTop: 20 }}>
+              <MealList mealData={mealData} />
+            </View>
+          )}
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>
