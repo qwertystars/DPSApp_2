@@ -14,8 +14,8 @@ import BloodPressureGraph from "./Screens/BloodPressureGraph";
 import DietChart from "./Screens/DietChart";
 import WorkoutPlan from "./Screens/WorkoutPlan";
 import Allergies from "./Screens/Allergies";
-// import { Loading } from "./Screen/Loading";
-// import { Login } from "./Screen/Login";
+import Loading from "./Screens/Loading";
+import Login from "./Screens/Login";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -34,7 +34,7 @@ export default function App() {
 
   return (
     <NavigationContainer onReady={onLayoutRootView}>
-      <Stack.Navigator initialRouteName="BottomTabNavigation">
+      <Stack.Navigator initialRouteName="Loading">
         <Stack.Screen
           name="BottomTabNavigation"
           component={BottomTabNav}
@@ -96,7 +96,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Loading"
           component={Loading}
           options={{
@@ -109,7 +109,7 @@ export default function App() {
           options={{
             headerShown: false,
           }}
-        /> */}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

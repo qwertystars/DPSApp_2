@@ -19,6 +19,7 @@ import { Dimensions } from "react-native";
 import { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import { SelectList } from "react-native-dropdown-select-list";
+import Login from "./Login";
 
 //Timer: Feedback of user
 //use firebase
@@ -129,6 +130,14 @@ export default function Main({ navigation }) {
   useEffect(() => {
     today = new Date();
     checkupDate = new Date();
+
+    GetValueDB("firstLogin").then((value) => {
+          if ((value == "")) {
+              SetValueDB("firstLogin", "LoggedIn");
+              navigation.navigate(Login);
+          }
+          
+      });
 
     for (var i = today.getFullYear(); i >= 1970; i--) {
       allYears.push(i);
