@@ -18,8 +18,6 @@ import SelectDropdown from "react-native-select-dropdown";
 import Slider from "@react-native-community/slider";
 import { SelectList } from "react-native-dropdown-select-list";
 import { Dimensions } from "react-native";
-import { Ailments } from "../Screens";
-import { Allergies } from "../Screens";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 
