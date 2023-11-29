@@ -19,13 +19,11 @@ import * as SecureStore from "expo-secure-store";
 
 export default function DietChart({ navigation }) {
   let today = new Date();
-  let checkupDate = new Date();
+  let mealResetDate = new Date();
 
   const checkupDuration = 2;
 
-  const [allYears, setAllYears] = useState([]);
-
-  const [checkupDay, setCheckupDay] = useState();
+  const [mealResetDay, setMealResetDay] = useState();
   const [remainingDays, setRemainingDays] = useState(checkupDuration);
 
   const [mealData, setMealData] = useState(null);
@@ -99,16 +97,34 @@ export default function DietChart({ navigation }) {
       });
   }
 
+  function ResetMeal() {
+    // checkupDate.setDate(checkupDate.getDate() + checkupDuration);
+    // checkupDate.setHours(0, 0, 0);
+    // setCheckupDay(checkupDate);
+    // SetValueDB("checkupDate", checkupDate.toDateString());
+    // setRemainingDays(checkupDuration - 1);
+    mealResetDate.setDate(mealResetDate.getDate() + checkupDuration);
+    mealResetDate.setHours(0, 0, 0);
+    setMealResetDay(mealResetDate);
+    SetValueDB("mealResetDate", mealResetDate.toDateString());
+    setRemainingDays(checkupDuration - 1);
+  }
+
   useEffect(() => {
-    // GetValueDB("WeeklyDiet").then((value) => {
-    //   if (value == "") {
-    //     console.log("empty");
-    //   } else {
-    //     const arr = value.split("~");
-    //     console.log(arr[0]);
-    //     //setMealDataArray(arr);
-    //   }
-    // });
+    today = new Date();
+    checkupDate = new Date();
+
+    GetValueDB("mealResetDate").then((value) => {
+      if (value == "") {
+        ResetMeal();
+      } else {
+        mealResetDate = new Date(value);
+        setRemainingDays(
+          Math.floor((mealResetDate - today) / (1000 * 60 * 60 * 24))
+        );
+      }
+    });
+
     GetValueDB("Day1").then((value) => {
       if (value == "") {
         console.log("empty day 1");
@@ -195,6 +211,10 @@ export default function DietChart({ navigation }) {
         setRunAgain("No");
       }
     });
+
+    // const interval = setInterval(() => {
+    //   console.log(remainingDays);
+    // }, 1000);
   }, []);
 
   useEffect(() => {
