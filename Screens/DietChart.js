@@ -88,7 +88,7 @@ export default function DietChart({ navigation }) {
         <ScrollView
           style={{
             height: 200,
-            paddingLeft: 7,
+            paddingLeft: 1,
           }}
         >
           <TouchableOpacity onPress={getMealData}>
@@ -102,8 +102,21 @@ export default function DietChart({ navigation }) {
           </TouchableOpacity>
 
           {mealData && (
-            <View style={{ paddingTop: 20 }}>
-              <MealList mealData={mealData} />
+            <View style={{ paddingTop: 10 }}>
+              <View
+                style={{
+                  paddingTop: 10,
+                }}
+              >
+                <MealList mealData={mealData} />
+              </View>
+              <View
+                style={{
+                  paddingTop: 10,
+                }}
+              >
+                <MealList mealData={mealData} />
+              </View>
             </View>
           )}
         </ScrollView>

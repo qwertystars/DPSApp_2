@@ -1,42 +1,75 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { Image } from "react-native";
+import { Linking } from "react-native";
 //import React from "react";
 
 export default function Meal({ meal }) {
   const [imageURL, setImageURL] = useState("");
 
   useEffect(() => {
-    fetch(
-      "https://api.spoonacular.com/recipes/" +
-        meal.id +
-        "/information?apiKey=938e60394e4d435ba65fe5e8139f02f2"
-    )
-      .then((response) => {
-        console.log("Yes");
-        response.json();
-      })
-      .then((data) => {
-        //setImageURL(data.image);
-        console.log(data);
-      })
-      .catch(() => {
-        console.log("error");
-      });
+    // fetch(
+    //   "https://api.spoonacular.com/recipes/" +
+    //     meal.id +
+    //     "/information?apiKey=938e60394e4d435ba65fe5e8139f02f2"
+    // )
+    //   .then((response) => {
+    //     console.log("Yes");
+    //     response.json();
+    //   })
+    //   .then((data) => {
+    //     //setImageURL(data.image);
+    //     console.log(data);
+    //   })
+    //   .catch(() => {
+    //     console.log("error");
+    //   });
+    setImageURL(
+      "https://spoonacular.com/recipeImages/" + meal.id + "-556x370.jpg"
+    );
   }, [meal.id]);
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => {
+        Linking.openURL(meal.sourceUrl);
+      }}
+    >
       <View
         style={{
-          height: 130,
-          width: 130,
-          backgroundColor: "#FFF",
+          paddingLeft: 5,
         }}
       >
-        {console.log(meal)}
-        <Text>{meal.title}</Text>
-        <Image src={imageURL} />
+        <View
+          style={{
+            height: 130,
+            width: 130,
+            alignItems: "center",
+            backgroundColor: "#FFF",
+            borderRadius: 10,
+          }}
+        >
+          {console.log(meal)}
+          <View
+            style={{
+              paddingTop: 5,
+              borderRadius: 10,
+            }}
+          >
+            <Image
+              style={{
+                width: 120,
+                height: 70,
+                borderRadius: 10,
+              }}
+              source={{
+                uri: imageURL,
+              }}
+            />
+          </View>
+          <Text numberOfLines={2}>{meal.title}</Text>
+          <Text>Click for more info</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );

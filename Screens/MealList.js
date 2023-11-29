@@ -6,6 +6,7 @@ export default function MealList({ mealData }) {
   return (
     <View
       style={{
+        paddingLeft: 0,
         flexDirection: "row",
       }}
     >
