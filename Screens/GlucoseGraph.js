@@ -16,7 +16,6 @@ import {
 } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
-import moment from "moment";
 
 export default function GlucoseGraph({ navigation }) {
   const [readings, setReadings] = useState([]);

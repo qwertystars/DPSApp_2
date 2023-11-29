@@ -49,7 +49,6 @@ export default function Meal({ meal }) {
             borderRadius: 10,
           }}
         >
-          {console.log(meal)}
           <View
             style={{
               paddingTop: 5,
@@ -63,7 +62,10 @@ export default function Meal({ meal }) {
                 borderRadius: 10,
               }}
               source={{
-                uri: imageURL,
+                uri:
+                  imageURL == ""
+                    ? "https://i.pinimg.com/originals/90/7a/a4/907aa4bd16d66fe106478f74739ee21b.jpg"
+                    : imageURL,
               }}
             />
           </View>

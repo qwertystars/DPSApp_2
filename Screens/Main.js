@@ -178,8 +178,6 @@ export default function Main({ navigation }) {
       //e
     });
 
-    const interval = setInterval(() => {});
-
     GlucoseDateUpdation();
     Prediction();
     //e

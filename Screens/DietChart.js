@@ -13,12 +13,47 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MealList from "./MealList";
+import * as SecureStore from "expo-secure-store";
 
 export default function DietChart({ navigation }) {
+  let today = new Date();
+  let checkupDate = new Date();
+
+  const checkupDuration = 2;
+
+  const [allYears, setAllYears] = useState([]);
+
+  const [checkupDay, setCheckupDay] = useState();
+  const [remainingDays, setRemainingDays] = useState(checkupDuration);
+
   const [mealData, setMealData] = useState(null);
+  const [mealDataArray, setMealDataArray] = useState([]);
   const [calories, setCalories] = useState(2000);
+  const [runAgain, setRunAgain] = useState("");
+
+  const GetValueDB = async (key) => {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) return result;
+    else {
+      //console.log(result);
+      return "";
+    }
+  };
+
+  async function SetValueDB(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  //SecureStore.deleteItemAsync("WeeklyDiet");
+  // SecureStore.deleteItemAsync("Day1");
+  // SecureStore.deleteItemAsync("Day2");
+  // SecureStore.deleteItemAsync("Day3");
+  // SecureStore.deleteItemAsync("Day4");
+  // SecureStore.deleteItemAsync("Day5");
+  // SecureStore.deleteItemAsync("Day6");
+  // SecureStore.deleteItemAsync("Day7");
 
   function getMealData() {
     fetch(
@@ -28,13 +63,228 @@ export default function DietChart({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         setMealData(data.week.friday);
+        const temp = [
+          data.week.friday,
+          data.week.saturday,
+          data.week.sunday,
+          data.week.monday,
+          data.week.tuesday,
+          data.week.wednesday,
+          data.week.thursday,
+        ];
+        // const temp2 = [
+        //   JSON.stringify(data.week.friday),
+        //   JSON.stringify(data.week.saturday),
+        //   JSON.stringify(data.week.sunday),
+        //   JSON.stringify(data.week.monday),
+        //   JSON.stringify(data.week.tuesday),
+        //   JSON.stringify(data.week.wednesday),
+        //   JSON.stringify(data.week.thursday),
+        // ];
+        SetValueDB("Day1", JSON.stringify(data.week.friday));
+        SetValueDB("Day2", JSON.stringify(data.week.saturday));
+        SetValueDB("Day3", JSON.stringify(data.week.sunday));
+        SetValueDB("Day4", JSON.stringify(data.week.monday));
+        SetValueDB("Day5", JSON.stringify(data.week.tuesday));
+        SetValueDB("Day6", JSON.stringify(data.week.wednesday));
+        SetValueDB("Day7", JSON.stringify(data.week.thursday));
+        ///console.log(JSON.stringify(data.week.friday));
+        //SetValueDB("WeeklyDiet", temp2.join("~"));
+        setMealDataArray(temp);
         // data.forEach((value) => console.log(value))
-        console.log(data.week.friday);
+        //console.log(data.week.friday);
       })
       .catch(() => {
         console.log("error");
       });
   }
+
+  useEffect(() => {
+    // GetValueDB("WeeklyDiet").then((value) => {
+    //   if (value == "") {
+    //     console.log("empty");
+    //   } else {
+    //     const arr = value.split("~");
+    //     console.log(arr[0]);
+    //     //setMealDataArray(arr);
+    //   }
+    // });
+    GetValueDB("Day1").then((value) => {
+      if (value == "") {
+        console.log("empty day 1");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 1");
+        //console.log(e));
+        mealDataArray.push(e);
+        //setMealDataArray([...mealDataArray, e]);
+        //
+        console.log(mealDataArray);
+      }
+    });
+
+    GetValueDB("Day2").then((value) => {
+      if (value == "") {
+        console.log("empty day 2");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 2");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day3").then((value) => {
+      if (value == "") {
+        console.log("empty day 3");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 3");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day4").then((value) => {
+      if (value == "") {
+        console.log("empty day 4");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 4");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day5").then((value) => {
+      if (value == "") {
+        console.log("empty day 5");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 5");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day6").then((value) => {
+      if (value == "") {
+        console.log("empty day 6");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 6");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day7").then((value) => {
+      if (value == "") {
+        console.log("empty day 7");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 7");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+        setRunAgain("No");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    GetValueDB("Day1").then((value) => {
+      if (value == "") {
+        console.log("empty day 1");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 1");
+        //console.log(e));
+        mealDataArray.push(e);
+        //setMealDataArray([...mealDataArray, e]);
+        //
+        console.log(mealDataArray);
+      }
+    });
+
+    GetValueDB("Day2").then((value) => {
+      if (value == "") {
+        console.log("empty day 2");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 2");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day3").then((value) => {
+      if (value == "") {
+        console.log("empty day 3");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 3");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day4").then((value) => {
+      if (value == "") {
+        console.log("empty day 4");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 4");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day5").then((value) => {
+      if (value == "") {
+        console.log("empty day 5");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 5");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day6").then((value) => {
+      if (value == "") {
+        console.log("empty day 6");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 6");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+      }
+    });
+
+    GetValueDB("Day7").then((value) => {
+      if (value == "") {
+        console.log("empty day 7");
+      } else {
+        const e = JSON.parse(value);
+        console.log("Day 7");
+        //console.log(e));
+        //setMealDataArray([...mealDataArray, e]);
+        mealDataArray.push(e);
+        //setRunAgain("No");
+      }
+    });
+  }, [runAgain]);
 
   return (
     <SafeAreaView
@@ -91,31 +341,70 @@ export default function DietChart({ navigation }) {
             paddingLeft: 1,
           }}
         >
-          <TouchableOpacity onPress={getMealData}>
-            <View
-              style={{
-                height: 100,
-                width: 100,
-                backgroundColor: "#FFF",
-              }}
-            ></View>
-          </TouchableOpacity>
+          {mealDataArray.length == 0 && (
+            <TouchableOpacity onPress={getMealData}>
+              <View
+                style={{
+                  height: 100,
+                  width: 100,
+                  backgroundColor: "#FFF",
+                }}
+              ></View>
+            </TouchableOpacity>
+          )}
 
-          {mealData && (
+          {console.log(mealDataArray.length)}
+
+          {mealDataArray.length > 6 && (
             <View style={{ paddingTop: 10 }}>
               <View
                 style={{
                   paddingTop: 10,
                 }}
               >
-                <MealList mealData={mealData} />
+                <MealList mealData={mealDataArray[0]} />
               </View>
               <View
                 style={{
                   paddingTop: 10,
                 }}
               >
-                <MealList mealData={mealData} />
+                <MealList mealData={mealDataArray[1]} />
+              </View>
+              <View
+                style={{
+                  paddingTop: 10,
+                }}
+              >
+                <MealList mealData={mealDataArray[2]} />
+              </View>
+              <View
+                style={{
+                  paddingTop: 10,
+                }}
+              >
+                <MealList mealData={mealDataArray[3]} />
+              </View>
+              <View
+                style={{
+                  paddingTop: 10,
+                }}
+              >
+                <MealList mealData={mealDataArray[4]} />
+              </View>
+              <View
+                style={{
+                  paddingTop: 10,
+                }}
+              >
+                <MealList mealData={mealDataArray[5]} />
+              </View>
+              <View
+                style={{
+                  paddingTop: 10,
+                }}
+              >
+                <MealList mealData={mealDataArray[6]} />
               </View>
             </View>
           )}
