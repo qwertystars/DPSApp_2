@@ -28,7 +28,6 @@ export default function GlucoseGraph({ navigation }) {
     if (result) return result;
     else return "";
   };
-  //
 
   useEffect(() => {
     GetValueDB("glucoseReadings").then((value) => {
@@ -60,6 +59,7 @@ export default function GlucoseGraph({ navigation }) {
             arr[i].getFullYear()
         );
       }
+      console.log(y);
       setExmpl(y);
     });
   }, []);
@@ -155,7 +155,9 @@ export default function GlucoseGraph({ navigation }) {
                   }}
                 >
                   <Text>{value}</Text>
-                  <Text>{dates.length >= index ? exmpl[index] : "0"}</Text>
+                  {console.log(index)}
+                  {console.log(dates.length)}
+                  <Text>{exmpl.length >= index ? exmpl[index] : "0"}</Text>
                 </View>
               </View>
             );

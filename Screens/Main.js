@@ -19,23 +19,34 @@ import { Dimensions } from "react-native";
 import { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import { SelectList } from "react-native-dropdown-select-list";
-import Login from "./Login";
+import MealList from "./MealList";
 
 //Timer: Feedback of user
 //use firebase
+
+//Riddhi working on this:
 
 //separate inouts in separate pages on first login
 //make first time open sequence
 //interactive first login page
 
 //the question set should be asked after ailments are entered
+
+//Me workin on this:
 //on home page give today's info like diet for today, work for today, medications
+
 //add notification system for workout plan
 export default function Main({ navigation }) {
   let today = new Date();
   let checkupDate = new Date();
+  let mealResetDate = new Date();
 
   const checkupDuration = 2;
+  const mealResetDuration = 8;
+
+  const [mealResetDay, setMealResetDay] = useState();
+  const [mealResetRemainingDays, setMealResetRemainingDays] =
+    useState(mealResetDuration);
 
   const [allYears, setAllYears] = useState([]);
 
@@ -55,6 +66,8 @@ export default function Main({ navigation }) {
   const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
   const [glucoseDatePassed, setGlucoseDatePassed] = useState([0]);
   const [glucosePrediction, setGlucosePrediction] = useState([0]);
+
+  const [todaysMeal, setTodaysMeal] = useState();
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -123,21 +136,74 @@ export default function Main({ navigation }) {
     console.log(glucosePrediction + " Nan u dumb");
   }
 
+  function getMealData() {
+    fetch(
+      "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&targetCalories=" +
+        calories
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setMealData(data.week.friday);
+        const temp = [
+          data.week.friday,
+          data.week.saturday,
+          data.week.sunday,
+          data.week.monday,
+          data.week.tuesday,
+          data.week.wednesday,
+          data.week.thursday,
+        ];
+        // const temp2 = [
+        //   JSON.stringify(data.week.friday),
+        //   JSON.stringify(data.week.saturday),
+        //   JSON.stringify(data.week.sunday),
+        //   JSON.stringify(data.week.monday),
+        //   JSON.stringify(data.week.tuesday),
+        //   JSON.stringify(data.week.wednesday),
+        //   JSON.stringify(data.week.thursday),
+        // ];
+        SetValueDB("Day1", JSON.stringify(data.week.friday));
+        SetValueDB("Day2", JSON.stringify(data.week.saturday));
+        SetValueDB("Day3", JSON.stringify(data.week.sunday));
+        SetValueDB("Day4", JSON.stringify(data.week.monday));
+        SetValueDB("Day5", JSON.stringify(data.week.tuesday));
+        SetValueDB("Day6", JSON.stringify(data.week.wednesday));
+        SetValueDB("Day7", JSON.stringify(data.week.thursday));
+        ///console.log(JSON.stringify(data.week.friday));
+        //SetValueDB("WeeklyDiet", temp2.join("~"));
+        //setMealDataArray(temp);
+        // data.forEach((value) => console.log(value))
+        //console.log(data.week.friday);
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  }
+
+  function ResetMeal() {
+    mealResetDate.setDate(mealResetDate.getDate() + mealResetDuration);
+    mealResetDate.setHours(0, 0, 0);
+    setMealResetDay(mealResetDate);
+    SetValueDB("mealResetDate", mealResetDate.toDateString());
+    setMealResetRemainingDays(mealResetDuration - 1);
+    getMealData();
+  }
+
   //SecureStore.deleteItemAsync("checkupDate");
   // SecureStore.deleteItemAsync("glucoseReadings");
   // SecureStore.deleteItemAsync("glucoseReadingsDates");
+  //SecureStore.deleteItemAsync("firstLogin");
 
   useEffect(() => {
     today = new Date();
     checkupDate = new Date();
 
     GetValueDB("firstLogin").then((value) => {
-          if ((value == "")) {
-              SetValueDB("firstLogin", "LoggedIn");
-              navigation.navigate(Login);
-          }
-          
-      });
+      if (value == "") {
+        SetValueDB("firstLogin", "LoggedIn");
+        navigation.navigate("Login");
+      }
+    });
 
     for (var i = today.getFullYear(); i >= 1970; i--) {
       allYears.push(i);
@@ -190,6 +256,37 @@ export default function Main({ navigation }) {
     GlucoseDateUpdation();
     Prediction();
     //e
+
+    GetValueDB("mealResetDate").then((value) => {
+      if (value == "") {
+        ResetMeal();
+      } else {
+        mealResetDate = new Date(value);
+        const r = Math.floor((mealResetDate - today) / (1000 * 60 * 60 * 24));
+        console.log(r + "Meal Reset Remaining Days");
+        if (r == 0) {
+          ResetMeal();
+        } else {
+          setMealResetRemainingDays(r);
+        }
+      }
+    });
+
+    if (mealResetRemainingDays > 0 && mealResetRemainingDays < 8) {
+      console.log(mealResetRemainingDays + " UGOCHUKWU");
+      GetValueDB("Day" + (7 - mealResetRemainingDays + 1)).then((value) => {
+        if (value == "") {
+          console.log("empty meal");
+        } else {
+          const e = JSON.parse(value);
+          console.log("Meal Today");
+          //console.log(e));
+          //setMealDataArray([...mealDataArray, e]);
+          setTodaysMeal(e);
+          //setRunAgain("No");
+        }
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -199,9 +296,24 @@ export default function Main({ navigation }) {
   }, [remainingDays]);
 
   useEffect(() => {
-    console.log(glucoseReadings + "e");
+    if (mealResetRemainingDays > 0 && mealResetRemainingDays < 8) {
+      console.log(mealResetRemainingDays + " UGOCHUKWU");
+      GetValueDB("Day" + (7 - mealResetRemainingDays + 1)).then((value) => {
+        if (value == "") {
+          console.log("empty meal");
+        } else {
+          const e = JSON.parse(value);
+          console.log("Meal Today");
+          //console.log(e));
+          //setMealDataArray([...mealDataArray, e]);
+          setTodaysMeal(e);
+          //setRunAgain("No");
+        }
+      });
+    }
+
     //SetValueDB("glucoseReadings", glucoseReadings.join(","));
-  }, [glucoseReadings]);
+  }, [mealResetRemainingDays]);
 
   useEffect(() => {
     GlucoseDateUpdation();
@@ -734,6 +846,53 @@ export default function Main({ navigation }) {
             >
               Days till next checkup
             </Text>
+          </View>
+
+          <View
+            style={{
+              paddingTop: 10,
+            }}
+          >
+            <View
+              style={{
+                height: (Dimensions.get("window").height * 5) / 100,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+                alignSelf: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  alignSelf: "center",
+                  color: "rgba(180, 229, 255, 0.87)",
+                }}
+              >
+                Today's Meal
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              paddingTop: 10,
+            }}
+          >
+            <View
+              style={{
+                height: 170,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+              }}
+            >
+              <View
+                style={{
+                  paddingTop: 20,
+                }}
+              >
+                {todaysMeal && <MealList mealData={todaysMeal} />}
+              </View>
+            </View>
           </View>
 
           <View

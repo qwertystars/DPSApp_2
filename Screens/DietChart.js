@@ -15,16 +15,17 @@ import {
 } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import MealList from "./MealList";
+import { Dimensions } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 export default function DietChart({ navigation }) {
   let today = new Date();
   let mealResetDate = new Date();
 
-  const checkupDuration = 2;
+  const mealResetDuration = 8;
 
   const [mealResetDay, setMealResetDay] = useState();
-  const [remainingDays, setRemainingDays] = useState(checkupDuration);
+  const [remainingDays, setRemainingDays] = useState(mealResetDuration);
 
   const [mealData, setMealData] = useState(null);
   const [mealDataArray, setMealDataArray] = useState([]);
@@ -52,6 +53,7 @@ export default function DietChart({ navigation }) {
   // SecureStore.deleteItemAsync("Day5");
   // SecureStore.deleteItemAsync("Day6");
   // SecureStore.deleteItemAsync("Day7");
+  //SecureStore.deleteItemAsync("mealResetDate");
 
   function getMealData() {
     fetch(
@@ -98,33 +100,15 @@ export default function DietChart({ navigation }) {
   }
 
   function ResetMeal() {
-    // checkupDate.setDate(checkupDate.getDate() + checkupDuration);
-    // checkupDate.setHours(0, 0, 0);
-    // setCheckupDay(checkupDate);
-    // SetValueDB("checkupDate", checkupDate.toDateString());
-    // setRemainingDays(checkupDuration - 1);
-    mealResetDate.setDate(mealResetDate.getDate() + checkupDuration);
+    mealResetDate.setDate(mealResetDate.getDate() + mealResetDuration);
     mealResetDate.setHours(0, 0, 0);
     setMealResetDay(mealResetDate);
     SetValueDB("mealResetDate", mealResetDate.toDateString());
-    setRemainingDays(checkupDuration - 1);
+    setRemainingDays(mealResetDuration - 1);
+    getMealData();
   }
 
   useEffect(() => {
-    today = new Date();
-    checkupDate = new Date();
-
-    GetValueDB("mealResetDate").then((value) => {
-      if (value == "") {
-        ResetMeal();
-      } else {
-        mealResetDate = new Date(value);
-        setRemainingDays(
-          Math.floor((mealResetDate - today) / (1000 * 60 * 60 * 24))
-        );
-      }
-    });
-
     GetValueDB("Day1").then((value) => {
       if (value == "") {
         console.log("empty day 1");
@@ -135,7 +119,6 @@ export default function DietChart({ navigation }) {
         mealDataArray.push(e);
         //setMealDataArray([...mealDataArray, e]);
         //
-        console.log(mealDataArray);
       }
     });
 
@@ -218,6 +201,23 @@ export default function DietChart({ navigation }) {
   }, []);
 
   useEffect(() => {
+    today = new Date();
+    //checkupDate = new Date();
+
+    GetValueDB("mealResetDate").then((value) => {
+      if (value == "") {
+        ResetMeal();
+      } else {
+        mealResetDate = new Date(value);
+        const r = Math.floor((mealResetDate - today) / (1000 * 60 * 60 * 24));
+        if (r == 0) {
+          ResetMeal();
+        } else {
+          setRemainingDays(r);
+        }
+      }
+    });
+
     GetValueDB("Day1").then((value) => {
       if (value == "") {
         console.log("empty day 1");
@@ -228,7 +228,6 @@ export default function DietChart({ navigation }) {
         mealDataArray.push(e);
         //setMealDataArray([...mealDataArray, e]);
         //
-        console.log(mealDataArray);
       }
     });
 
@@ -373,61 +372,145 @@ export default function DietChart({ navigation }) {
             </TouchableOpacity>
           )}
 
-          {console.log(mealDataArray.length)}
+          <View
+            style={{
+              paddingTop: 10,
+            }}
+          >
+            <View
+              style={{
+                height: (Dimensions.get("window").height * 5) / 100,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+                alignSelf: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  alignSelf: "center",
+                  color: "rgba(180, 229, 255, 0.87)",
+                }}
+              >
+                Today's Meal
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              paddingTop: 10,
+            }}
+          >
+            <View
+              style={{
+                height: 170,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+              }}
+            >
+              <View
+                style={{
+                  paddingTop: 20,
+                }}
+              >
+                {mealDataArray.length > 6 &&
+                  remainingDays < mealResetDuration &&
+                  remainingDays > 0 && (
+                    <MealList mealData={mealDataArray[7 - remainingDays]} />
+                  )}
+              </View>
+            </View>
+          </View>
+
+          <View
+            style={{
+              paddingTop: 40,
+            }}
+          >
+            <View
+              style={{
+                height: (Dimensions.get("window").height * 5) / 100,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+                alignSelf: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  alignSelf: "center",
+                  color: "rgba(180, 229, 255, 0.87)",
+                }}
+              >
+                Week Plan
+              </Text>
+            </View>
+          </View>
+
+          {remainingDays < mealResetDuration &&
+            remainingDays > 0 &&
+            console.log(remainingDays)}
 
           {mealDataArray.length > 6 && (
             <View style={{ paddingTop: 10 }}>
               <View
                 style={{
-                  paddingTop: 10,
+                  paddingTop: 20,
                 }}
               >
                 <MealList mealData={mealDataArray[0]} />
               </View>
               <View
                 style={{
-                  paddingTop: 10,
+                  paddingTop: 40,
                 }}
               >
                 <MealList mealData={mealDataArray[1]} />
               </View>
               <View
                 style={{
-                  paddingTop: 10,
+                  paddingTop: 40,
                 }}
               >
                 <MealList mealData={mealDataArray[2]} />
               </View>
               <View
                 style={{
-                  paddingTop: 10,
+                  paddingTop: 40,
                 }}
               >
                 <MealList mealData={mealDataArray[3]} />
               </View>
               <View
                 style={{
-                  paddingTop: 10,
+                  paddingTop: 40,
                 }}
               >
                 <MealList mealData={mealDataArray[4]} />
               </View>
               <View
                 style={{
-                  paddingTop: 10,
+                  paddingTop: 40,
                 }}
               >
                 <MealList mealData={mealDataArray[5]} />
               </View>
               <View
                 style={{
-                  paddingTop: 10,
+                  paddingTop: 40,
                 }}
               >
                 <MealList mealData={mealDataArray[6]} />
               </View>
             </View>
           )}
+
+          <View
+            style={{
+              height: 60,
+            }}
+          />
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>

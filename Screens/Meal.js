@@ -47,6 +47,7 @@ export default function Meal({ meal }) {
             alignItems: "center",
             backgroundColor: "#FFF",
             borderRadius: 10,
+            borderWidth: 2,
           }}
         >
           <View

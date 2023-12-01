@@ -14,7 +14,7 @@ export default function MealList({ mealData }) {
     <View
       style={{
         paddingLeft: 0,
-        paddingTop: 20,
+        paddingTop: 0,
         flexDirection: "row",
       }}
     >
