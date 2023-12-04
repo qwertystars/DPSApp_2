@@ -158,13 +158,13 @@ export default function GlucoseGraph({ navigation }) {
               <Text
                 style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
               >
-                Prediction(6 months):{" "}
+                Prediction(2 months later):{" "}
               </Text>
-              <View style={{ paddingLeft: 140 }}>
+              <View style={{ paddingLeft: 80 }}>
                 <Text
                   style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
                 >
-                  {(slope * 180 + intercept).toFixed(2)}
+                  {(slope * 60 + intercept).toFixed(2)}
                 </Text>
               </View>
             </View>
