@@ -21,6 +21,9 @@ export default function GlucoseGraph({ navigation }) {
   const [readings, setReadings] = useState([]);
   const [dates, setDates] = useState([]);
   const [exmpl, setExmpl] = useState([1, 2, 3, 4, 5, 6, 7]);
+  const [slope, setSlope] = useState(0);
+  const [intercept, setIntercept] = useState(0);
+  const [prediction, setPrediction] = useState();
   var data = ["e"];
 
   const GetValueDB = async (key) => {
@@ -61,6 +64,22 @@ export default function GlucoseGraph({ navigation }) {
       }
       console.log(y);
       setExmpl(y);
+    });
+
+    GetValueDB("PredictionSlope").then((value) => {
+      if (value == "") {
+        setSlope(0);
+      } else {
+        setSlope(parseFloat(value));
+      }
+    });
+
+    GetValueDB("PredictionIntercept").then((value) => {
+      if (value == "") {
+        setIntercept(0);
+      } else {
+        setIntercept(parseFloat(value));
+      }
     });
   }, []);
 
@@ -124,16 +143,74 @@ export default function GlucoseGraph({ navigation }) {
             style={{
               width: (Dimensions.get("window").width * 95) / 100,
               height: (Dimensions.get("window").height * 5) / 100,
-              backgroundColor: "#FFF",
+              backgroundColor: "rgba(0, 33, 59, 0.5)",
               alignSelf: "center",
               borderRadius: 10,
-              flexDirection: "row",
             }}
           >
-            <Text>Prediction(6 months): </Text>
-            <Text>420</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingTop: 8,
+                paddingLeft: 15,
+              }}
+            >
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Prediction(6 months):{" "}
+              </Text>
+              <View style={{ paddingLeft: 140 }}>
+                <Text
+                  style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+                >
+                  {(slope * 180 + intercept).toFixed(2)}
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            height: 50,
+            backgroundColor: "rgba(0, 33, 59, 0.5)",
+          }}
+        >
+          <View
+            style={{
+              paddingLeft: 28,
+              paddingTop: 10,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: "rgba(180, 229, 255, 0.87)",
+              }}
+            >
+              Glucose Level
+            </Text>
+          </View>
+          <View
+            style={{
+              paddingLeft: 138,
+              paddingTop: 10,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: "rgba(180, 229, 255, 0.87)",
+              }}
+            >
+              Date
+            </Text>
+          </View>
+        </View>
+
         <ScrollView>
           {readings.map((value, index) => {
             return (
@@ -147,17 +224,41 @@ export default function GlucoseGraph({ navigation }) {
                   style={{
                     width: (Dimensions.get("window").width * 95) / 100,
                     height: (Dimensions.get("window").height * 5) / 100,
-                    backgroundColor: "#FFF",
+                    backgroundColor: "rgba(0, 33, 59, 0.5)",
                     alignSelf: "center",
                     borderRadius: 10,
                     flexDirection: "row",
                     //alignContent: "center",
                   }}
                 >
-                  <Text>{value}</Text>
-                  {console.log(index)}
-                  {console.log(dates.length)}
-                  <Text>{exmpl.length >= index ? exmpl[index] : "0"}</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      paddingTop: 8,
+                      paddingLeft: 60,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        color: "rgba(180, 229, 255, 0.87)",
+                      }}
+                    >
+                      {value}
+                    </Text>
+                    <View style={{ paddingLeft: 180 }}>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          color: "rgba(180, 229, 255, 0.87)",
+                        }}
+                      >
+                        {exmpl.length >= index ? exmpl[index] : "0"}
+                      </Text>
+                    </View>
+                  </View>
+                  {/* <Text>{value}</Text>
+                  <Text>{exmpl.length >= index ? exmpl[index] : "0"}</Text> */}
                 </View>
               </View>
             );

@@ -129,6 +129,17 @@ export default function Main({ navigation }) {
       // for (var i = 0; i < temp.length; i++) {
       //   glucosePrediction.push(temp[i]);
       // }
+
+      if (!isNaN(temp[0])) {
+        SetValueDB("PredictionSlope", regression.slope.toString());
+        SetValueDB("PredictionIntercept", regression.intercept.toString());
+        console.log(
+          regression.slope.toString() +
+            "  " +
+            regression.intercept.toString() +
+            " SLOPE N STUFF"
+        );
+      }
     }
     console.log("Predictiopn function executed");
     console.log(glucosePrediction + " Nan u dumb");
@@ -290,7 +301,7 @@ export default function Main({ navigation }) {
   }, []);
 
   useEffect(() => {
-    if (remainingDays == 0) {
+    if (remainingDays <= 0) {
       setShowAlert(true);
     }
   }, [remainingDays]);
@@ -869,6 +880,40 @@ export default function Main({ navigation }) {
                 }}
               >
                 Today's Meal
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              paddingTop: 10,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                height: 30,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+                justifyContent: "space-between",
+                paddingLeft: 30,
+                paddingRight: 40,
+              }}
+            >
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Breakfast
+              </Text>
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Lunch
+              </Text>
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Dinner
               </Text>
             </View>
           </View>

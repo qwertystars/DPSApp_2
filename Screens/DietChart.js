@@ -404,6 +404,40 @@ export default function DietChart({ navigation }) {
           >
             <View
               style={{
+                flexDirection: "row",
+                height: 30,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+                justifyContent: "space-between",
+                paddingLeft: 30,
+                paddingRight: 40,
+              }}
+            >
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Breakfast
+              </Text>
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Lunch
+              </Text>
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Dinner
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              paddingTop: 10,
+            }}
+          >
+            <View
+              style={{
                 height: 170,
                 width: "100%",
                 backgroundColor: "rgba(0, 33, 59, 0.5)",
@@ -448,6 +482,40 @@ export default function DietChart({ navigation }) {
             </View>
           </View>
 
+          <View
+            style={{
+              paddingTop: 10,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                height: 30,
+                width: "100%",
+                backgroundColor: "rgba(0, 33, 59, 0.5)",
+                justifyContent: "space-between",
+                paddingLeft: 30,
+                paddingRight: 40,
+              }}
+            >
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Breakfast
+              </Text>
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Lunch
+              </Text>
+              <Text
+                style={{ fontSize: 18, color: "rgba(180, 229, 255, 0.87)" }}
+              >
+                Dinner
+              </Text>
+            </View>
+          </View>
+
           {remainingDays < mealResetDuration &&
             remainingDays > 0 &&
             console.log(remainingDays)}
@@ -456,7 +524,7 @@ export default function DietChart({ navigation }) {
             <View style={{ paddingTop: 10 }}>
               <View
                 style={{
-                  paddingTop: 20,
+                  paddingTop: 0,
                 }}
               >
                 <MealList mealData={mealDataArray[0]} />

@@ -42,12 +42,13 @@ export default function Meal({ meal }) {
       >
         <View
           style={{
-            height: 130,
-            width: 130,
+            height: 132,
+            width: 132,
             alignItems: "center",
-            backgroundColor: "#FFF",
+            backgroundColor: "rgba(0,0,0,0.2)",
             borderRadius: 10,
-            borderWidth: 2,
+            borderWidth: 2.8,
+            borderColor: "rgba(180, 229, 255, 0.8)",
           }}
         >
           <View
@@ -70,8 +71,14 @@ export default function Meal({ meal }) {
               }}
             />
           </View>
-          <Text numberOfLines={2}>{meal.title}</Text>
-          <Text>Click for more info</Text>
+          <View style={{ height: 35 }}>
+            <Text numberOfLines={2} style={{ color: "rgba(180, 229, 255, 1)" }}>
+              {meal.title}
+            </Text>
+          </View>
+          <Text style={{ fontSize: 11, color: "rgba(180, 229, 255, 1)" }}>
+            Click for more info
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
