@@ -72,7 +72,10 @@ export default function Meal({ meal }) {
             />
           </View>
           <View style={{ height: 35 }}>
-            <Text numberOfLines={2} style={{ color: "rgba(180, 229, 255, 1)" }}>
+            <Text
+              numberOfLines={2}
+              style={{ color: "rgba(180, 229, 255, 1)", textAlign: "center" }}
+            >
               {meal.title}
             </Text>
           </View>

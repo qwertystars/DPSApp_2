@@ -29,8 +29,13 @@ export default function DietChart({ navigation }) {
 
   const [mealData, setMealData] = useState(null);
   const [mealDataArray, setMealDataArray] = useState([]);
-  const [calories, setCalories] = useState(2000);
+  //const [calories, setCalories] = useState(2000);
   const [runAgain, setRunAgain] = useState("");
+
+  const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [age, setAge] = useState(0);
+  const [gender, setGender] = useState("");
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -55,7 +60,7 @@ export default function DietChart({ navigation }) {
   // SecureStore.deleteItemAsync("Day7");
   //SecureStore.deleteItemAsync("mealResetDate");
 
-  function getMealData() {
+  function getMealData(calories) {
     fetch(
       "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&targetCalories=" +
         calories
@@ -105,7 +110,32 @@ export default function DietChart({ navigation }) {
     setMealResetDay(mealResetDate);
     SetValueDB("mealResetDate", mealResetDate.toDateString());
     setRemainingDays(mealResetDuration - 1);
-    getMealData();
+
+    if (height > 0) {
+      const bmi = weight / ((height / 100) * (height / 100));
+      let calsNeeded = 2000;
+
+      if (gender == "MALE") {
+        calsNeeded = 10 * weight + 6.25 * height - 5 * age + 5;
+      } else if (gender == "FEMALE") {
+        calsNeeded = 10 * weight + 6.25 * height - 5 * age - 161;
+      }
+
+      if (bmi > 24) {
+        calsNeeded += 500;
+      } else if (bmi < 19) {
+        calsNeeded += 1000;
+      } else {
+        calsNeeded += 700;
+      }
+      calsNeeded = parseInt(calsNeeded);
+
+      console.log(calsNeeded);
+
+      getMealData(calsNeeded);
+    } else {
+      getMealData(2000);
+    }
   }
 
   useEffect(() => {
@@ -192,6 +222,30 @@ export default function DietChart({ navigation }) {
         //setMealDataArray([...mealDataArray, e]);
         mealDataArray.push(e);
         setRunAgain("No");
+      }
+    });
+
+    GetValueDB("Weight").then((value) => {
+      if (value != "") {
+        setWeight(parseInt(weight));
+      }
+    });
+
+    GetValueDB("Height").then((value) => {
+      if (value != "") {
+        setHeight(parseInt(value));
+      }
+    });
+
+    GetValueDB("Age").then((value) => {
+      if (value != "") {
+        setAge(parseInt(value));
+      }
+    });
+
+    GetValueDB("Gender").then((value) => {
+      if (value != "") {
+        setGender(value);
       }
     });
 

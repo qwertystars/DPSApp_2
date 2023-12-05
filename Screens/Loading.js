@@ -12,7 +12,7 @@ import {
   Button,
 } from "react-native";
 import { useState, useEffect } from "react";
-// import Video from "react-native-video";
+import Video from "react-native-video";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import SelectDropdown from "react-native-select-dropdown";
@@ -21,6 +21,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import medicoachLogo from "../assets/medicoachLogo.mp4";
 
 export default function Loading({ navigation }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,8 +43,9 @@ export default function Loading({ navigation }) {
       }}
     >
       {/* <Video
-        source={require("../assets/medicoachLogo.mp4")}
-        resizeMode={"cover"}
+        source={medicoachLogo} // the video file
+        paused={false} // make it start      // any style you want
+        repeat={true} // make it a loop
       /> */}
       <TouchableOpacity
         style={{

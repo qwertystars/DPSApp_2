@@ -11,7 +11,7 @@ import {
   Image,
   TextInput,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import { SimpleLinearRegression } from "ml-regression-simple-linear";
 import { LineChart } from "react-native-chart-kit";
@@ -39,9 +39,11 @@ import MealList from "./MealList";
 export default function Main({ navigation }) {
   let today = new Date();
   let checkupDate = new Date();
+  let bpCheckupDate = new Date();
   let mealResetDate = new Date();
 
-  const checkupDuration = 2;
+  const checkupDuration = 2; //Originally:
+  const bpCheckupDuration = 3; //Originally: 91
   const mealResetDuration = 8;
 
   const [mealResetDay, setMealResetDay] = useState();
@@ -51,7 +53,9 @@ export default function Main({ navigation }) {
   const [allYears, setAllYears] = useState([]);
 
   const [checkupDay, setCheckupDay] = useState();
+  const [bpCheckupDay, setBPCheckupDay] = useState();
   const [remainingDays, setRemainingDays] = useState(checkupDuration);
+  const [bpCheckupRemainingDays, setBPCheckupRemainingDays] = useState();
   const [dateReading, setDateReading] = useState();
   const [monthReading, setMonthReading] = useState();
   const [yearReading, setYearReading] = useState();
@@ -60,12 +64,20 @@ export default function Main({ navigation }) {
 
   const [readingContainder, setReadingContainer] = useState(false);
   const [readingContainerPrev, setReadingContainerPrev] = useState(false);
+  const [timerContainer, setTimerContainer] = useState(false);
   const [newReading, setNewReading] = useState(0);
 
   const [glucoseReadings, setGlucoseReadings] = useState([0]);
   const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
   const [glucoseDatePassed, setGlucoseDatePassed] = useState([0]);
   const [glucosePrediction, setGlucosePrediction] = useState([0]);
+
+  const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [age, setAge] = useState(0);
+  const [gender, setGender] = useState("");
+
+  const [runAgain, setRunAgain] = useState("");
 
   const [todaysMeal, setTodaysMeal] = useState();
 
@@ -85,6 +97,14 @@ export default function Main({ navigation }) {
     setCheckupDay(checkupDate);
     SetValueDB("checkupDate", checkupDate.toDateString());
     setRemainingDays(checkupDuration - 1);
+  }
+
+  function ResetBPCheckupDuration() {
+    bpCheckupDate.setDate(bpCheckupDate.getDate() + bpCheckupDuration);
+    bpCheckupDate.setHours(0, 0, 0);
+    setBPCheckupDay(bpCheckupDate);
+    SetValueDB("bpCheckupDate", bpCheckupDate.toDateString());
+    setBPCheckupRemainingDays(bpCheckupDuration - 1);
   }
 
   function GlucoseDateUpdation() {
@@ -122,23 +142,10 @@ export default function Main({ navigation }) {
       console.log(temp + " pedictions");
 
       setGlucosePrediction(temp);
-      // for (var i = 0; i < glucoseDatePassed.length; i++) {
-      //   glucosePrediction.pop();
-      // }
-
-      // for (var i = 0; i < temp.length; i++) {
-      //   glucosePrediction.push(temp[i]);
-      // }
 
       if (!isNaN(temp[0])) {
         SetValueDB("PredictionSlope", regression.slope.toString());
         SetValueDB("PredictionIntercept", regression.intercept.toString());
-        console.log(
-          regression.slope.toString() +
-            "  " +
-            regression.intercept.toString() +
-            " SLOPE N STUFF"
-        );
       }
     }
     console.log("Predictiopn function executed");
@@ -147,7 +154,7 @@ export default function Main({ navigation }) {
     console.log(glucosePrediction + " Nan u dumb");
   }
 
-  function getMealData() {
+  function getMealData(calories) {
     fetch(
       "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&targetCalories=" +
         calories
@@ -164,15 +171,7 @@ export default function Main({ navigation }) {
           data.week.wednesday,
           data.week.thursday,
         ];
-        // const temp2 = [
-        //   JSON.stringify(data.week.friday),
-        //   JSON.stringify(data.week.saturday),
-        //   JSON.stringify(data.week.sunday),
-        //   JSON.stringify(data.week.monday),
-        //   JSON.stringify(data.week.tuesday),
-        //   JSON.stringify(data.week.wednesday),
-        //   JSON.stringify(data.week.thursday),
-        // ];
+
         SetValueDB("Day1", JSON.stringify(data.week.friday));
         SetValueDB("Day2", JSON.stringify(data.week.saturday));
         SetValueDB("Day3", JSON.stringify(data.week.sunday));
@@ -180,11 +179,6 @@ export default function Main({ navigation }) {
         SetValueDB("Day5", JSON.stringify(data.week.tuesday));
         SetValueDB("Day6", JSON.stringify(data.week.wednesday));
         SetValueDB("Day7", JSON.stringify(data.week.thursday));
-        ///console.log(JSON.stringify(data.week.friday));
-        //SetValueDB("WeeklyDiet", temp2.join("~"));
-        //setMealDataArray(temp);
-        // data.forEach((value) => console.log(value))
-        //console.log(data.week.friday);
       })
       .catch(() => {
         console.log("error");
@@ -197,7 +191,32 @@ export default function Main({ navigation }) {
     setMealResetDay(mealResetDate);
     SetValueDB("mealResetDate", mealResetDate.toDateString());
     setMealResetRemainingDays(mealResetDuration - 1);
-    getMealData();
+
+    if (height > 0) {
+      const bmi = weight / ((height / 100) * (height / 100));
+      let calsNeeded = 2000;
+
+      if (gender == "MALE") {
+        calsNeeded = 10 * weight + 6.25 * height - 5 * age + 5;
+      } else if (gender == "FEMALE") {
+        calsNeeded = 10 * weight + 6.25 * height - 5 * age - 161;
+      }
+
+      if (bmi > 24) {
+        calsNeeded += 500;
+      } else if (bmi < 19) {
+        calsNeeded += 1000;
+      } else {
+        calsNeeded += 700;
+      }
+      calsNeeded = parseInt(calsNeeded);
+
+      console.log(calsNeeded);
+
+      getMealData(calsNeeded);
+    } else {
+      getMealData(2000);
+    }
   }
 
   //SecureStore.deleteItemAsync("checkupDate");
@@ -227,6 +246,23 @@ export default function Main({ navigation }) {
         checkupDate = new Date(value);
         setRemainingDays(
           Math.floor((checkupDate - today) / (1000 * 60 * 60 * 24))
+        );
+      }
+    });
+
+    GetValueDB("bpCheckupDate").then((value) => {
+      if (value == "") {
+        ResetBPCheckupDuration();
+      } else {
+        bpCheckupDate = new Date(value);
+        setBPCheckupRemainingDays(
+          Math.floor((bpCheckupDate - today) / (1000 * 60 * 60 * 24))
+        );
+        if (Math.floor((bpCheckupDate - today) / (1000 * 60 * 60 * 24)) <= 0) {
+          ResetBPCheckupDuration();
+        }
+        console.log(
+          Math.floor((bpCheckupDate - today) / (1000 * 60 * 60 * 24))
         );
       }
     });
@@ -283,6 +319,31 @@ export default function Main({ navigation }) {
       }
     });
 
+    GetValueDB("Weight").then((value) => {
+      if (value != "") {
+        setWeight(parseInt(weight));
+      }
+    });
+
+    GetValueDB("Height").then((value) => {
+      if (value != "") {
+        setHeight(parseInt(value));
+      }
+    });
+
+    GetValueDB("Age").then((value) => {
+      if (value != "") {
+        setAge(parseInt(value));
+      }
+    });
+
+    GetValueDB("Gender").then((value) => {
+      if (value != "") {
+        setGender(value);
+        setRunAgain("No");
+      }
+    });
+
     if (mealResetRemainingDays > 0 && mealResetRemainingDays < 8) {
       console.log(mealResetRemainingDays + " UGOCHUKWU");
       GetValueDB("Day" + (7 - mealResetRemainingDays + 1)).then((value) => {
@@ -299,6 +360,31 @@ export default function Main({ navigation }) {
       });
     }
   }, []);
+
+  useEffect(() => {
+    console.log("CALURI CALURI ONEK");
+    if (height > 0) {
+      const bmi = weight / ((height / 100) * (height / 100));
+      let calsNeeded = 2000;
+
+      if (gender == "MALE") {
+        calsNeeded = 10 * weight + 6.25 * height - 5 * age + 5;
+      } else if (gender == "FEMALE") {
+        calsNeeded = 10 * weight + 6.25 * height - 5 * age - 161;
+      }
+
+      if (bmi > 24) {
+        calsNeeded += 500;
+      } else if (bmi < 19) {
+        calsNeeded += 1000;
+      } else {
+        calsNeeded += 700;
+      }
+      calsNeeded = parseInt(calsNeeded);
+
+      console.log(calsNeeded + " CALORIES NEEDED");
+    }
+  }, [runAgain]);
 
   useEffect(() => {
     if (remainingDays <= 0) {
@@ -330,8 +416,8 @@ export default function Main({ navigation }) {
     GlucoseDateUpdation();
     Prediction();
 
-    console.log(glucoseReadings + " heeh boii");
-    console.log(glucoseDatePassed + " eheh buoyy");
+    // console.log(glucoseReadings + " heeh boii");
+    // console.log(glucoseDatePassed + " eheh buoyy");
   }, [glucoseReadingsDates]);
 
   return (
@@ -374,7 +460,7 @@ export default function Main({ navigation }) {
             height: "100%",
             width: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1,
+            zIndex: 5,
             paddingTop: 180,
             display: readingContainder == true ? "flex" : "none",
           }}
@@ -540,7 +626,7 @@ export default function Main({ navigation }) {
             height: "100%",
             width: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1,
+            zIndex: 5,
             paddingTop: 120,
             display: readingContainerPrev == true ? "flex" : "none",
           }}
@@ -775,6 +861,148 @@ export default function Main({ navigation }) {
           </View>
         </View>
 
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 2,
+            paddingTop: 190,
+            display: timerContainer == true ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: (Dimensions.get("window").height * 40) / 100,
+              width: "90%",
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              paddingTop: 10,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              Reminders
+            </Text>
+            <TouchableOpacity
+              onPress={() => setTimerContainer(false)}
+              style={{
+                position: "absolute",
+                paddingTop: 10,
+                paddingLeft: 330,
+              }}
+            >
+              <MaterialIcons name="close" size={30} />
+            </TouchableOpacity>
+
+            <View
+              style={{
+                alignItems: "center",
+                paddingTop: 15,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  fontWeight: "bold",
+                }}
+              >
+                {remainingDays}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 20,
+                }}
+              >
+                Days till next glucose reading entry
+              </Text>
+            </View>
+
+            <View
+              style={{
+                alignItems: "center",
+                paddingTop: 15,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  fontWeight: "bold",
+                }}
+              >
+                {bpCheckupRemainingDays}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 20,
+                  width: 350,
+                  textAlign: "center",
+                }}
+              >
+                Days till next blood pressure reading entry
+              </Text>
+            </View>
+
+            <View
+              style={{
+                alignItems: "center",
+                paddingTop: 15,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  fontWeight: "bold",
+                }}
+              >
+                {remainingDays}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 20,
+                  width: 350,
+                  textAlign: "center",
+                }}
+              >
+                Days till next user info updation
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            bottom: 70,
+            left: 330,
+            // paddingLeft: 330,
+            // paddingTop: 650,
+          }}
+        >
+          <TouchableOpacity onPress={() => setTimerContainer(true)}>
+            <View
+              style={{
+                height: 70,
+                width: 70,
+                backgroundColor: "#FFF",
+                borderRadius: 100,
+                alignItems: "center",
+                paddingTop: 3,
+              }}
+            >
+              <MaterialCommunityIcons name="timer-outline" size={60} />
+            </View>
+          </TouchableOpacity>
+        </View>
+
         <ScrollView>
           <View
             style={{ paddingTop: 10, display: showAlert ? "flex" : "none" }}
@@ -838,7 +1066,7 @@ export default function Main({ navigation }) {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{ backgroundColor: "rgba(0, 33, 59, 0.3)" }}>
+          {/* <View style={{ backgroundColor: "rgba(0, 33, 59, 0.3)" }}>
             <Text
               style={{
                 fontSize: 50,
@@ -857,7 +1085,7 @@ export default function Main({ navigation }) {
             >
               Days till next checkup
             </Text>
-          </View>
+          </View> */}
 
           <View
             style={{
@@ -987,6 +1215,8 @@ export default function Main({ navigation }) {
                         ) || glucosePrediction.length == 0
                           ? []
                           : glucosePrediction,
+                      color: (opacity = 0.5) =>
+                        `rgba(255, 102, 102, ${opacity})`,
                     },
                   ],
                 }}
