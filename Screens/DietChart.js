@@ -105,6 +105,8 @@ export default function DietChart({ navigation }) {
   }
 
   function ResetMeal() {
+    console.log("RESETTING MEAL DATA");
+
     mealResetDate.setDate(mealResetDate.getDate() + mealResetDuration);
     mealResetDate.setHours(0, 0, 0);
     setMealResetDay(mealResetDate);
@@ -264,6 +266,7 @@ export default function DietChart({ navigation }) {
       } else {
         mealResetDate = new Date(value);
         const r = Math.floor((mealResetDate - today) / (1000 * 60 * 60 * 24));
+        console.log(r + " REM DAES");
         if (r == 0) {
           ResetMeal();
         } else {

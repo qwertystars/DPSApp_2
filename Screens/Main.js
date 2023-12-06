@@ -154,14 +154,14 @@ export default function Main({ navigation }) {
     console.log(glucosePrediction + " Nan u dumb");
   }
 
-  function getMealData(calories) {
+  function getMealData() {
     fetch(
       "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&targetCalories=" +
-        calories
+        2000
     )
       .then((response) => response.json())
       .then((data) => {
-        setMealData(data.week.friday);
+        //setMealData(data.week.friday);
         const temp = [
           data.week.friday,
           data.week.saturday,
@@ -171,6 +171,8 @@ export default function Main({ navigation }) {
           data.week.wednesday,
           data.week.thursday,
         ];
+
+        setTodaysMeal(data.week.friday);
 
         SetValueDB("Day1", JSON.stringify(data.week.friday));
         SetValueDB("Day2", JSON.stringify(data.week.saturday));
@@ -185,38 +187,42 @@ export default function Main({ navigation }) {
       });
   }
 
+  //SecureStore.deleteItemAsync("mealResetDate");
+
   function ResetMeal() {
+    console.log("RESETTING MEAL");
+
     mealResetDate.setDate(mealResetDate.getDate() + mealResetDuration);
     mealResetDate.setHours(0, 0, 0);
     setMealResetDay(mealResetDate);
     SetValueDB("mealResetDate", mealResetDate.toDateString());
     setMealResetRemainingDays(mealResetDuration - 1);
+    getMealData();
+    // if (height > 0) {
+    //   const bmi = weight / ((height / 100) * (height / 100));
+    //   let calsNeeded = 2000;
 
-    if (height > 0) {
-      const bmi = weight / ((height / 100) * (height / 100));
-      let calsNeeded = 2000;
+    //   if (gender == "MALE") {
+    //     calsNeeded = 10 * weight + 6.25 * height - 5 * age + 5;
+    //   } else if (gender == "FEMALE") {
+    //     calsNeeded = 10 * weight + 6.25 * height - 5 * age - 161;
+    //   }
 
-      if (gender == "MALE") {
-        calsNeeded = 10 * weight + 6.25 * height - 5 * age + 5;
-      } else if (gender == "FEMALE") {
-        calsNeeded = 10 * weight + 6.25 * height - 5 * age - 161;
-      }
+    //   if (bmi > 24) {
+    //     calsNeeded += 500;
+    //   } else if (bmi < 19) {
+    //     calsNeeded += 1000;
+    //   } else {
+    //     calsNeeded += 700;
+    //   }
+    //   calsNeeded = parseInt(calsNeeded);
 
-      if (bmi > 24) {
-        calsNeeded += 500;
-      } else if (bmi < 19) {
-        calsNeeded += 1000;
-      } else {
-        calsNeeded += 700;
-      }
-      calsNeeded = parseInt(calsNeeded);
+    //   console.log(calsNeeded);
 
-      console.log(calsNeeded);
-
-      getMealData(calsNeeded);
-    } else {
-      getMealData(2000);
-    }
+    //   getMealData(calsNeeded);
+    // } else {
+    //   getMealData(2000);
+    // }
   }
 
   //SecureStore.deleteItemAsync("checkupDate");
@@ -228,12 +234,12 @@ export default function Main({ navigation }) {
     today = new Date();
     checkupDate = new Date();
 
-    GetValueDB("firstLogin").then((value) => {
-      if (value == "") {
-        SetValueDB("firstLogin", "LoggedIn");
-        navigation.navigate("Login");
-      }
-    });
+    // GetValueDB("firstLogin").then((value) => {
+    //   if (value == "") {
+    //     SetValueDB("firstLogin", "LoggedIn");
+    //     navigation.navigate("Login");
+    //   }
+    // });
 
     for (var i = today.getFullYear(); i >= 1970; i--) {
       allYears.push(i);

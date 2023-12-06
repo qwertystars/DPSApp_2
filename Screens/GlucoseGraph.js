@@ -212,57 +212,58 @@ export default function GlucoseGraph({ navigation }) {
         </View>
 
         <ScrollView>
-          {readings.map((value, index) => {
-            return (
-              <View
-                key={index}
-                style={{
-                  paddingTop: 20,
-                }}
-              >
+          {!isNaN(readings[0]) &&
+            readings.map((value, index) => {
+              return (
                 <View
+                  key={index}
                   style={{
-                    width: (Dimensions.get("window").width * 95) / 100,
-                    height: (Dimensions.get("window").height * 5) / 100,
-                    backgroundColor: "rgba(0, 33, 59, 0.5)",
-                    alignSelf: "center",
-                    borderRadius: 10,
-                    flexDirection: "row",
-                    //alignContent: "center",
+                    paddingTop: 20,
                   }}
                 >
                   <View
                     style={{
+                      width: (Dimensions.get("window").width * 95) / 100,
+                      height: (Dimensions.get("window").height * 5) / 100,
+                      backgroundColor: "rgba(0, 33, 59, 0.5)",
+                      alignSelf: "center",
+                      borderRadius: 10,
                       flexDirection: "row",
-                      paddingTop: 8,
-                      paddingLeft: 60,
+                      //alignContent: "center",
                     }}
                   >
-                    <Text
+                    <View
                       style={{
-                        fontSize: 18,
-                        color: "rgba(180, 229, 255, 0.87)",
+                        flexDirection: "row",
+                        paddingTop: 8,
+                        paddingLeft: 60,
                       }}
                     >
-                      {value}
-                    </Text>
-                    <View style={{ paddingLeft: 180 }}>
                       <Text
                         style={{
                           fontSize: 18,
                           color: "rgba(180, 229, 255, 0.87)",
                         }}
                       >
-                        {exmpl.length >= index ? exmpl[index] : "0"}
+                        {value}
                       </Text>
+                      <View style={{ paddingLeft: 180 }}>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            color: "rgba(180, 229, 255, 0.87)",
+                          }}
+                        >
+                          {exmpl.length >= index ? exmpl[index] : "0"}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-                  {/* <Text>{value}</Text>
+                    {/* <Text>{value}</Text>
                   <Text>{exmpl.length >= index ? exmpl[index] : "0"}</Text> */}
+                  </View>
                 </View>
-              </View>
-            );
-          })}
+              );
+            })}
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>

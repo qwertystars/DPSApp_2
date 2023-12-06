@@ -122,11 +122,14 @@ export default function Profile({ navigation }) {
 
   async function handleChangeHeight() {
     await SecureStore.setItemAsync("Height", height.toString());
-      if (unit == "cm") {
-          setHeightUnit(height);
-      }
-      else if (unit == "inches") { setHeightUnit(Math.floor(height / 30.48) + '\'' + Math.round((height % 30.48) / 2.4)) };
-      console.log(height);
+    if (unit == "cm") {
+      setHeightUnit(height);
+    } else if (unit == "inches") {
+      setHeightUnit(
+        Math.floor(height / 30.48) + "'" + Math.round((height % 30.48) / 2.4)
+      );
+    }
+    console.log(height);
   }
 
   async function handleChangeWeight() {
@@ -351,14 +354,18 @@ export default function Profile({ navigation }) {
                 paddingTop: 10,
               }}
             >
-              <View style={{ flexDirection: "row" , alignItems: "center",}}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text
-                  style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)", paddingRight: 10 }}
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingRight: 10,
+                  }}
                 >
                   Height
                 </Text>
 
-                <View styles={{ marginHorizontal: 10, }} >               
+                <View styles={{ marginHorizontal: 10 }}>
                   <SelectList
                     setSelected={setUnit}
                     data={unitList}
@@ -367,19 +374,18 @@ export default function Profile({ navigation }) {
                     onSelect={() => {
                       handleChangeUnit();
                     }}
-                    boxStyles= {{
-                        height: 35,
-                        width: 90,
-                        paddingTop: 5,
+                    boxStyles={{
+                      height: 35,
+                      width: 90,
+                      paddingTop: 5,
                     }}
-                    inputStyles= {{
-                        fontSize: 12,
+                    inputStyles={{
+                      fontSize: 12,
                     }}
                   />
                 </View>
               </View>
               <View style={{ flexDirection: "row" }}>
-                
                 <Text
                   style={{
                     fontSize: 17,
@@ -389,7 +395,7 @@ export default function Profile({ navigation }) {
                     justifyContent: "flex-start",
                   }}
                 >
-                { heightUnit }
+                  {heightUnit}
                 </Text>
                 <View style={{ position: "absolute", paddingLeft: 40 }}>
                   <Slider
@@ -564,6 +570,42 @@ export default function Profile({ navigation }) {
                   }}
                 >
                   Allergies
+                </Text>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  style={{
+                    position: "absolute",
+                    paddingLeft: "90%",
+                    paddingTop: 5,
+                    color: "rgba(170, 219, 255, 0.87)",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ paddingTop: 15 }}>
+              <TouchableOpacity
+                style={{
+                  height: 40,
+                  width: "80%",
+                  backgroundColor: "#2e6698",
+                  paddingTop: 5,
+                  borderColor: "#37688d",
+                  borderRadius: 5,
+                  borderWidth: 3,
+                }}
+                onPress={() => navigation.navigate("Allergies")}
+              >
+                <Text
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingLeft: 2,
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  Timer Settings
                 </Text>
                 <MaterialIcons
                   name="keyboard-arrow-right"
