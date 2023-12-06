@@ -16,6 +16,7 @@ import WorkoutPlan from "./Screens/WorkoutPlan";
 import Allergies from "./Screens/Allergies";
 import Loading from "./Screens/Loading";
 import Login from "./Screens/Login";
+import TimerSettings from "./Screens/TimerSettings";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -106,6 +107,13 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="TimerSettings"
+          component={TimerSettings}
           options={{
             headerShown: false,
           }}

@@ -1,4 +1,11 @@
-import { SafeAreaView } from "react-native";
+import {
+  SafeAreaView,
+  StatusBar,
+  View,
+  TouchableOpacity,
+  Text,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 export default function TimerSettings({ navigation }) {
   return (
     <SafeAreaView
@@ -7,6 +14,43 @@ export default function TimerSettings({ navigation }) {
         flex: 1,
         backgroundColor: "rgba(93, 152, 255, 0.83)",
       }}
-    />
+    >
+      <View
+        style={{
+          marginHorizontal: 0,
+          flexDirection: "row",
+          justifyContent: "center",
+          // backgroundColor: "rgba(109, 149, 222, 0.7)",
+          // height: "5%",
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{
+            position: "absolute",
+            left: 0,
+          }}
+        >
+          <MaterialIcons
+            name="keyboard-arrow-left"
+            size={24}
+            color={"rgba(0, 17, 43, 0.83)"}
+          />
+        </TouchableOpacity>
+
+        <Text
+          style={{
+            fontSize: 20,
+            fontFamily: "sans-serif",
+            fontWeight: "bold",
+            color: "rgba(0, 17, 43, 0.9)",
+          }}
+        >
+          Timer Settings
+        </Text>
+      </View>
+    </SafeAreaView>
   );
 }

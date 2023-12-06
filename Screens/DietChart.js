@@ -417,7 +417,7 @@ export default function DietChart({ navigation }) {
             paddingLeft: 1,
           }}
         >
-          {mealDataArray.length == 0 && (
+          {/* {mealDataArray.length == 0 && (
             <TouchableOpacity onPress={getMealData}>
               <View
                 style={{
@@ -427,7 +427,7 @@ export default function DietChart({ navigation }) {
                 }}
               ></View>
             </TouchableOpacity>
-          )}
+          )} */}
 
           <View
             style={{

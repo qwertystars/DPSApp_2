@@ -595,7 +595,7 @@ export default function Profile({ navigation }) {
                   borderRadius: 5,
                   borderWidth: 3,
                 }}
-                onPress={() => navigation.navigate("Allergies")}
+                onPress={() => navigation.navigate("TimerSettings")}
               >
                 <Text
                   style={{
