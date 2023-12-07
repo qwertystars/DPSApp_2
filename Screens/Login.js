@@ -29,9 +29,145 @@ export default function Login({ navigation }) {
     else return "";
   };
 
+  const [name, setName] = useState("User");
+  const [age, setAge] = useState(0);
+  const [gender, setGender] = useState("MALE");
+  const [height, setHeight] = useState(0);
+  const [unit, setUnit] = useState("cm");
+  const [weight, setWeight] = useState(0);
+  const [bloodGrp, setBloodGrp] = useState("AB+");
+
+  const genderList = ["MALE", "FEMALE", "OTHER"];
+  const bloodGrpList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
+  const unitList = ["cm", "inches"];
+  const [heightUnit, setHeightUnit] = useState(0);
+
+  const [SelectedImage, setSelectedImage] = useState(
+    "https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
+  );
+
+  const getNameDB = async () => {
+    let result = await SecureStore.getItemAsync("Name");
+    if (result) setName(result);
+    else setName("User");
+  };
+
+  const getAgeDB = async () => {
+    let result = await SecureStore.getItemAsync("Age");
+    if (result) setAge(parseInt(result));
+    else setAge(50);
+  };
+
+  const getGenderDB = async () => {
+    let result = await SecureStore.getItemAsync("Gender");
+    if (result) setGender(result);
+    else setGender("Select Gender");
+  };
+
+  const getHeightDB = async () => {
+    let result = await SecureStore.getItemAsync("Height");
+    if (result) setHeight(parseInt(result));
+    else setHeight(140);
+  };
+
+  const getUnitDB = async () => {
+    let result = await SecureStore.getItemAsync("Unit");
+    if (result) setUnit(result);
+    else setUnit("cm");
+  };
+
+  const getWeightDB = async () => {
+    let result = await SecureStore.getItemAsync("Weight");
+    if (result) setWeight(parseInt(result));
+    else setWeight(74);
+  };
+
+  const getBloodGroupDB = async () => {
+    let result = await SecureStore.getItemAsync("BloodGrp");
+    if (result) setBloodGrp(result);
+    else setBloodGrp("Select Blood Group");
+  };
+
+  const getProfilePicDB = async () => {
+    let result = await SecureStore.getItemAsync("profilePic");
+    if (result) setSelectedImage(result);
+    else
+      setSelectedImage(
+        require("../assets/user.png")
+      );
+  };
+
+  useEffect(() => {
+    getNameDB();
+    getAgeDB();
+    getGenderDB();
+    getHeightDB();
+    getUnitDB();
+    getWeightDB();
+    getBloodGroupDB();
+    getProfilePicDB();
+  }, []);
+
+  async function handleChangeName() {
+    await SecureStore.setItemAsync("Name", name);
+  }
+
+  async function handleChangeAge() {
+    await SecureStore.setItemAsync("Age", age.toString());
+  }
+
+  async function handleChangeGender() {
+    await SecureStore.setItemAsync("Gender", gender);
+  }
+
+  async function handleChangeUnit() {
+    await SecureStore.setItemAsync("Unit", unit);
+  }
+
+  async function handleChangeHeight() {
+    await SecureStore.setItemAsync("Height", height.toString());
+    if (unit == "cm") {
+      setHeightUnit(height);
+    } else if (unit == "inches") {
+      setHeightUnit(
+        Math.floor(height / 30.48) + "'" + Math.round((height % 30.48) / 2.4)
+      );
+    }
+    console.log(height);
+  }
+
+  async function handleChangeWeight() {
+    await SecureStore.setItemAsync("Weight", weight.toString());
+  }
+
+  async function handleChangeBloodGroup() {
+    await SecureStore.setItemAsync("BloodGrp", bloodGrp);
+  }
+
+  const handleImageSelector = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    //console.log(result);
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    }
+
+    await SecureStore.setItemAsync("profilePic", SelectedImage).then(() =>
+      console.log(SelectedImage)
+    );
+  };
+
+
   async function SetValueDB(key, value) {
     await SecureStore.setItemAsync(key, value);
   }
+  
   return (
     <SafeAreaView
       style={{
@@ -88,6 +224,94 @@ export default function Login({ navigation }) {
                     alignSelf: "center",
                   }}
                 > MediCoach!</Text>
+            <View style={{paddingTop: 100}}>
+                <TouchableOpacity onPress={handleImageSelector}>
+              <Image
+                style={{
+                  width: 170,
+                  height: 170,
+                  borderRadius: 85,
+                  position: "relative",
+                  paddingTop: "20.88%",
+                  alignSelf: "center",
+                  opacity: 0.9,
+                }}
+                source={{ uri: SelectedImage }}
+              />
+              </TouchableOpacity>
+              <Text
+                style={{  fontSize:28,
+                  fontFamily: "sans-serif",
+                  fontWeight: "bold",
+                  color: "rgba(0, 0, 79, 1)",
+                  alignSelf: "center", }}
+              >
+                Hi! I am...
+              </Text>
+              <View
+                style={{
+                  height: 52,
+                  width: "90%",
+                  borderColor: "rgba(0, 0, 79, 1)",
+                  borderWidth: 2.75, //2.75
+                  borderRadius: 20,
+                  marginVertical: 6,
+                  justifyContent: "center",
+                  paddingLeft: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  alignSelf: "center",
+                }}
+              >
+                <TextInput
+                  value={name}
+                  onChangeText={(value) => {
+                    setName(value);
+                    handleChangeName();
+                  }}
+                  editable={true}
+                  style={{
+                    color: "rgba(0, 0, 79, 1)",
+                    alignSelf: "center",
+                    fontSize: 22,
+                  }}
+                />
+              </View>
+            </View>
+            <View style={{ paddingTop: 15, alignSelf: "center", width: "80%" }}>
+              <TouchableOpacity
+                style={{
+                  height: 60,
+                  backgroundColor: "rgba(0, 0, 79, 1)",
+                  paddingTop: 5,
+                  borderColor: "rgba(0, 0, 79, 0.7)",
+                  borderRadius: 20,
+                  borderWidth: 3,
+                }}
+                onPress={() => setCurrentPage(2)}
+              >
+                <Text
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingLeft: 2,
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  Next
+                </Text>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  style={{
+                    position: "absolute",
+                    paddingLeft: "90%",
+                    paddingTop: 5,
+                    color: "rgba(170, 219, 255, 0.87)",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+
                   <TouchableOpacity
                     style={{
                       height: 20,
