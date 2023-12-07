@@ -10,6 +10,7 @@ import {
   TextInput,
   ImageBackground,
   Button,
+  StyleSheet,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -28,6 +29,7 @@ export default function Login({ navigation }) {
     if (result) return result;
     else return "";
   };
+
 
   const [name, setName] = useState("User");
   const [age, setAge] = useState(0);
@@ -183,16 +185,20 @@ export default function Login({ navigation }) {
           flex: 1,
         }}
       >
+
+
+
+        {/*Name Page*/}
         <View
           style={{
             position: "absolute",
-            height: "100%",
-            width: "100%",
             zIndex: 1,
             paddingVertical: 20,
             paddingHorizontal: 20,
-            display: currentPage == 1 ? "flex" : "none",
             backgroundColor: "rgba(0,0,0,0.5)",
+            height: "100%",
+            width: "100%",
+            display: currentPage == 1 ? "flex" : "none",
           }}
         >
              <ImageBackground
@@ -277,7 +283,7 @@ export default function Login({ navigation }) {
                 />
               </View>
             </View>
-            <View style={{ paddingTop: 15, alignSelf: "center", width: "80%" }}>
+            <View style={{ paddingTop: "40%", alignSelf: "center", width: "95%" }}>
               <TouchableOpacity
                 style={{
                   height: 60,
@@ -291,9 +297,9 @@ export default function Login({ navigation }) {
               >
                 <Text
                   style={{
-                    fontSize: 17,
-                    color: "rgba(170, 219, 255, 0.87)",
-                    paddingLeft: 2,
+                    fontSize: 32,
+                    color: "rgba(200, 247, 255, 0.87)",
+                    paddingLeft: 70,
                     justifyContent: "flex-start",
                   }}
                 >
@@ -301,10 +307,10 @@ export default function Login({ navigation }) {
                 </Text>
                 <MaterialIcons
                   name="keyboard-arrow-right"
-                  size={24}
+                  size={50}
                   style={{
                     position: "absolute",
-                    paddingLeft: "90%",
+                    paddingLeft: "70%",
                     paddingTop: 5,
                     color: "rgba(170, 219, 255, 0.87)",
                   }}
@@ -314,8 +320,8 @@ export default function Login({ navigation }) {
 
                   <TouchableOpacity
                     style={{
-                      height: 20,
-                      width: 20,
+                      height: 2,
+                      width: "100%",
                       backgroundColor: "rgba(255,255,255,1)",
                     }}
                     onPress={() => {
@@ -324,6 +330,51 @@ export default function Login({ navigation }) {
                   ></TouchableOpacity>
             </ImageBackground>
         </View>
+
+
+
+        <View
+         style={{
+          position: "absolute",
+          zIndex: 1,
+          paddingVertical: 20,
+          paddingHorizontal: 20,
+          backgroundColor: "rgba(0,0,0,0.5)",
+          height: "100%",
+          width: "100%",
+          display: currentPage == 2 ? "flex" : "none",}}
+        >
+          <ImageBackground
+                source={require("../assets/GradientBackground.png")}
+                resizeMode="cover"
+                style={{
+                  flex: 1,
+                  opacity: 0.7,
+                  paddingHorizontal: 10,
+                  paddingVertical: 20,
+                }}
+                imageStyle= {{ borderRadius: 40,}}
+             >
+          <TouchableOpacity
+                style={{
+                  height: 60,
+                  width: 50,
+
+                }}
+                onPress={() => setCurrentPage(1)}
+              >
+                <MaterialIcons
+                  name="keyboard-arrow-left"
+                  size={62}
+                  style={{
+                    position: "absolute",
+
+                    color: "rgba(0, 0, 79, 1)",
+                  }}/>
+              </TouchableOpacity>
+            </ImageBackground>
+        </View>
+
       </ImageBackground>
     </SafeAreaView>
   );
