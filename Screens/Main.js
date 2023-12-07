@@ -231,18 +231,18 @@ export default function Main({ navigation }) {
   //SecureStore.deleteItemAsync("checkupDate");
   // SecureStore.deleteItemAsync("glucoseReadings");
   // SecureStore.deleteItemAsync("glucoseReadingsDates");
-  //SecureStore.deleteItemAsync("firstLogin");
+  SecureStore.deleteItemAsync("firstLogin");
 
   useEffect(() => {
     today = new Date();
     checkupDate = new Date();
 
-    // GetValueDB("firstLogin").then((value) => {
-    //   if (value == "") {
-    //     SetValueDB("firstLogin", "LoggedIn");
-    //     navigation.navigate("Login");
-    //   }
-    // });
+    GetValueDB("firstLogin").then((value) => {
+      if (value == "") {
+        SetValueDB("firstLogin", "LoggedIn");
+        navigation.navigate("Login");
+      }
+    });
 
     for (var i = today.getFullYear(); i >= 1970; i--) {
       allYears.push(i);

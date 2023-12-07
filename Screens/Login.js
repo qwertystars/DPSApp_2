@@ -53,21 +53,52 @@ export default function Login({ navigation }) {
             height: "100%",
             width: "100%",
             zIndex: 1,
-            paddingTop: 180,
+            paddingVertical: 20,
+            paddingHorizontal: 20,
             display: currentPage == 1 ? "flex" : "none",
             backgroundColor: "rgba(0,0,0,0.5)",
           }}
         >
-          <TouchableOpacity
-            style={{
-              height: 20,
-              width: 20,
-              backgroundColor: "rgba(255,255,255,1)",
-            }}
-            onPress={() => {
-              navigation.navigate("Main");
-            }}
-          ></TouchableOpacity>
+             <ImageBackground
+                source={require("../assets/GradientBackground.png")}
+                resizeMode="cover"
+                style={{
+                  flex: 1,
+                  opacity: 0.7,
+                  paddingHorizontal: 20,
+                  paddingVertical: 20,
+                }}
+                imageStyle= {{ borderRadius: 40,}}
+             >
+                <Text
+                  style={{
+                    fontSize:28,
+                    fontFamily: "sans-serif",
+                    fontWeight: "bold",
+                    color: "rgba(0, 0, 79, 1)",
+                    alignSelf: "center",
+                  }}
+                > Welcome To</Text>
+                <Text
+                  style={{
+                    fontSize:48,
+                    fontFamily: "sans-serif",
+                    fontWeight: "bold",
+                    color: "rgba(0, 0, 159, 1)",
+                    alignSelf: "center",
+                  }}
+                > MediCoach!</Text>
+                  <TouchableOpacity
+                    style={{
+                      height: 20,
+                      width: 20,
+                      backgroundColor: "rgba(255,255,255,1)",
+                    }}
+                    onPress={() => {
+                      navigation.navigate("BottomTabNavigation");
+                    }}
+                  ></TouchableOpacity>
+            </ImageBackground>
         </View>
       </ImageBackground>
     </SafeAreaView>

@@ -89,7 +89,7 @@ export default function Profile({ navigation }) {
     if (result) setSelectedImage(result);
     else
       setSelectedImage(
-        "https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
+        require("../assets/user.png")
       );
   };
 
@@ -150,7 +150,7 @@ export default function Profile({ navigation }) {
 
     //console.log(result);
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
     }
 
