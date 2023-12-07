@@ -22,6 +22,22 @@ import { Dimensions } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 
+var viewStyles = StyleSheet.create({
+  View: {
+    flex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+  },
+});
+var bgStyles = StyleSheet.create({
+  bg: {
+    flex: 1,
+    opacity: 0.7,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+  },
+});
+
 export default function Login({ navigation }) {
   const [currentPage, setCurrentPage] = useState(1);
   const GetValueDB = async (key) => {
@@ -29,7 +45,6 @@ export default function Login({ navigation }) {
     if (result) return result;
     else return "";
   };
-
 
   const [name, setName] = useState("User");
   const [age, setAge] = useState(0);
@@ -191,25 +206,14 @@ export default function Login({ navigation }) {
         {/*Name Page*/}
         <View
           style={{
-            position: "absolute",
-            zIndex: 1,
-            paddingVertical: 20,
-            paddingHorizontal: 20,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            height: "100%",
-            width: "100%",
+            ...bgStyles.bg,
             display: currentPage == 1 ? "flex" : "none",
           }}
         >
              <ImageBackground
                 source={require("../assets/GradientBackground.png")}
                 resizeMode="cover"
-                style={{
-                  flex: 1,
-                  opacity: 0.7,
-                  paddingHorizontal: 20,
-                  paddingVertical: 20,
-                }}
+                style={viewStyles.View}
                 imageStyle= {{ borderRadius: 40,}}
              >
                 <Text
@@ -332,27 +336,15 @@ export default function Login({ navigation }) {
         </View>
 
 
-
+        {/*Age and gender*/}            
         <View
-         style={{
-          position: "absolute",
-          zIndex: 1,
-          paddingVertical: 20,
-          paddingHorizontal: 20,
-          backgroundColor: "rgba(0,0,0,0.5)",
-          height: "100%",
-          width: "100%",
+         style={{...bgStyles.bg,
           display: currentPage == 2 ? "flex" : "none",}}
         >
           <ImageBackground
                 source={require("../assets/GradientBackground.png")}
                 resizeMode="cover"
-                style={{
-                  flex: 1,
-                  opacity: 0.7,
-                  paddingHorizontal: 10,
-                  paddingVertical: 20,
-                }}
+                style={viewStyles.View}
                 imageStyle= {{ borderRadius: 40,}}
              >
           <TouchableOpacity
@@ -372,6 +364,48 @@ export default function Login({ navigation }) {
                     color: "rgba(0, 0, 79, 1)",
                   }}/>
               </TouchableOpacity>
+              <Text
+                style={{  fontSize:28,
+                  fontFamily: "sans-serif",
+                  fontWeight: "bold",
+                  color: "rgba(0, 0, 79, 1)",
+                  alignSelf: "center", }}
+              >
+                I am...
+              </Text>
+              <View style={{ flexDirection: "column" }}>
+                <Text
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingTop: 5,
+                    paddingLeft: 11,
+                    justifyContent: "center",
+                  }}
+                >
+                  {age}
+                </Text>
+                <View style={{ position: "absolute", paddingLeft: 40 }}>
+                  <Slider
+                    style={{
+                      width: (Dimensions.get("window").width * 70) / 100,
+                      height: 35,
+                    }}
+                    minimumValue={0}
+                    maximumValue={127}
+                    value={age}
+                    minimumTrackTintColor="#FFFFFF"
+                    maximumTrackTintColor="#000000"
+                    onValueChange={(value) => {
+                      setAge(value);
+                      value = Math.round(value);
+                      handleChangeAge();
+                    }}
+                    step={1}
+                  />
+                </View>
+              </View>
+
             </ImageBackground>
         </View>
 
