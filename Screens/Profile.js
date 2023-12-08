@@ -35,7 +35,7 @@ export default function Profile({ navigation }) {
 
   const genderList = ["MALE", "FEMALE", "OTHER"];
   const bloodGrpList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
-  const unitList = ["cm", "inches"];
+  const unitList = ["cm", "feet"];
   const [heightUnit, setHeightUnit] = useState(0);
 
   const [SelectedImage, setSelectedImage] = useState(
@@ -124,7 +124,7 @@ export default function Profile({ navigation }) {
     await SecureStore.setItemAsync("Height", height.toString());
     if (unit == "cm") {
       setHeightUnit(height);
-    } else if (unit == "inches") {
+    } else if (unit == "feet") {
       setHeightUnit(
         Math.floor(height / 30.48) + "'" + Math.round((height % 30.48) / 2.4)
       );

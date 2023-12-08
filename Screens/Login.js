@@ -37,6 +37,25 @@ var bgStyles = StyleSheet.create({
     paddingVertical: 20,
   },
 });
+var qStyles = StyleSheet.create({
+    q: {
+        fontSize: 20,
+        fontFamily: "sans-serif",
+        fontWeight: "bold",
+        color: "rgba(0, 0, 79, 1)",
+        alignSelf: "center",
+    },
+});
+var aStyles = StyleSheet.create({
+    a: {
+        fontSize: 28,
+        fontFamily: "sans-serif",
+        fontWeight: "bold",
+        color: "rgba(0, 0, 159, 1)",
+        alignSelf: "center",
+    },
+});
+
 
 export default function Login({ navigation }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,7 +75,7 @@ export default function Login({ navigation }) {
 
   const genderList = ["MALE", "FEMALE", "OTHER"];
   const bloodGrpList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
-  const unitList = ["cm", "inches"];
+  const unitList = ["cm", "feet"];
   const [heightUnit, setHeightUnit] = useState(0);
 
   const [SelectedImage, setSelectedImage] = useState(
@@ -145,7 +164,7 @@ export default function Login({ navigation }) {
     await SecureStore.setItemAsync("Height", height.toString());
     if (unit == "cm") {
       setHeightUnit(height);
-    } else if (unit == "inches") {
+    } else if (unit == "feet") {
       setHeightUnit(
         Math.floor(height / 30.48) + "'" + Math.round((height % 30.48) / 2.4)
       );
@@ -234,7 +253,7 @@ export default function Login({ navigation }) {
                     alignSelf: "center",
                   }}
                 > MediCoach!</Text>
-            <View style={{paddingTop: 100}}>
+            <View style={{paddingTop: "10%"}}>
                 <TouchableOpacity onPress={handleImageSelector}>
               <Image
                 style={{
@@ -242,7 +261,7 @@ export default function Login({ navigation }) {
                   height: 170,
                   borderRadius: 85,
                   position: "relative",
-                  paddingTop: "20.88%",
+                  paddingTop: 0,
                   alignSelf: "center",
                   opacity: 0.9,
                 }}
@@ -287,7 +306,7 @@ export default function Login({ navigation }) {
                 />
               </View>
             </View>
-            <View style={{ paddingTop: "40%", alignSelf: "center", width: "95%" }}>
+            <View style={{ paddingTop: "25%", alignSelf: "center", width: "95%" }}>
               <TouchableOpacity
                 style={{
                   height: 60,
@@ -364,20 +383,20 @@ export default function Login({ navigation }) {
                     color: "rgba(0, 0, 79, 1)",
                   }}/>
               </TouchableOpacity>
-              <Text
-                style={{  fontSize:28,
-                  fontFamily: "sans-serif",
-                  fontWeight: "bold",
-                  color: "rgba(0, 0, 79, 1)",
-                  alignSelf: "center", }}
-              >
-                I am...
+              
+              <Text style={{...qStyles.q, paddingTop: "20%",}}>
+               How old are you?
               </Text>
-              <View style={{ flexDirection: "column" }}>
+              <Text
+                style={{...aStyles.a, paddingTop: "5%"}}
+              >
+               I am {age} years old!
+              </Text>
+              <View style={{ flexDirection: "row" }}>
                 <Text
                   style={{
                     fontSize: 17,
-                    color: "rgba(170, 219, 255, 0.87)",
+                    color: "rgba(70, 70, 255, 1)",
                     paddingTop: 5,
                     paddingLeft: 11,
                     justifyContent: "center",
@@ -403,11 +422,315 @@ export default function Login({ navigation }) {
                     }}
                     step={1}
                   />
+
+                  <View style= {{paddingTop: "20%"}}>
+                  <Text style={{...qStyles.q, paddingTop: "10%"}}>
+                   What is your gender?
+                  </Text>
+                  <Text
+                    style={{...aStyles.a, paddingTop: "5%"}}
+                  >
+                    I am a ...
+                  </Text>
+                    <View
+                        style={{
+                            width: "80%",
+                            paddingTop: 10,
+                            color: "#FFFFF",
+                            alignSelf: "center",
+                        }}
+                    >
+                        <SelectList
+                            setSelected={setGender}
+                            data={genderList}
+                            placeholder={gender}
+                            search="false"
+                            onSelect={() => {
+                                handleChangeGender();
+                            }}
+                        />
+                    </View>
+                    <View style={{paddingTop: "25%", width: "100%"}}>
+                    <TouchableOpacity
+                        style={{
+                            height: 60,
+                            backgroundColor: "rgba(0, 0, 79, 1)",
+                            paddingTop: 5,
+                            borderColor: "rgba(0, 0, 79, 0.7)",
+                            borderRadius: 20,
+                            borderWidth: 3,
+                        }}
+                        onPress={() => setCurrentPage(3)}
+                    >
+                        <Text
+                            style={{
+                                fontSize: 32,
+                                color: "rgba(200, 247, 255, 0.87)",
+                                paddingLeft: 70,
+                                justifyContent: "flex-start",
+                            }}
+                        >
+                            Next
+                        </Text>
+                        <MaterialIcons
+                            name="keyboard-arrow-right"
+                            size={50}
+                            style={{
+                                position: "absolute",
+                                paddingLeft: "70%",
+                                paddingTop: 5,
+                                color: "rgba(170, 219, 255, 0.87)",
+                            }}
+                        />
+                    </TouchableOpacity>
+                    </View>
+                  </View>
+
                 </View>
               </View>
 
             </ImageBackground>
         </View>
+
+
+              {/*Height and Weight*/ }
+        <View
+         style={{...bgStyles.bg,
+          display: currentPage == 3 ? "flex" : "none",}}
+        >
+          <ImageBackground
+                source={require("../assets/GradientBackground.png")}
+                resizeMode="cover"
+                style={viewStyles.View}
+                imageStyle= {{ borderRadius: 40,}}
+             >
+          <TouchableOpacity
+                style={{
+                  height: 60,
+                  width: 50,
+
+                }}
+                onPress={() => setCurrentPage(2)}
+              >
+                <MaterialIcons
+                  name="keyboard-arrow-left"
+                  size={62}
+                  style={{
+                    position: "absolute",
+
+                    color: "rgba(0, 0, 79, 1)",
+                  }}/>
+              </TouchableOpacity>
+
+                <View style={{paddingTop: "5%"}}>
+                    <Text style={{ ...qStyles.q, paddingTop: "5%", }}>
+                        How tall are you?
+                    </Text>
+                    <Text
+                        style={{ ...aStyles.a, paddingTop: "5%" }}
+                    >
+                     I am {heightUnit} {unit} tall!
+                    </Text>
+
+                          <View styles={{ marginHorizontal: 10, }}>
+                              <SelectList
+                                  setSelected={setUnit}
+                                  data={unitList}
+                                  placeholder={unit}
+                                  search="false"
+                                  onSelect={() => {
+                                      handleChangeUnit();
+                                  }}
+                                  boxStyles={{
+                                      height: 35,
+                                      width: 90,
+                                      paddingTop: 5,
+                                      alignSelf: "center"
+                                  }}
+                                  inputStyles={{
+                                      fontSize: 12,
+                                  }}
+                              />
+                          <View style={{ position: "absolute", paddingTop: "10%", alignSelf: "center"}}>
+                              <Slider
+                                  style={{
+                                      width: (Dimensions.get("window").width * 70) / 100,
+                                      height: 35,
+                                      alignSelf: "center",
+                                  }}
+                                  minimumValue={0}
+                                  maximumValue={213}
+                                  value={height}
+                                  minimumTrackTintColor="#FFFFFF"
+                                  maximumTrackTintColor="#000000"
+                                  onValueChange={(value) => {
+                                      setHeight(value);
+                                      value = Math.round(value);
+                                      handleChangeHeight();
+                                  }}
+                                  step={1}
+                              />
+                          </View>
+                          </View>  
+                          <Text style={{ ...qStyles.q, paddingTop: "20%", }}>
+                              How much do you weigh?
+                          </Text>
+                          <Text
+                              style={{ ...aStyles.a, paddingTop: "5%" }}
+                          >
+                              I am {weight} kg!
+                          </Text>
+                          <Slider
+                              style={{
+                                  width: (Dimensions.get("window").width * 70) / 100,
+                                  height: 35,
+                                  alignSelf: "center"
+                              }}
+                              minimumValue={0}
+                              maximumValue={120}
+                              value={weight}
+                              minimumTrackTintColor="#FFFFFF"
+                              maximumTrackTintColor="#000000"
+                              onValueChange={(value) => {
+                                  setWeight(value);
+                                  value = Math.round(value);
+                                  handleChangeWeight();
+                              }}
+                              step={1}
+                          />
+                    </View>
+
+              <View style={{paddingTop: "25%"}}>
+                    <TouchableOpacity
+                        style={{
+                            height: 60,
+                            backgroundColor: "rgba(0, 0, 79, 1)",
+                            paddingTop: 5,
+                            borderColor: "rgba(0, 0, 79, 0.7)",
+                            borderRadius: 20,
+                            borderWidth: 3,
+                        }}
+                        onPress={() => setCurrentPage(4)}
+                    >
+                        <Text
+                            style={{
+                                fontSize: 32,
+                                color: "rgba(200, 247, 255, 0.87)",
+                                paddingLeft: 70,
+                                justifyContent: "flex-start",
+                            }}
+                        >
+                            Next
+                        </Text>
+                        <MaterialIcons
+                            name="keyboard-arrow-right"
+                            size={50}
+                            style={{
+                                position: "absolute",
+                                paddingLeft: "70%",
+                                paddingTop: 5,
+                                color: "rgba(170, 219, 255, 0.87)",
+                            }}
+                        />
+                    </TouchableOpacity>
+                    </View>
+            </ImageBackground>
+          </View>
+
+              {/*Blood grp*/}
+              <View
+                  style={{
+                      ...bgStyles.bg,
+                      display: currentPage == 4 ? "flex" : "none",
+                  }}
+              >
+                  <ImageBackground
+                      source={require("../assets/GradientBackground.png")}
+                      resizeMode="cover"
+                      style={viewStyles.View}
+                      imageStyle={{ borderRadius: 40, }}
+                  >
+                      <TouchableOpacity
+                          style={{
+                              height: 60,
+                              width: 50,
+
+                          }}
+                          onPress={() => setCurrentPage(3)}
+                      >
+                          <MaterialIcons
+                              name="keyboard-arrow-left"
+                              size={62}
+                              style={{
+                                  position: "absolute",
+
+                                  color: "rgba(0, 0, 79, 1)",
+                              }} />
+                      </TouchableOpacity>
+
+                      <Text style={{ ...qStyles.q, paddingTop: "20%", }}>
+                          What's your Blood Group?
+                      </Text>
+                      <Text
+                          style={{ ...aStyles.a, paddingTop: "5%" }}
+                      >
+                          I have {bloodGrp} blood!
+                      </Text>
+                      <View
+                          style={{
+                              width: "80%",
+                              paddingTop: 10,
+                              color: "#FFFFF",
+                              alignSelf : "center",
+                          }}
+                      >
+                          <SelectList
+                              setSelected={setBloodGrp}
+                              data={bloodGrpList}
+                              placeholder={bloodGrp}
+                              search="false"
+                              onSelect={() => {
+                                  handleChangeBloodGroup();
+                              }}
+                          />
+                      </View>
+
+                      <View style={{ paddingTop: "25%" }}>
+                          <TouchableOpacity
+                              style={{
+                                  height: 60,
+                                  backgroundColor: "rgba(0, 0, 79, 1)",
+                                  paddingTop: 5,
+                                  borderColor: "rgba(0, 0, 79, 0.7)",
+                                  borderRadius: 20,
+                                  borderWidth: 3,
+                              }}
+                              onPress={() => setCurrentPage(5)}
+                          >
+                              <Text
+                                  style={{
+                                      fontSize: 32,
+                                      color: "rgba(200, 247, 255, 0.87)",
+                                      paddingLeft: 70,
+                                      justifyContent: "flex-start",
+                                  }}
+                              >
+                                  Next
+                              </Text>
+                              <MaterialIcons
+                                  name="keyboard-arrow-right"
+                                  size={50}
+                                  style={{
+                                      position: "absolute",
+                                      paddingLeft: "70%",
+                                      paddingTop: 5,
+                                      color: "rgba(170, 219, 255, 0.87)",
+                                  }}
+                              />
+                          </TouchableOpacity>
+                      </View>
+                  </ImageBackground>
+              </View>
 
       </ImageBackground>
     </SafeAreaView>
