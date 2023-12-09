@@ -53,6 +53,7 @@ var aStyles = StyleSheet.create({
         fontWeight: "bold",
         color: "rgba(0, 0, 159, 1)",
         alignSelf: "center",
+        justifyContent: "center",
     },
 });
 
@@ -724,6 +725,122 @@ export default function Login({ navigation }) {
                                       position: "absolute",
                                       paddingLeft: "70%",
                                       paddingTop: 5,
+                                      color: "rgba(170, 219, 255, 0.87)",
+                                  }}
+                              />
+                          </TouchableOpacity>
+                      </View>
+                  </ImageBackground>
+              </View>
+
+              { /*Lists*/}
+              <View
+                  style={{
+                      ...bgStyles.bg,
+                      display: currentPage == 5 ? "flex" : "none",
+                  }}
+              >
+                  <ImageBackground
+                      source={require("../assets/GradientBackground.png")}
+                      resizeMode="cover"
+                      style={viewStyles.View}
+                      imageStyle={{ borderRadius: 40, }}
+                  >
+                      <TouchableOpacity
+                          style={{
+                              height: 60,
+                              width: 50,
+
+                          }}
+                          onPress={() => setCurrentPage(4)}
+                      >
+                          <MaterialIcons
+                              name="keyboard-arrow-left"
+                              size={62}
+                              style={{
+                                  position: "absolute",
+
+                                  color: "rgba(0, 0, 79, 1)",
+                              }} />
+                      </TouchableOpacity>
+                      <Text
+                          style={{ ...aStyles.a, paddingTop: "5%" }}
+                      >
+                          Just a last few
+                      </Text>
+                      <Text
+                          style={{ ...aStyles.a, paddingTop:0}}
+                      >
+                          Questions!
+                      </Text>
+                      <View style={{paddingTop: "10%"}}>
+                          <TouchableOpacity
+                              style={{
+                                  height: 60,
+                                  width: "90%",
+                                  backgroundColor: "rgba(0, 0, 79, 1)",
+                                  paddingTop: 10,
+                                  borderColor: "rgba(0, 0, 79, 0.7)",
+                                  borderRadius: 20,
+                                  borderWidth: 3,
+                                  alignSelf: "center"
+                              }}
+                              onPress={() => navigation.navigate("BetterAilments")}
+                          >
+                              <Text
+                                  style={{
+                                      fontSize: 20,
+                                      color: "rgba(170, 219, 255, 0.87)",
+                                      paddingLeft: "10%",
+                                      justifyContent: "flex-start",
+                                  }}
+                              >
+                                  Medical History
+                              </Text>
+                              <MaterialIcons
+                                  name="keyboard-arrow-right"
+                                  size={24}
+                                  style={{
+                                      position: "absolute",
+                                      paddingLeft: "80%",
+                                      paddingTop: 13,
+                                      color: "rgba(170, 219, 255, 0.87)",
+                                  }}
+                              />
+                          </TouchableOpacity>
+                      </View>
+
+                      <View style={{ paddingTop: "10%" }}>
+                          <TouchableOpacity
+                              style={{
+                                  height: 60,
+                                  width: "90%",
+                                  backgroundColor: "rgba(0, 0, 79, 1)",
+                                  paddingTop: 10,
+                                  borderColor: "rgba(0, 0, 79, 0.7)",
+                                  borderRadius: 20,
+                                  borderWidth: 3,
+                                  alignSelf: "center"
+                              }}
+                              onPress={() => navigation.navigate("Allergies")}
+                          >
+                              <Text
+                                  style={{
+                                      fontSize: 20,
+                                      color: "rgba(170, 219, 255, 0.87)",
+                                      paddingLeft: "10%",
+                                      justifyContent: "flex-start",
+                                  }}
+                              >
+                                  Allergies
+                              </Text>
+                              <MaterialIcons
+                                  name="keyboard-arrow-right"
+                                  size={24}
+                                  style={{
+                                      position: "absolute",
+                                      paddingLeft: "80%",
+                                      paddingTop: 13,
                                       color: "rgba(170, 219, 255, 0.87)",
                                   }}
                               />
