@@ -18,7 +18,7 @@ export default function MealList({ mealData }) {
         flexDirection: "row",
       }}
     >
-      {mealData.meals.map((meal) => {
+      {mealData.map((meal) => {
         return <Meal meal={meal} key={meal.id} />;
       })}
     </View>

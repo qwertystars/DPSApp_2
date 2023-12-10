@@ -21,6 +21,8 @@ import * as SecureStore from "expo-secure-store";
 import { SelectList } from "react-native-dropdown-select-list";
 import MealList from "./MealList";
 
+//L KHAO
+
 //Timer: Feedback of user
 //use firebase
 
@@ -64,13 +66,21 @@ export default function Main({ navigation }) {
 
   const [readingContainder, setReadingContainer] = useState(false);
   const [readingContainerPrev, setReadingContainerPrev] = useState(false);
+  const [bpContainer, setBPContainer] = useState(false);
+  const [bpContainerPrev, setBPContainerPrev] = useState(false);
   const [timerContainer, setTimerContainer] = useState(false);
   const [newReading, setNewReading] = useState(0);
+  const [newReading2, setNewReading2] = useState(0);
 
   const [glucoseReadings, setGlucoseReadings] = useState([0]);
   const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
   const [glucoseDatePassed, setGlucoseDatePassed] = useState([0]);
   const [glucosePrediction, setGlucosePrediction] = useState([0]);
+
+  const [bpReadings, setBPReadings] = useState([0]);
+  const [bpdReadings, setBPDReadings] = useState([0]);
+  const [bpReadingsDates, setBPReadingsDates] = useState([0]);
+  const [bpDatePassed, setBPDatePassed] = useState([0]);
 
   const [weight, setWeight] = useState(0);
   const [height, setHeight] = useState(0);
@@ -155,36 +165,101 @@ export default function Main({ navigation }) {
   }
 
   function getMealData(calories) {
+    const caloriM = parseInt(calories / 3);
     fetch(
-      "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&targetCalories=" +
-        calories
+      "https://api.spoonacular.com/recipes/complexSearch?apiKey=938e60394e4d435ba65fe5e8139f02f2&includeNutrition=false&cuisine=Indian&minCalories=" +
+        parseInt(caloriM / 2) +
+        "&maxCalories=" +
+        caloriM +
+        "&number=21"
     )
       .then((response) => response.json())
-      .then((data) => {
-        //setMealData(data.week.friday);
-        const temp = [
-          data.week.friday,
-          data.week.saturday,
-          data.week.sunday,
-          data.week.monday,
-          data.week.tuesday,
-          data.week.wednesday,
-          data.week.thursday,
+      .then((value) => {
+        const arr1json = [value.results[0], value.results[1], value.results[2]];
+        const arr1 = [
+          JSON.stringify(value.results[0]),
+          JSON.stringify(value.results[1]),
+          JSON.stringify(value.results[2]),
+        ];
+        const arr2 = [
+          JSON.stringify(value.results[3]),
+          JSON.stringify(value.results[4]),
+          JSON.stringify(value.results[5]),
+        ];
+        const arr3 = [
+          JSON.stringify(value.results[6]),
+          JSON.stringify(value.results[7]),
+          JSON.stringify(value.results[8]),
+        ];
+        const arr4 = [
+          JSON.stringify(value.results[9]),
+          JSON.stringify(value.results[10]),
+          JSON.stringify(value.results[11]),
+        ];
+        const arr5 = [
+          JSON.stringify(value.results[12]),
+          JSON.stringify(value.results[13]),
+          JSON.stringify(value.results[14]),
+        ];
+        const arr6 = [
+          JSON.stringify(value.results[15]),
+          JSON.stringify(value.results[16]),
+          JSON.stringify(value.results[17]),
+        ];
+        const arr7 = [
+          JSON.stringify(value.results[18]),
+          JSON.stringify(value.results[19]),
+          JSON.stringify(value.results[20]),
         ];
 
-        setTodaysMeal(data.week.friday);
+        console.log(arr1);
+        console.log(arr2);
+        console.log(arr3);
+        console.log(arr4);
+        console.log(arr5);
+        console.log(arr6);
+        console.log(arr7);
 
-        SetValueDB("Day1", JSON.stringify(data.week.friday));
-        SetValueDB("Day2", JSON.stringify(data.week.saturday));
-        SetValueDB("Day3", JSON.stringify(data.week.sunday));
-        SetValueDB("Day4", JSON.stringify(data.week.monday));
-        SetValueDB("Day5", JSON.stringify(data.week.tuesday));
-        SetValueDB("Day6", JSON.stringify(data.week.wednesday));
-        SetValueDB("Day7", JSON.stringify(data.week.thursday));
-      })
-      .catch(() => {
-        console.log("error");
+        setTodaysMeal(arr1json);
+
+        SetValueDB("Day1", arr1.join("~"));
+        SetValueDB("Day2", arr2.join("~"));
+        SetValueDB("Day3", arr3.join("~"));
+        SetValueDB("Day4", arr4.join("~"));
+        SetValueDB("Day5", arr5.join("~"));
+        SetValueDB("Day6", arr6.join("~"));
+        SetValueDB("Day7", arr7.join("~"));
       });
+    // fetch(
+    //   "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&diet=Primal&timeFrame=week&targetCalories=" +
+    //     calories
+    // )
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     //setMealData(data.week.friday);
+    //     const temp = [
+    //       data.week.friday,
+    //       data.week.saturday,
+    //       data.week.sunday,
+    //       data.week.monday,
+    //       data.week.tuesday,
+    //       data.week.wednesday,
+    //       data.week.thursday,
+    //     ];
+
+    //     setTodaysMeal(data.week.friday);
+
+    //     SetValueDB("Day1", JSON.stringify(data.week.friday));
+    //     SetValueDB("Day2", JSON.stringify(data.week.saturday));
+    //     SetValueDB("Day3", JSON.stringify(data.week.sunday));
+    //     SetValueDB("Day4", JSON.stringify(data.week.monday));
+    //     SetValueDB("Day5", JSON.stringify(data.week.tuesday));
+    //     SetValueDB("Day6", JSON.stringify(data.week.wednesday));
+    //     SetValueDB("Day7", JSON.stringify(data.week.thursday));
+    //   })
+    //   .catch(() => {
+    //     console.log("error");
+    //   });
   }
 
   //SecureStore.deleteItemAsync("mealResetDate");
@@ -228,10 +303,20 @@ export default function Main({ navigation }) {
     }
   }
 
+  function GetCheckupDate(value) {
+    today = new Date();
+    checkupDate = new Date(value);
+    setRemainingDays(Math.floor((checkupDate - today) / (1000 * 60 * 60 * 24)));
+  }
+
   //SecureStore.deleteItemAsync("checkupDate");
   // SecureStore.deleteItemAsync("glucoseReadings");
   // SecureStore.deleteItemAsync("glucoseReadingsDates");
-  SecureStore.deleteItemAsync("firstLogin");
+  // SecureStore.deleteItemAsync("bpReadings");
+  // SecureStore.deleteItemAsync("bpdReadings");
+  // SecureStore.deleteItemAsync("bpReadingsDates");
+
+  //SecureStore.deleteItemAsync("firstLogin");
 
   useEffect(() => {
     today = new Date();
@@ -252,10 +337,11 @@ export default function Main({ navigation }) {
       if (value == "") {
         ResetCheckupDuration();
       } else {
-        checkupDate = new Date(value);
-        setRemainingDays(
-          Math.floor((checkupDate - today) / (1000 * 60 * 60 * 24))
-        );
+        GetCheckupDate(value);
+        // checkupDate = new Date(value);
+        // setRemainingDays(
+        //   Math.floor((checkupDate - today) / (1000 * 60 * 60 * 24))
+        // );
       }
     });
 
@@ -292,6 +378,38 @@ export default function Main({ navigation }) {
       }
     });
 
+    GetValueDB("bpReadings").then((value) => {
+      if (value == "") {
+        console.log("empty hehheheheh BP");
+        SetValueDB("bpReadings", "");
+        setBPReadings([0]);
+      } else {
+        let arr = value.split(",");
+        console.log(arr);
+        arr.forEach((value, index) => {
+          arr[index] = parseInt(value);
+        });
+        console.log(arr);
+        setBPReadings(arr);
+      }
+    });
+
+    GetValueDB("bpdReadings").then((value) => {
+      if (value == "") {
+        console.log("empty hehheheheh BPD");
+        SetValueDB("bpdReadings", "");
+        setBPDReadings([0]);
+      } else {
+        let arr = value.split(",");
+        console.log(arr);
+        arr.forEach((value, index) => {
+          arr[index] = parseInt(value);
+        });
+        console.log(arr);
+        setBPDReadings(arr);
+      }
+    });
+
     GetValueDB("glucoseReadingsDates").then((value) => {
       if (value == "") {
         console.log("ompty hehheheheh");
@@ -305,6 +423,23 @@ export default function Main({ navigation }) {
           temp.push(d);
         });
         setGlucoseReadingsDates(temp);
+      }
+      //e
+    });
+
+    GetValueDB("bpReadingsDates").then((value) => {
+      if (value == "") {
+        console.log("ompty hehheheheh");
+        SetValueDB("bpReadingsDates", "");
+        setBPReadingsDates([0]);
+      } else {
+        let arr = value.split(",");
+        const temp = [];
+        arr.forEach((value) => {
+          let d = new Date(value);
+          temp.push(d);
+        });
+        setBPReadingsDates(temp);
       }
       //e
     });
@@ -372,11 +507,16 @@ export default function Main({ navigation }) {
         if (value == "") {
           console.log("empty meal");
         } else {
-          const e = JSON.parse(value);
+          const mealsStr = value.split("~");
+          const e = "EASPORTS";
+          const m1 = JSON.parse(mealsStr[0]);
+          const m2 = JSON.parse(mealsStr[1]);
+          const m3 = JSON.parse(mealsStr[2]);
           console.log("Meal Today");
+          const mels = [m1, m2, m3];
           //console.log(e));
           //setMealDataArray([...mealDataArray, e]);
-          setTodaysMeal(e);
+          setTodaysMeal(mels);
           //setRunAgain("No");
         }
       });
@@ -421,11 +561,19 @@ export default function Main({ navigation }) {
         if (value == "") {
           console.log("empty meal");
         } else {
-          const e = JSON.parse(value);
+          const mealsStr = value.split("~");
+          const e = "EASPORTS";
+          const m1 = JSON.parse(mealsStr[0]);
+          const m2 = JSON.parse(mealsStr[1]);
+          const m3 = JSON.parse(mealsStr[2]);
+          const mels = [m1, m2, m3];
+
+          console.log(m2);
+
           console.log("Meal Today");
           //console.log(e));
           //setMealDataArray([...mealDataArray, e]);
-          setTodaysMeal(e);
+          setTodaysMeal(mels);
           //setRunAgain("No");
         }
       });
@@ -889,6 +1037,488 @@ export default function Main({ navigation }) {
             height: "100%",
             width: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 5,
+            paddingTop: 180,
+            display: bpContainer == true ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: (Dimensions.get("window").height * 35) / 100,
+              width: "80%",
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              paddingTop: 10,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              New Reading
+            </Text>
+
+            <Text
+              style={{
+                paddingTop: 20,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Systolic Blood Pressure Reading (mmHg)
+            </Text>
+
+            <View
+              style={{
+                paddingTop: 0,
+              }}
+            >
+              <View
+                style={{
+                  height: 38,
+                  width: "80%",
+                  borderColor: "rgba(0, 72, 125, 0.5)",
+                  borderWidth: 2.75, //2.75
+                  borderRadius: 4,
+                  marginVertical: 6,
+                  justifyContent: "center",
+                  paddingLeft: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  alignSelf: "center",
+                }}
+              >
+                <TextInput
+                  keyboardType="numeric"
+                  onChangeText={(value) => {
+                    setNewReading(parseInt(value));
+                  }}
+                  editable={true}
+                  style={{
+                    color: "rgba(18, 18, 18, 0.7)",
+                  }}
+                />
+              </View>
+            </View>
+
+            <Text
+              style={{
+                paddingTop: 20,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Diastolic Blood Pressure Reading (mmHg)
+            </Text>
+
+            <View
+              style={{
+                paddingTop: 0,
+              }}
+            >
+              <View
+                style={{
+                  height: 38,
+                  width: "80%",
+                  borderColor: "rgba(0, 72, 125, 0.5)",
+                  borderWidth: 2.75, //2.75
+                  borderRadius: 4,
+                  marginVertical: 6,
+                  justifyContent: "center",
+                  paddingLeft: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  alignSelf: "center",
+                }}
+              >
+                <TextInput
+                  keyboardType="numeric"
+                  onChangeText={(value) => {
+                    setNewReading2(parseInt(value));
+                  }}
+                  editable={true}
+                  style={{
+                    color: "rgba(18, 18, 18, 0.7)",
+                  }}
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                paddingTop: 20,
+                width: "100%",
+                //alignSelf: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  height: 40,
+                  width: "50%",
+                  backgroundColor: "#00213b",
+                  borderRadius: 5,
+                  alignSelf: "center",
+                  flexDirection: "row",
+                }}
+                onPress={() => {
+                  setBPContainer(false);
+
+                  if (bpReadings.length == 1 && bpReadings[0] == 0) {
+                    bpReadings[0] = newReading;
+                  } else {
+                    bpReadings.push(newReading);
+                  }
+                  SetValueDB("bpReadings", bpReadings.join(",")).then(() =>
+                    console.log("Added")
+                  );
+
+                  if (bpdReadings.length == 1 && bpdReadings[0] == 0) {
+                    bpdReadings[0] = newReading2;
+                  } else {
+                    bpdReadings.push(newReading2);
+                  }
+                  SetValueDB("bpdReadings", bpdReadings.join(",")).then(() =>
+                    console.log("Added")
+                  );
+
+                  today = new Date();
+                  if (bpReadingsDates.length == 1 && bpReadingsDates[0] == 0) {
+                    bpReadingsDates[0] = today;
+                  } else {
+                    bpReadingsDates.push(today);
+                  }
+                  SetValueDB("bpReadingsDates", bpReadingsDates.join(",")).then(
+                    () => console.log(bpReadingsDates + " mina eh eh")
+                  );
+
+                  console.log(bpReadings + "r");
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 15,
+                    color: "rgba(170, 219, 255,1)",
+                    paddingLeft: "10%",
+                    paddingVertical: 5,
+                    alignItems: "center",
+                    paddingTop: 10,
+                  }}
+                >
+                  Confirm
+                </Text>
+                <MaterialIcons
+                  name="check"
+                  size={24}
+                  style={{
+                    //paddingLeft: "90%",
+                    //paddingVertical: 8,
+                    color: "rgba(170, 219, 255, 1)",
+                    paddingTop: 8,
+                    paddingLeft: 40,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 5,
+            paddingTop: 80,
+            display: bpContainerPrev == true ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: (Dimensions.get("window").height * 68) / 100,
+              width: "90%",
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              paddingTop: 10,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              New Reading
+            </Text>
+
+            <Text
+              style={{
+                paddingTop: 20,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Systolic Blood Pressure Reading (mmHg)
+            </Text>
+
+            <View
+              style={{
+                paddingTop: 0,
+              }}
+            >
+              <View
+                style={{
+                  height: 38,
+                  width: "80%",
+                  borderColor: "rgba(0, 72, 125, 0.5)",
+                  borderWidth: 2.75, //2.75
+                  borderRadius: 4,
+                  marginVertical: 6,
+                  justifyContent: "center",
+                  paddingLeft: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  alignSelf: "center",
+                }}
+              >
+                <TextInput
+                  keyboardType="numeric"
+                  onChangeText={(value) => {
+                    setNewReading(parseInt(value));
+                  }}
+                  editable={true}
+                  style={{
+                    color: "rgba(18, 18, 18, 0.7)",
+                  }}
+                />
+              </View>
+            </View>
+
+            <Text
+              style={{
+                paddingTop: 20,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Diastolic Blood Pressure Reading (mmHg)
+            </Text>
+
+            <View
+              style={{
+                paddingTop: 0,
+              }}
+            >
+              <View
+                style={{
+                  height: 38,
+                  width: "80%",
+                  borderColor: "rgba(0, 72, 125, 0.5)",
+                  borderWidth: 2.75, //2.75
+                  borderRadius: 4,
+                  marginVertical: 6,
+                  justifyContent: "center",
+                  paddingLeft: 8,
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  alignSelf: "center",
+                }}
+              >
+                <TextInput
+                  keyboardType="numeric"
+                  onChangeText={(value) => {
+                    setNewReading2(parseInt(value));
+                  }}
+                  editable={true}
+                  style={{
+                    color: "rgba(18, 18, 18, 0.7)",
+                  }}
+                />
+              </View>
+            </View>
+
+            <Text
+              style={{
+                paddingTop: 10,
+                fontWeight: "500",
+                fontSize: 15,
+                alignSelf: "center",
+              }}
+            >
+              Date
+            </Text>
+
+            <View
+              style={{
+                flexDirection: "row",
+                //alignContent: "center",
+              }}
+            >
+              <View
+                style={{
+                  paddingLeft: 10,
+                  width: 120,
+                }}
+              >
+                <SelectList
+                  data={[
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                    18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+                  ]}
+                  setSelected={setDateReading}
+                />
+              </View>
+              <View
+                style={{
+                  paddingLeft: 10,
+                  width: 120,
+                }}
+              >
+                <SelectList
+                  data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+                  setSelected={setMonthReading}
+                />
+              </View>
+              <View
+                style={{
+                  paddingLeft: 10,
+                  width: 120,
+                }}
+              >
+                <SelectList data={allYears} setSelected={setYearReading} />
+              </View>
+            </View>
+
+            <View
+              style={{
+                paddingTop: 20,
+                width: "100%",
+                //alignSelf: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  height: 40,
+                  width: "50%",
+                  backgroundColor: "#00213b",
+                  borderRadius: 5,
+                  alignSelf: "center",
+                  flexDirection: "row",
+                }}
+                onPress={() => {
+                  let d = new Date(yearReading, monthReading - 1, dateReading);
+                  if (d < today) {
+                    setBPContainerPrev(false);
+
+                    if (bpReadings.length == 1 && bpReadings[0] == 0) {
+                      bpReadings[0] = newReading;
+                    } else {
+                      bpReadings.push(newReading);
+                    }
+
+                    if (bpdReadings.length == 1 && bpdReadings[0] == 0) {
+                      bpdReadings[0] = newReading2;
+                    } else {
+                      bpdReadings.push(newReading2);
+                    }
+
+                    if (
+                      bpReadingsDates.length == 1 &&
+                      bpReadingsDates[0] == 0
+                    ) {
+                      bpReadingsDates[0] = d;
+                    } else {
+                      bpReadingsDates.push(d);
+
+                      const temp = [];
+                      bpReadingsDates.forEach((value) => {
+                        temp.push(value);
+                      });
+
+                      bpReadingsDates.sort((a, b) => {
+                        return a - b;
+                      });
+
+                      const tempBP = [];
+                      const tempBPD = [];
+
+                      bpReadingsDates.forEach((value, index) => {
+                        var i = temp.indexOf(value);
+                        tempBP.push(bpReadings[i]);
+                        tempBPD.push(bpdReadings[i]);
+                        console.log(tempBP);
+                      });
+
+                      for (var i = 0; i < bpReadingsDates.length; i++) {
+                        bpReadings[i] = tempBP[i];
+                        bpdReadings[i] = tempBPD[i];
+                      }
+                      // setGlucoseReadings(tempGlcRd);
+                      // console.log(glucoseReadings + " ///>>>");
+                    }
+
+                    SetValueDB("bpReadings", bpReadings.join(",")).then(() =>
+                      console.log(bpReadings + " zamina")
+                    );
+
+                    SetValueDB("bpdReadings", bpdReadings.join(",")).then(() =>
+                      console.log(bpdReadings + " zamina")
+                    );
+
+                    SetValueDB(
+                      "bpReadingsDates",
+                      bpReadingsDates.join(",")
+                    ).then(() => console.log(bpReadingsDates + " mina eh eh"));
+
+                    console.log(glucoseReadingsDates);
+                    console.log(glucoseReadings + "r");
+                  } else {
+                    {
+                      Alert.alert("Invalid date", "Invalid date entered");
+                    }
+                  }
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 15,
+                    color: "rgba(170, 219, 255,1)",
+                    paddingLeft: "10%",
+                    paddingVertical: 5,
+                    alignItems: "center",
+                    paddingTop: 10,
+                  }}
+                >
+                  Confirm
+                </Text>
+                <MaterialIcons
+                  name="check"
+                  size={24}
+                  style={{
+                    //paddingLeft: "90%",
+                    //paddingVertical: 8,
+                    color: "rgba(170, 219, 255, 1)",
+                    paddingTop: 8,
+                    paddingLeft: 40,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 2,
             paddingTop: 190,
             display: timerContainer == true ? "flex" : "none",
@@ -1220,12 +1850,9 @@ export default function Main({ navigation }) {
               height: 240,
             }}
           >
-            <TouchableOpacity onPress={() => navigation.navigate("Glucose")}>
+            <View>
               <LineChart
                 data={{
-                  labels: [
-                    "                                                             CLICK FOR MORE INFO",
-                  ],
                   datasets: [
                     {
                       data: glucoseReadings,
@@ -1273,7 +1900,7 @@ export default function Main({ navigation }) {
                   paddingLeft: 10,
                 }}
               />
-            </TouchableOpacity>
+            </View>
 
             <View
               style={{
@@ -1329,7 +1956,7 @@ export default function Main({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            {/* <View
+            <View
               style={{
                 position: "absolute",
                 paddingTop: 225,
@@ -1367,12 +1994,12 @@ export default function Main({ navigation }) {
                   }}
                 />
               </TouchableOpacity>
-            </View> */}
+            </View>
           </View>
 
           <View
             style={{
-              paddingTop: 30,
+              paddingTop: 80,
             }}
           >
             <View
@@ -1402,24 +2029,18 @@ export default function Main({ navigation }) {
           >
             <LineChart
               data={{
-                //labels: ["January", "February", "March", "April", "May", "June"],
                 datasets: [
                   {
-                    data: [
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                    ],
+                    data: bpReadings,
+                  },
+                  {
+                    data: bpdReadings,
+                    color: (opacity = 0.5) => `rgba(255, 102, 102, ${opacity})`,
                   },
                 ],
               }}
               width={(Dimensions.get("window").width * 70) / 100} // from react-native
               height={190}
-              yAxisLabel="$"
-              yAxisSuffix="k"
               yAxisInterval={1} // optional, defaults to 1
               chartConfig={{
                 backgroundColor: "#00dee2",
@@ -1457,6 +2078,7 @@ export default function Main({ navigation }) {
               }}
             >
               <TouchableOpacity
+                onPress={() => setBPContainer(true)}
                 style={{
                   height: 70,
                   width: 70,
@@ -1483,6 +2105,7 @@ export default function Main({ navigation }) {
               }}
             >
               <TouchableOpacity
+                onPress={() => setBPContainerPrev(true)}
                 style={{
                   height: 70,
                   width: 70,

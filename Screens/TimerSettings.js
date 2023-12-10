@@ -7,56 +7,41 @@ import {
   Dimensions,
   ImageBackground,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
+import * as SecureStore from "expo-secure-store";
+
 export default function TimerSettings({ navigation }) {
   const [glucoseTimer, setGlucoseTimer] = useState(2);
-  const [bpTimer, setBPTimer] = useState(2);
+  //const [bpTimer, setBPTimer] = useState(2);
 
-  function RecipeNStuff() {
-    console.log("RECIPE GEN");
-    // fetch(
-    //   "https://api.spoonacular.com/recipes/complexSearch?query=pasta&maxFat=25&number=1"
-    // )
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch(() => {
-    //     console.log("error");
-    //   });
-    fetch(
-      "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&cuisine=Indian&diet=Vegetarian&targetCalories=" +
-        2000
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        //setMealData(data.week.friday);
-        // const temp = [
-        //   data.week.friday,
-        //   data.week.saturday,
-        //   data.week.sunday,
-        //   data.week.monday,
-        //   data.week.tuesday,
-        //   data.week.wednesday,
-        //   data.week.thursday,
-        // ];
+  const GetValueDB = async (key) => {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) return result;
+    else return "";
+  };
 
-        // setTodaysMeal(data.week.friday);
+  async function SetValueDB(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
 
-        // SetValueDB("Day1", JSON.stringify(data.week.friday));
-        // SetValueDB("Day2", JSON.stringify(data.week.saturday));
-        // SetValueDB("Day3", JSON.stringify(data.week.sunday));
-        // SetValueDB("Day4", JSON.stringify(data.week.monday));
-        // SetValueDB("Day5", JSON.stringify(data.week.tuesday));
-        // SetValueDB("Day6", JSON.stringify(data.week.wednesday));
-        // SetValueDB("Day7", JSON.stringify(data.week.thursday));
-      })
-      .catch(() => {
-        console.log("error");
-      });
+  useEffect(() => {
+    GetValueDB("checkupDate").then((value) => {
+      const today = new Date();
+      today.setHours(0, 0, 0);
+      const checkupDay = new Date(value);
+      checkupDay.setHours(0, 0, 0);
+      const diff = checkupDay - today;
+      console.log(Math.floor(diff / (1000 * 60 * 60 * 24)));
+      setGlucoseTimer(Math.ceil(diff / (1000 * 60 * 60 * 24)));
+    });
+  }, []);
+
+  function ResetReminder() {
+    const newDate = new Date();
+    newDate.setDate(newDate.getDate() + glucoseTimer);
+    SetValueDB("checkupDate", newDate.toDateString());
   }
 
   return (
@@ -117,10 +102,11 @@ export default function TimerSettings({ navigation }) {
               flexDirection: "column",
               marginBottom: 6,
               paddingHorizontal: 8,
+              paddingTop: 20,
             }}
           >
             <Text style={{ fontSize: 17, color: "rgba(170, 219, 255, 0.87)" }}>
-              Glucose Checkup Reminder
+              Change Glucose Reminder Timer (Default: 7)
             </Text>
             <View style={{ flexDirection: "row" }}>
               <Text
@@ -132,9 +118,9 @@ export default function TimerSettings({ navigation }) {
                   justifyContent: "flex-start",
                 }}
               >
-                {glucoseTimer - 1}
+                {glucoseTimer - 1 + " Days"}
               </Text>
-              <View style={{ position: "absolute", paddingLeft: 40 }}>
+              <View style={{ position: "absolute", paddingLeft: 65 }}>
                 <Slider
                   style={{
                     width: (Dimensions.get("window").width * 70) / 100,
@@ -155,7 +141,7 @@ export default function TimerSettings({ navigation }) {
           </View>
         </View>
 
-        <View>
+        {/* <View>
           <View
             style={{
               flexDirection: "column",
@@ -197,16 +183,33 @@ export default function TimerSettings({ navigation }) {
               </View>
             </View>
           </View>
-        </View>
+        </View> */}
 
-        <TouchableOpacity onPress={RecipeNStuff}>
+        <TouchableOpacity
+          onPress={ResetReminder}
+          style={{
+            paddingLeft: 10,
+            paddingTop: 15,
+          }}
+        >
           <View
             style={{
-              height: 100,
-              width: 100,
+              height: 40,
+              width: 200,
               backgroundColor: "#FFF",
+              borderRadius: 15,
             }}
-          ></View>
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                paddingTop: 10,
+                fontSize: 15,
+              }}
+            >
+              RESET REMINDER
+            </Text>
+          </View>
         </TouchableOpacity>
       </ImageBackground>
     </SafeAreaView>

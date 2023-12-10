@@ -32,7 +32,11 @@ export default function Meal({ meal }) {
   return (
     <TouchableOpacity
       onPress={() => {
-        Linking.openURL(meal.sourceUrl);
+        let title = meal.title;
+        let t = title.toLowerCase();
+        let tt = t.replace(" ", "-");
+        tt = tt + "-" + meal.id;
+        Linking.openURL("https://spoonacular.com/recipes/" + tt);
       }}
     >
       <View

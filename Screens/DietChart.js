@@ -61,47 +61,145 @@ export default function DietChart({ navigation }) {
   //SecureStore.deleteItemAsync("mealResetDate");
 
   function getMealData(calories) {
+    const caloriM = parseInt(calories / 3);
     fetch(
-      "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&targetCalories=" +
-        calories
+      "https://api.spoonacular.com/recipes/complexSearch?apiKey=938e60394e4d435ba65fe5e8139f02f2&includeNutrition=false&cuisine=Indian&minCalories=" +
+        parseInt(caloriM / 2) +
+        "&maxCalories=" +
+        caloriM +
+        "&number=21"
     )
       .then((response) => response.json())
-      .then((data) => {
-        setMealData(data.week.friday);
-        const temp = [
-          data.week.friday,
-          data.week.saturday,
-          data.week.sunday,
-          data.week.monday,
-          data.week.tuesday,
-          data.week.wednesday,
-          data.week.thursday,
+      .then((value) => {
+        const arr1json = [value.results[0], value.results[1], value.results[2]];
+        const arr2json = [value.results[3], value.results[4], value.results[5]];
+        const arr3json = [value.results[6], value.results[7], value.results[8]];
+        const arr4json = [
+          value.results[9],
+          value.results[10],
+          value.results[11],
         ];
-        // const temp2 = [
-        //   JSON.stringify(data.week.friday),
-        //   JSON.stringify(data.week.saturday),
-        //   JSON.stringify(data.week.sunday),
-        //   JSON.stringify(data.week.monday),
-        //   JSON.stringify(data.week.tuesday),
-        //   JSON.stringify(data.week.wednesday),
-        //   JSON.stringify(data.week.thursday),
-        // ];
-        SetValueDB("Day1", JSON.stringify(data.week.friday));
-        SetValueDB("Day2", JSON.stringify(data.week.saturday));
-        SetValueDB("Day3", JSON.stringify(data.week.sunday));
-        SetValueDB("Day4", JSON.stringify(data.week.monday));
-        SetValueDB("Day5", JSON.stringify(data.week.tuesday));
-        SetValueDB("Day6", JSON.stringify(data.week.wednesday));
-        SetValueDB("Day7", JSON.stringify(data.week.thursday));
-        ///console.log(JSON.stringify(data.week.friday));
-        //SetValueDB("WeeklyDiet", temp2.join("~"));
+        const arr5json = [
+          value.results[12],
+          value.results[13],
+          value.results[14],
+        ];
+        const arr6json = [
+          value.results[15],
+          value.results[16],
+          value.results[17],
+        ];
+        const arr7json = [
+          value.results[19],
+          value.results[19],
+          value.results[20],
+        ];
+
+        const temp = [
+          arr1json,
+          arr2json,
+          arr3json,
+          arr4json,
+          arr5json,
+          arr6json,
+          arr7json,
+        ];
+
+        const arr1 = [
+          JSON.stringify(value.results[0]),
+          JSON.stringify(value.results[1]),
+          JSON.stringify(value.results[2]),
+        ];
+        const arr2 = [
+          JSON.stringify(value.results[3]),
+          JSON.stringify(value.results[4]),
+          JSON.stringify(value.results[5]),
+        ];
+        const arr3 = [
+          JSON.stringify(value.results[6]),
+          JSON.stringify(value.results[7]),
+          JSON.stringify(value.results[8]),
+        ];
+        const arr4 = [
+          JSON.stringify(value.results[9]),
+          JSON.stringify(value.results[10]),
+          JSON.stringify(value.results[11]),
+        ];
+        const arr5 = [
+          JSON.stringify(value.results[12]),
+          JSON.stringify(value.results[13]),
+          JSON.stringify(value.results[14]),
+        ];
+        const arr6 = [
+          JSON.stringify(value.results[15]),
+          JSON.stringify(value.results[16]),
+          JSON.stringify(value.results[17]),
+        ];
+        const arr7 = [
+          JSON.stringify(value.results[18]),
+          JSON.stringify(value.results[19]),
+          JSON.stringify(value.results[20]),
+        ];
+
+        console.log(arr1);
+        console.log(arr2);
+        console.log(arr3);
+        console.log(arr4);
+        console.log(arr5);
+        console.log(arr6);
+        console.log(arr7);
+
+        SetValueDB("Day1", arr1.join("~"));
+        SetValueDB("Day2", arr2.join("~"));
+        SetValueDB("Day3", arr3.join("~"));
+        SetValueDB("Day4", arr4.join("~"));
+        SetValueDB("Day5", arr5.join("~"));
+        SetValueDB("Day6", arr6.join("~"));
+        SetValueDB("Day7", arr7.join("~"));
+
         setMealDataArray(temp);
-        // data.forEach((value) => console.log(value))
-        //console.log(data.week.friday);
-      })
-      .catch(() => {
-        console.log("error");
       });
+    // fetch(
+    //   "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&timeFrame=week&diet=Primal&targetCalories=" +
+    //     calories
+    // )
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setMealData(data.week.friday);
+    //     const temp = [
+    //       data.week.friday,
+    //       data.week.saturday,
+    //       data.week.sunday,
+    //       data.week.monday,
+    //       data.week.tuesday,
+    //       data.week.wednesday,
+    //       data.week.thursday,
+    //     ];
+    //     // const temp2 = [
+    //     //   JSON.stringify(data.week.friday),
+    //     //   JSON.stringify(data.week.saturday),
+    //     //   JSON.stringify(data.week.sunday),
+    //     //   JSON.stringify(data.week.monday),
+    //     //   JSON.stringify(data.week.tuesday),
+    //     //   JSON.stringify(data.week.wednesday),
+    //     //   JSON.stringify(data.week.thursday),
+    //     // ];
+    //     SetValueDB("Day1", JSON.stringify(data.week.friday));
+    //     SetValueDB("Day2", JSON.stringify(data.week.saturday));
+    //     SetValueDB("Day3", JSON.stringify(data.week.sunday));
+    //     SetValueDB("Day4", JSON.stringify(data.week.monday));
+    //     SetValueDB("Day5", JSON.stringify(data.week.tuesday));
+    //     SetValueDB("Day6", JSON.stringify(data.week.wednesday));
+    //     SetValueDB("Day7", JSON.stringify(data.week.thursday));
+    //     ///console.log(JSON.stringify(data.week.friday));
+    //     //SetValueDB("WeeklyDiet", temp2.join("~"));
+    //     setMealDataArray(temp);
+    //     // data.forEach((value) => console.log(value))
+    //     //console.log(data.week.friday);
+    //   })
+    //   .catch(() => {
+    //     console.log("error");
+    //   });
   }
 
   function ResetMeal() {
@@ -145,10 +243,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 1");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 1");
         //console.log(e));
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
         //setMealDataArray([...mealDataArray, e]);
         //
       }
@@ -158,11 +262,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 2");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 2");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -170,11 +279,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 3");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 3");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -182,11 +296,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 4");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 4");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -194,11 +313,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 5");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 5");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -206,11 +330,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 6");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 6");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -218,11 +347,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 7");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 7");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
         setRunAgain("No");
       }
     });
@@ -279,10 +413,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 1");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 1");
         //console.log(e));
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
         //setMealDataArray([...mealDataArray, e]);
         //
       }
@@ -292,11 +432,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 2");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 2");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -304,11 +449,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 3");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 3");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -316,11 +466,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 4");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 4");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -328,11 +483,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 5");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 5");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -340,11 +500,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 6");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 6");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
+        mealDataArray.push(mels);
       }
     });
 
@@ -352,12 +517,16 @@ export default function DietChart({ navigation }) {
       if (value == "") {
         console.log("empty day 7");
       } else {
-        const e = JSON.parse(value);
+        const mealsStr = value.split("~");
+        const e = "EASPORTS";
+        const m1 = JSON.parse(mealsStr[0]);
+        const m2 = JSON.parse(mealsStr[1]);
+        const m3 = JSON.parse(mealsStr[2]);
+        const mels = [m1, m2, m3];
+
         console.log("Day 7");
         //console.log(e));
-        //setMealDataArray([...mealDataArray, e]);
-        mealDataArray.push(e);
-        //setRunAgain("No");
+        mealDataArray.push(mels);
       }
     });
   }, [runAgain]);

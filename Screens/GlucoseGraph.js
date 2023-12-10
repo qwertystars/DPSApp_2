@@ -23,7 +23,6 @@ export default function GlucoseGraph({ navigation }) {
   const [exmpl, setExmpl] = useState([1, 2, 3, 4, 5, 6, 7]);
   const [slope, setSlope] = useState(0);
   const [intercept, setIntercept] = useState(0);
-  const [prediction, setPrediction] = useState();
   var data = ["e"];
 
   const GetValueDB = async (key) => {
