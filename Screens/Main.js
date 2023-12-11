@@ -171,7 +171,7 @@ export default function Main({ navigation }) {
         parseInt(caloriM / 2) +
         "&maxCalories=" +
         caloriM +
-        "&number=21"
+        "&number=21&excludeIngredients=pork,beef,lamb"
     )
       .then((response) => response.json())
       .then((value) => {
@@ -328,6 +328,10 @@ export default function Main({ navigation }) {
         navigation.navigate("Login");
       }
     });
+
+    for (var i = 0; i < allYears.length; i++) {
+      allYears.pop();
+    }
 
     for (var i = today.getFullYear(); i >= 1970; i--) {
       allYears.push(i);
@@ -715,51 +719,59 @@ export default function Main({ navigation }) {
                   flexDirection: "row",
                 }}
                 onPress={() => {
-                  setReadingContainer(false);
-                  if (glucoseReadings.length == 1 && glucoseReadings[0] == 0) {
-                    glucoseReadings[0] = newReading;
+                  if (newReading < 15) {
+                  } else if (newReading > 108) {
                   } else {
-                    glucoseReadings.push(newReading);
-                  }
-                  SetValueDB("glucoseReadings", glucoseReadings.join(",")).then(
-                    () => console.log("Added")
-                  );
-                  today = new Date();
-                  if (
-                    glucoseReadingsDates.length == 1 &&
-                    glucoseReadingsDates[0] == 0
-                  ) {
-                    glucoseReadingsDates[0] = today;
-                  } else {
-                    glucoseReadingsDates.push(today);
-                  }
-                  SetValueDB(
-                    "glucoseReadingsDates",
-                    glucoseReadingsDates.join(",")
-                  ).then(() =>
-                    console.log(glucoseReadingsDates + " mina eh eh")
-                  );
+                    setReadingContainer(false);
+                    if (
+                      glucoseReadings.length == 1 &&
+                      glucoseReadings[0] == 0
+                    ) {
+                      glucoseReadings[0] = newReading;
+                    } else {
+                      glucoseReadings.push(newReading);
+                    }
+                    SetValueDB(
+                      "glucoseReadings",
+                      glucoseReadings.join(",")
+                    ).then(() => console.log("Added"));
+                    today = new Date();
+                    if (
+                      glucoseReadingsDates.length == 1 &&
+                      glucoseReadingsDates[0] == 0
+                    ) {
+                      glucoseReadingsDates[0] = today;
+                    } else {
+                      glucoseReadingsDates.push(today);
+                    }
+                    SetValueDB(
+                      "glucoseReadingsDates",
+                      glucoseReadingsDates.join(",")
+                    ).then(() =>
+                      console.log(glucoseReadingsDates + " mina eh eh")
+                    );
 
-                  const temp = [];
-                  for (var i = 0; i < glucoseReadingsDates.length; i++) {
-                    var daysPassed =
-                      (glucoseReadingsDates[i] - glucoseReadingsDates[0]) /
-                      (1000 * 60 * 60 * 24);
-                    temp.push(daysPassed);
+                    const temp = [];
+                    for (var i = 0; i < glucoseReadingsDates.length; i++) {
+                      var daysPassed =
+                        (glucoseReadingsDates[i] - glucoseReadingsDates[0]) /
+                        (1000 * 60 * 60 * 24);
+                      temp.push(daysPassed);
+                    }
+                    while (glucoseDatePassed.length > 0) {
+                      glucoseDatePassed.pop();
+                    }
+                    temp.forEach((value) => {
+                      glucoseDatePassed.push(value);
+                    });
+                    console.log(glucoseDatePassed + " lolol");
+
+                    GlucoseDateUpdation();
+
+                    Prediction();
+
+                    console.log(glucoseReadings + "r");
                   }
-                  while (glucoseDatePassed.length > 0) {
-                    glucoseDatePassed.pop();
-                  }
-                  temp.forEach((value) => {
-                    glucoseDatePassed.push(value);
-                  });
-                  console.log(glucoseDatePassed + " lolol");
-
-                  GlucoseDateUpdation();
-
-                  Prediction();
-
-                  console.log(glucoseReadings + "r");
                 }}
               >
                 <Text
@@ -1167,35 +1179,43 @@ export default function Main({ navigation }) {
                 onPress={() => {
                   setBPContainer(false);
 
-                  if (bpReadings.length == 1 && bpReadings[0] == 0) {
-                    bpReadings[0] = newReading;
+                  if (newReading < 1) {
+                  } else if (newReading > 1000) {
                   } else {
-                    bpReadings.push(newReading);
-                  }
-                  SetValueDB("bpReadings", bpReadings.join(",")).then(() =>
-                    console.log("Added")
-                  );
+                    if (bpReadings.length == 1 && bpReadings[0] == 0) {
+                      bpReadings[0] = newReading;
+                    } else {
+                      bpReadings.push(newReading);
+                    }
+                    SetValueDB("bpReadings", bpReadings.join(",")).then(() =>
+                      console.log("Added")
+                    );
 
-                  if (bpdReadings.length == 1 && bpdReadings[0] == 0) {
-                    bpdReadings[0] = newReading2;
-                  } else {
-                    bpdReadings.push(newReading2);
-                  }
-                  SetValueDB("bpdReadings", bpdReadings.join(",")).then(() =>
-                    console.log("Added")
-                  );
+                    if (bpdReadings.length == 1 && bpdReadings[0] == 0) {
+                      bpdReadings[0] = newReading2;
+                    } else {
+                      bpdReadings.push(newReading2);
+                    }
+                    SetValueDB("bpdReadings", bpdReadings.join(",")).then(() =>
+                      console.log("Added")
+                    );
 
-                  today = new Date();
-                  if (bpReadingsDates.length == 1 && bpReadingsDates[0] == 0) {
-                    bpReadingsDates[0] = today;
-                  } else {
-                    bpReadingsDates.push(today);
-                  }
-                  SetValueDB("bpReadingsDates", bpReadingsDates.join(",")).then(
-                    () => console.log(bpReadingsDates + " mina eh eh")
-                  );
+                    today = new Date();
+                    if (
+                      bpReadingsDates.length == 1 &&
+                      bpReadingsDates[0] == 0
+                    ) {
+                      bpReadingsDates[0] = today;
+                    } else {
+                      bpReadingsDates.push(today);
+                    }
+                    SetValueDB(
+                      "bpReadingsDates",
+                      bpReadingsDates.join(",")
+                    ).then(() => console.log(bpReadingsDates + " mina eh eh"));
 
-                  console.log(bpReadings + "r");
+                    console.log(bpReadings + "r");
+                  }
                 }}
               >
                 <Text

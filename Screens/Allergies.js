@@ -62,13 +62,13 @@ export default Allergies = ({ navigation }) => {
       setSeaFood(value == true ? true : false);
     });
 
-    getValueDB("pollen").then((value) => {
-      setPollen(value == true ? true : false);
-    });
+    // getValueDB("pollen").then((value) => {
+    //   setPollen(value == true ? true : false);
+    // });
 
-    getValueDB("dust").then((value) => {
-      setDust(value == true ? true : false);
-    });
+    // getValueDB("dust").then((value) => {
+    //   setDust(value == true ? true : false);
+    // });
   }, []);
 
   return (
@@ -227,7 +227,7 @@ export default Allergies = ({ navigation }) => {
               borderWidth: 2,
             }}
           />
-          <CheckBox
+          {/* <CheckBox
             title="Pollen"
             checked={pollen}
             checkedColor="rgba(0, 17, 43, 0.9)"
@@ -258,7 +258,7 @@ export default Allergies = ({ navigation }) => {
               borderColor: "rgba(0, 17, 43, 0.5)",
               borderWidth: 2,
             }}
-          />
+          /> */}
           {/*<Button title="Update" onPress={click} />*/}
         </View>
       </ImageBackground>
