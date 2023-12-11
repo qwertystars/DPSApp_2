@@ -719,10 +719,11 @@ export default function Main({ navigation }) {
                   flexDirection: "row",
                 }}
                 onPress={() => {
-                  if (newReading < 15) {
-                  } else if (newReading > 108) {
+                  setReadingContainer(false);
+
+                  if (newReading < 6) {
+                  } else if (newReading > 152) {
                   } else {
-                    setReadingContainer(false);
                     if (
                       glucoseReadings.length == 1 &&
                       glucoseReadings[0] == 0
@@ -854,7 +855,7 @@ export default function Main({ navigation }) {
                   height: 38,
                   width: "80%",
                   borderColor: "rgba(0, 72, 125, 0.5)",
-                  borderWidth: 2.75, //2.75
+                  borderWidth: 2.75, //2.7
                   borderRadius: 4,
                   marginVertical: 6,
                   justifyContent: "center",
