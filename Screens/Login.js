@@ -143,6 +143,7 @@ export default function Login({ navigation }) {
     getWeightDB();
     getBloodGroupDB();
     getProfilePicDB();
+      handleChangeAge();
   }, []);
 
   async function handleChangeName() {
@@ -167,7 +168,7 @@ export default function Login({ navigation }) {
       setHeightUnit(height);
     } else if (unit == "feet") {
       setHeightUnit(
-        Math.floor(height / 30.48) + "'" + Math.round((height % 30.48) / 2.4)
+        Math.floor(height / 30.48) + "'" + Math.floor((height % 30.48) / 2.4)
       );
     }
     console.log(height);
@@ -391,7 +392,7 @@ export default function Login({ navigation }) {
               <Text
                 style={{...aStyles.a, paddingTop: "5%"}}
               >
-               I am {age} years old!
+                          {age} years old
               </Text>
               <View style={{ flexDirection: "row" }}>
                 <Text
@@ -530,7 +531,7 @@ export default function Login({ navigation }) {
                     <Text
                         style={{ ...aStyles.a, paddingTop: "5%" }}
                     >
-                     I am {heightUnit} {unit} tall!
+                     {heightUnit} {unit}
                     </Text>
 
                           <View styles={{ marginHorizontal: 10, }}>
@@ -541,6 +542,7 @@ export default function Login({ navigation }) {
                                   search="false"
                                   onSelect={() => {
                                       handleChangeUnit();
+                                      handleChangeHeight();
                                   }}
                                   boxStyles={{
                                       height: 35,
@@ -559,8 +561,8 @@ export default function Login({ navigation }) {
                                       height: 35,
                                       alignSelf: "center",
                                   }}
-                                  minimumValue={0}
-                                  maximumValue={213}
+                                  minimumValue={60}
+                                  maximumValue={243}
                                   value={height}
                                   minimumTrackTintColor="#FFFFFF"
                                   maximumTrackTintColor="#000000"
@@ -579,7 +581,7 @@ export default function Login({ navigation }) {
                           <Text
                               style={{ ...aStyles.a, paddingTop: "5%" }}
                           >
-                              I am {weight} kg!
+                            {weight} kg
                           </Text>
                           <Slider
                               style={{
