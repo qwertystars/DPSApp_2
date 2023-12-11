@@ -71,6 +71,8 @@ export default function Main({ navigation }) {
   const [timerContainer, setTimerContainer] = useState(false);
   const [newReading, setNewReading] = useState(0);
   const [newReading2, setNewReading2] = useState(0);
+  const [lowSugarContainer, setLowSugarContainer] = useState(false);
+  const [highSugarContainer, setHighSugarContainer] = useState(false);
 
   const [glucoseReadings, setGlucoseReadings] = useState([0]);
   const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
@@ -721,8 +723,17 @@ export default function Main({ navigation }) {
                 onPress={() => {
                   setReadingContainer(false);
 
-                  if (newReading < 6) {
-                  } else if (newReading > 152) {
+                  if (newReading < 6 || newReading > 152) {
+                    {
+                      Alert.alert(
+                        "Invalid glucose level",
+                        "Invalid glucose level entered"
+                      );
+                    }
+                  } else if (newReading < 21) {
+                    setLowSugarContainer(true);
+                  } else if (newReading > 63) {
+                    setHighSugarContainer(true);
                   } else {
                     if (
                       glucoseReadings.length == 1 &&
@@ -1531,6 +1542,92 @@ export default function Main({ navigation }) {
                 />
               </TouchableOpacity>
             </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 2,
+            paddingTop: 190,
+            display: lowSugarContainer == true ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: (Dimensions.get("window").height * 40) / 100,
+              width: "90%",
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              paddingTop: 10,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              Low Sugar Warning!
+            </Text>
+            <TouchableOpacity
+              onPress={() => setLowSugarContainer(false)}
+              style={{
+                position: "absolute",
+                paddingTop: 10,
+                paddingLeft: 330,
+              }}
+            >
+              <MaterialIcons name="close" size={30} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 2,
+            paddingTop: 190,
+            display: highSugarContainer == true ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: (Dimensions.get("window").height * 40) / 100,
+              width: "90%",
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              paddingTop: 10,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              High Sugar Warning!
+            </Text>
+            <TouchableOpacity
+              onPress={() => setHighSugarContainer(false)}
+              style={{
+                position: "absolute",
+                paddingTop: 10,
+                paddingLeft: 330,
+              }}
+            >
+              <MaterialIcons name="close" size={30} />
+            </TouchableOpacity>
           </View>
         </View>
 
