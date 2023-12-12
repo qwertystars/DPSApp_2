@@ -74,6 +74,9 @@ export default function Main({ navigation }) {
   const [lowSugarContainer, setLowSugarContainer] = useState(false);
   const [diabetesContainer, setDiabetesContainer] = useState(false);
   const [prediabetesContainer, setPrediabetesContainer] = useState(false);
+  const [bpWarningTitle, setBPWarningTitle] = useState("");
+  const [bpWarningText, setBPWarningText] = useState("");
+  const [bpWarningContainer, setBPWarningContainer] = useState(false);
 
   const [glucoseReadings, setGlucoseReadings] = useState([0]);
   const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
@@ -1090,7 +1093,7 @@ export default function Main({ navigation }) {
         >
           <View
             style={{
-              height: (Dimensions.get("window").height * 35) / 100,
+              height: (Dimensions.get("window").height * 38) / 100,
               width: "80%",
               backgroundColor: "#FFF",
               alignSelf: "center",
@@ -1213,8 +1216,18 @@ export default function Main({ navigation }) {
                 onPress={() => {
                   setBPContainer(false);
 
-                  if (newReading < 1) {
-                  } else if (newReading > 1000) {
+                  if (
+                    newReading < 50 ||
+                    newReading > 190 ||
+                    newReading2 > 120 ||
+                    newReading2 < 30
+                  ) {
+                    {
+                      Alert.alert(
+                        "Invalid blood pressure",
+                        "Invalid blood pressure entered"
+                      );
+                    }
                   } else {
                     if (bpReadings.length == 1 && bpReadings[0] == 0) {
                       bpReadings[0] = newReading;
@@ -1249,6 +1262,50 @@ export default function Main({ navigation }) {
                     ).then(() => console.log(bpReadingsDates + " mina eh eh"));
 
                     console.log(bpReadings + "r");
+
+                    if (age > 2 && age < 18) {
+                      if (newReading > 120 || newReading2 > 80) {
+                        setBPWarningTitle("High Blood Pressure Warning");
+                        setBPWarningText(
+                          "The entered blood pressure is higher than it should be. You might have hypertension. Consider consulting a doctor."
+                        );
+                        setBPWarningContainer(true);
+                      } else if (newReading < 90 && newReading2 < 50) {
+                        setBPWarningTitle("Low Blood Pressure Warning");
+                        setBPWarningText(
+                          "The entered blood pressure is lower than it should be. You might have hypotension. Consider consulting a doctor."
+                        );
+                        setBPWarningContainer(true);
+                      }
+                    } else if (age >= 19 && age < 40) {
+                      if (newReading > 135 || newReading2 > 80) {
+                        setBPWarningTitle("High Blood Pressure Warning");
+                        setBPWarningText(
+                          "The entered blood pressure is higher than it should be. You might have hypertension. Consider consulting a doctor."
+                        );
+                        setBPWarningContainer(true);
+                      } else if (newReading < 95 && newReading2 < 60) {
+                        setBPWarningTitle("Low Blood Pressure Warning");
+                        setBPWarningText(
+                          "The entered blood pressure is lower than it should be. You might have hypotension. Consider consulting a doctor."
+                        );
+                        setBPWarningContainer(true);
+                      }
+                    } else if (age >= 41) {
+                      if (newReading > 145 || newReading2 > 90) {
+                        setBPWarningTitle("High Blood Pressure Warning");
+                        setBPWarningText(
+                          "The entered blood pressure is higher than it should be. You might have hypertension. Consider consulting a doctor."
+                        );
+                        setBPWarningContainer(true);
+                      } else if (newReading < 95 && newReading2 < 70) {
+                        setBPWarningTitle("Low Blood Pressure Warning");
+                        setBPWarningText(
+                          "The entered blood pressure is lower than it should be. You might have hypotension. Consider consulting a doctor."
+                        );
+                        setBPWarningContainer(true);
+                      }
+                    }
                   }
                 }}
               >
@@ -1623,6 +1680,66 @@ export default function Main({ navigation }) {
               >
                 The blood glucose entered is lower than it should be. You might
                 have hypoglycemia. Consider consulting a doctor.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 2,
+            paddingTop: 190,
+            display: bpWarningContainer ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: (Dimensions.get("window").height * 20) / 100,
+              width: "90%",
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              paddingTop: 10,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              {bpWarningTitle}
+            </Text>
+            <TouchableOpacity
+              onPress={() => setBPWarningContainer(false)}
+              style={{
+                position: "absolute",
+                paddingTop: 10,
+                paddingLeft: 330,
+              }}
+            >
+              <MaterialIcons name="close" size={30} />
+            </TouchableOpacity>
+
+            <View
+              style={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingTop: 20,
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                }}
+              >
+                {bpWarningText}
               </Text>
             </View>
           </View>
