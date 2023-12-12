@@ -120,6 +120,7 @@ export default Allergies = ({ navigation }) => {
             Allergies
           </Text>
         </View>
+
         <View
           style={{
             marginHorizontal: 12,

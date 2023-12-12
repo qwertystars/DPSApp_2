@@ -25,6 +25,10 @@ export default function GlucoseGraph({ navigation }) {
   const [intercept, setIntercept] = useState(0);
   var data = ["e"];
 
+  const [warningConatiner, setWarningContainer] = useState(false);
+  const [warningText, setWarningText] = useState("");
+  const [next, setNext] = useState(false);
+
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
     if (result) return result;
@@ -32,6 +36,8 @@ export default function GlucoseGraph({ navigation }) {
   };
 
   useEffect(() => {
+    setWarningContainer(false);
+
     GetValueDB("glucoseReadings").then((value) => {
       let arr = value.split(",");
       arr.reverse();
@@ -80,7 +86,23 @@ export default function GlucoseGraph({ navigation }) {
         setIntercept(parseFloat(value));
       }
     });
+
+    setNext(true);
   }, []);
+
+  useEffect(() => {
+    var pred = (slope * 60 + intercept).toFixed(2);
+    if (pred > 48) {
+      setWarningText("Predicted glucose reaching diabetes range");
+      setWarningContainer(true);
+    } else if (pred < 48 && pred > 39) {
+      setWarningText("Predicted glucose reaching prediabetes range");
+      setWarningContainer(true);
+    } else if (pred < 21) {
+      setWarningText("Predicted glucose reaching hypoglycemia range");
+      setWarningContainer(true);
+    }
+  }, [next]);
 
   return (
     <SafeAreaView
@@ -133,6 +155,74 @@ export default function GlucoseGraph({ navigation }) {
           flex: 1,
         }}
       >
+        <View
+          style={{
+            paddingTop: 10,
+            display: warningConatiner ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: 65,
+              width: "98%",
+              backgroundColor: "rgba(250,62,62,0.7)",
+              borderRadius: 15,
+              borderColor: "#96333d",
+              borderWidth: 3.5,
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "sans-serif",
+                fontWeight: "bold",
+                fontSize: 20,
+                paddingTop: "1%",
+                paddingLeft: "5%",
+                paddingRight: "5%",
+                color: "rgba(255,198,196,1)",
+                textAlign: "center",
+              }}
+            >
+              {warningText}
+            </Text>
+
+            {/* <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  paddingTop: 5,
+                  paddingLeft: "83%",
+                }}
+                onPress={() => {
+                  setShowAlert(false);
+                  ResetCheckupDuration();
+                }}
+              >
+                <View
+                  style={{
+                    height: 30,
+                    width: 50,
+                    backgroundColor: "rgba(255,198,196,1)",
+                    borderRadius: 10,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "sans-serif",
+                      fontWeight: "bold",
+                      fontSize: 16,
+                      paddingVertical: 4,
+                      alignSelf: "center",
+                      color: "#96333d",
+                    }}
+                  >
+                    DONE
+                  </Text>
+                </View>
+              </TouchableOpacity> */}
+          </View>
+        </View>
+
         <View
           style={{
             padding: 25,
