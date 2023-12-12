@@ -18,11 +18,12 @@
       "supportsTablet": true
     },
     "android": {
-        "googleServicesFile": "./google-services.json",
-        "adaptiveIcon": {
-            "foregroundImage": "./assets/adaptive-icon.png",
-            "backgroundColor": "#ffffff"
-        }
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.dpsn.DpsnApp2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,12 +31,10 @@
     "plugins": [
       "expo-build-properties",
       "@react-native-firebase/app",
-        [
-            "expo-build-properties",
-            {
-
-            }
-        ]
+      [
+        "expo-build-properties",
+        {}
+      ]
     ]
   }
 }
