@@ -516,6 +516,7 @@ export default function Main({ navigation }) {
       GetValueDB("Day" + (7 - mealResetRemainingDays + 1)).then((value) => {
         if (value == "") {
           console.log("empty meal");
+          //ResetMeal();
         } else {
           const mealsStr = value.split("~");
           const e = "EASPORTS";

@@ -23,11 +23,17 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [fontsLoaded] = useFonts({});
 
-  const onLayoutRootView = useCallback(async () => {
+  const onLayoutRootView = async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  };
+
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (fontsLoaded) {
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;
