@@ -72,7 +72,8 @@ export default function Main({ navigation }) {
   const [newReading, setNewReading] = useState(0);
   const [newReading2, setNewReading2] = useState(0);
   const [lowSugarContainer, setLowSugarContainer] = useState(false);
-  const [highSugarContainer, setHighSugarContainer] = useState(false);
+  const [diabetesContainer, setDiabetesContainer] = useState(false);
+  const [prediabetesContainer, setPrediabetesContainer] = useState(false);
 
   const [glucoseReadings, setGlucoseReadings] = useState([0]);
   const [glucoseReadingsDates, setGlucoseReadingsDates] = useState([0]);
@@ -730,10 +731,6 @@ export default function Main({ navigation }) {
                         "Invalid glucose level entered"
                       );
                     }
-                  } else if (newReading < 21) {
-                    setLowSugarContainer(true);
-                  } else if (newReading > 63) {
-                    setHighSugarContainer(true);
                   } else {
                     if (
                       glucoseReadings.length == 1 &&
@@ -783,6 +780,14 @@ export default function Main({ navigation }) {
                     Prediction();
 
                     console.log(glucoseReadings + "r");
+                  }
+
+                  if (newReading < 21) {
+                    setLowSugarContainer(true);
+                  } else if (newReading > 39 && newReading < 48) {
+                    setPrediabetesContainer(true);
+                  } else if (newReading > 48) {
+                    setDiabetesContainer(true);
                   }
                 }}
               >
@@ -961,65 +966,82 @@ export default function Main({ navigation }) {
                   if (d < today) {
                     setReadingContainerPrev(false);
 
-                    if (
-                      glucoseReadings.length == 1 &&
-                      glucoseReadings[0] == 0
-                    ) {
-                      glucoseReadings[0] = newReading;
-                    } else {
-                      glucoseReadings.push(newReading);
-                    }
-
-                    if (
-                      glucoseReadingsDates.length == 1 &&
-                      glucoseReadingsDates[0] == 0
-                    ) {
-                      glucoseReadingsDates[0] = d;
-                    } else {
-                      glucoseReadingsDates.push(d);
-
-                      const temp = [];
-                      glucoseReadingsDates.forEach((value) => {
-                        temp.push(value);
-                      });
-
-                      glucoseReadingsDates.sort((a, b) => {
-                        return a - b;
-                      });
-
-                      const tempGlcRd = [];
-
-                      glucoseReadingsDates.forEach((value, index) => {
-                        var i = temp.indexOf(value);
-                        tempGlcRd.push(glucoseReadings[i]);
-                        console.log(tempGlcRd);
-                      });
-
-                      for (var i = 0; i < glucoseReadings.length; i++) {
-                        glucoseReadings[i] = tempGlcRd[i];
+                    if (newReading < 6 || newReading > 152) {
+                      {
+                        Alert.alert(
+                          "Invalid glucose level",
+                          "Invalid glucose level entered"
+                        );
                       }
-                      // setGlucoseReadings(tempGlcRd);
-                      // console.log(glucoseReadings + " ///>>>");
+                    } else {
+                      if (
+                        glucoseReadings.length == 1 &&
+                        glucoseReadings[0] == 0
+                      ) {
+                        glucoseReadings[0] = newReading;
+                      } else {
+                        glucoseReadings.push(newReading);
+                      }
+
+                      if (
+                        glucoseReadingsDates.length == 1 &&
+                        glucoseReadingsDates[0] == 0
+                      ) {
+                        glucoseReadingsDates[0] = d;
+                      } else {
+                        glucoseReadingsDates.push(d);
+
+                        const temp = [];
+                        glucoseReadingsDates.forEach((value) => {
+                          temp.push(value);
+                        });
+
+                        glucoseReadingsDates.sort((a, b) => {
+                          return a - b;
+                        });
+
+                        const tempGlcRd = [];
+
+                        glucoseReadingsDates.forEach((value, index) => {
+                          var i = temp.indexOf(value);
+                          tempGlcRd.push(glucoseReadings[i]);
+                          console.log(tempGlcRd);
+                        });
+
+                        for (var i = 0; i < glucoseReadings.length; i++) {
+                          glucoseReadings[i] = tempGlcRd[i];
+                        }
+                        // setGlucoseReadings(tempGlcRd);
+                        // console.log(glucoseReadings + " ///>>>");
+                      }
+
+                      SetValueDB(
+                        "glucoseReadings",
+                        glucoseReadings.join(",")
+                      ).then(() => console.log(glucoseReadings + " zamina"));
+
+                      SetValueDB(
+                        "glucoseReadingsDates",
+                        glucoseReadingsDates.join(",")
+                      ).then(() =>
+                        console.log(glucoseReadingsDates + " mina eh eh")
+                      );
+
+                      GlucoseDateUpdation();
+
+                      Prediction();
+
+                      console.log(glucoseReadingsDates);
+                      console.log(glucoseReadings + "r");
                     }
 
-                    SetValueDB(
-                      "glucoseReadings",
-                      glucoseReadings.join(",")
-                    ).then(() => console.log(glucoseReadings + " zamina"));
-
-                    SetValueDB(
-                      "glucoseReadingsDates",
-                      glucoseReadingsDates.join(",")
-                    ).then(() =>
-                      console.log(glucoseReadingsDates + " mina eh eh")
-                    );
-
-                    GlucoseDateUpdation();
-
-                    Prediction();
-
-                    console.log(glucoseReadingsDates);
-                    console.log(glucoseReadings + "r");
+                    if (newReading < 21) {
+                      setLowSugarContainer(true);
+                    } else if (newReading > 39 && newReading < 48) {
+                      setPrediabetesContainer(true);
+                    } else if (newReading > 48) {
+                      setDiabetesContainer(true);
+                    }
                   } else {
                     {
                       Alert.alert("Invalid date", "Invalid date entered");
@@ -1558,7 +1580,7 @@ export default function Main({ navigation }) {
         >
           <View
             style={{
-              height: (Dimensions.get("window").height * 40) / 100,
+              height: (Dimensions.get("window").height * 20) / 100,
               width: "90%",
               backgroundColor: "#FFF",
               alignSelf: "center",
@@ -1573,7 +1595,7 @@ export default function Main({ navigation }) {
                 fontWeight: "bold",
               }}
             >
-              Low Sugar Warning!
+              Potential Hypoglycemia Warning!
             </Text>
             <TouchableOpacity
               onPress={() => setLowSugarContainer(false)}
@@ -1585,6 +1607,24 @@ export default function Main({ navigation }) {
             >
               <MaterialIcons name="close" size={30} />
             </TouchableOpacity>
+
+            <View
+              style={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingTop: 20,
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                }}
+              >
+                The blood glucose entered is lower than it should be. You might
+                have hypoglycemia. Consider consulting a doctor.
+              </Text>
+            </View>
           </View>
         </View>
 
@@ -1596,12 +1636,12 @@ export default function Main({ navigation }) {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 2,
             paddingTop: 190,
-            display: highSugarContainer == true ? "flex" : "none",
+            display: diabetesContainer == true ? "flex" : "none",
           }}
         >
           <View
             style={{
-              height: (Dimensions.get("window").height * 40) / 100,
+              height: (Dimensions.get("window").height * 25) / 100,
               width: "90%",
               backgroundColor: "#FFF",
               alignSelf: "center",
@@ -1616,10 +1656,10 @@ export default function Main({ navigation }) {
                 fontWeight: "bold",
               }}
             >
-              High Sugar Warning!
+              Potential Diabetes Warning!
             </Text>
             <TouchableOpacity
-              onPress={() => setHighSugarContainer(false)}
+              onPress={() => setDiabetesContainer(false)}
               style={{
                 position: "absolute",
                 paddingTop: 10,
@@ -1628,6 +1668,85 @@ export default function Main({ navigation }) {
             >
               <MaterialIcons name="close" size={30} />
             </TouchableOpacity>
+
+            <View
+              style={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingTop: 20,
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                }}
+              >
+                The blood glucose entered is higher than it should be. You might
+                have Diabetes. Consider consulting a doctor.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 2,
+            paddingTop: 190,
+            display: prediabetesContainer == true ? "flex" : "none",
+          }}
+        >
+          <View
+            style={{
+              height: (Dimensions.get("window").height * 25) / 100,
+              width: "90%",
+              backgroundColor: "#FFF",
+              alignSelf: "center",
+              paddingTop: 10,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              Potential Prediabetes Warning!
+            </Text>
+            <TouchableOpacity
+              onPress={() => setPrediabetesContainer(false)}
+              style={{
+                position: "absolute",
+                paddingTop: 10,
+                paddingLeft: 330,
+              }}
+            >
+              <MaterialIcons name="close" size={30} />
+            </TouchableOpacity>
+
+            <View
+              style={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingTop: 20,
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                }}
+              >
+                The blood glucose entered is higher than it should be. You might
+                have Prediabetes. Consider consulting a doctor.
+              </Text>
+            </View>
           </View>
         </View>
 
