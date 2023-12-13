@@ -83,6 +83,11 @@ export default function Main({ navigation }) {
   const [glucoseDatePassed, setGlucoseDatePassed] = useState([0]);
   const [glucosePrediction, setGlucosePrediction] = useState([0]);
 
+  const [idealSystolicBloodPressure, setIdealSystolicBloodPressure] =
+    useState(0);
+  const [idealDiastolicBloodPressure, setIdealDiastolicBloodPressure] =
+    useState(0);
+
   const [bpReadings, setBPReadings] = useState([0]);
   const [bpdReadings, setBPDReadings] = useState([0]);
   const [bpReadingsDates, setBPReadingsDates] = useState([0]);
@@ -556,6 +561,9 @@ export default function Main({ navigation }) {
       calsNeeded = parseInt(calsNeeded);
 
       console.log(calsNeeded + " CALORIES NEEDED");
+    }
+
+    if (age > 0) {
     }
   }, [runAgain]);
 

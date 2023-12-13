@@ -18,15 +18,16 @@ import Loading from "./Screens/Loading";
 import Login from "./Screens/Login";
 import TimerSettings from "./Screens/TimerSettings";
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.hideAsync();
+// SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 export default function App() {
-  const [fontsLoaded] = useFonts({});
+  // const [fontsLoaded] = useFonts({});
 
   const onLayoutRootView = async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
+    // if (fontsLoaded) {
+    //   await SplashScreen.hideAsync();
+    // }
   };
 
   // const onLayoutRootView = useCallback(async () => {
