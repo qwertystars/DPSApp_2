@@ -1,10 +1,13 @@
-import "react-native-gesture-handler";
-import { Text } from "react-native";
+import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Profile } from "./Screens";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback } from "react";
+import React from "react";
 import BottomTabNav from "./Navigations/BottomTabNav";
-import Main from "./Screens/Main";
+import { Profile } from "./Screens";
+import { Main } from "./Screens";
 import BetterAilments from "./Screens/BetterAilments";
 import GlucoseGraph from "./Screens/GlucoseGraph";
 import BloodPressureGraph from "./Screens/BloodPressureGraph";
@@ -15,11 +18,24 @@ import Loading from "./Screens/Loading";
 import Login from "./Screens/Login";
 import TimerSettings from "./Screens/TimerSettings";
 
+SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 export default function App() {
+  const [fontsLoaded] = useFonts({});
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="BottomTabNavigation">
+    <NavigationContainer onReady={onLayoutRootView}>
+      <Stack.Navigator initialRouteName="Loading">
         <Stack.Screen
           name="BottomTabNavigation"
           component={BottomTabNav}
@@ -30,12 +46,9 @@ export default function App() {
         <Stack.Screen
           name="Profile"
           component={Profile}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Main"
-          component={Main}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+          }}
         />
         <Stack.Screen
           name="BetterAilments"
@@ -43,14 +56,25 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Glucose"
-          component={GlucoseGraph}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
           name="Allergies"
           component={Allergies}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Main"
+          component={Main}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Glucose"
+          component={GlucoseGraph}
+          options={{
+            headerShown: false,
+          }}
         />
         <Stack.Screen
           name="BloodPressure"
@@ -62,6 +86,13 @@ export default function App() {
         <Stack.Screen
           name="DietChart"
           component={DietChart}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="WorkoutPlan"
+          component={WorkoutPlan}
           options={{
             headerShown: false,
           }}

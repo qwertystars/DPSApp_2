@@ -1,12 +1,11 @@
-import { View, Text } from "react-native";
-import React from "react";
-
-const WorkoutPlan = () => {
-  return (
-    <View>
-      <Text>WorkoutPlan</Text>
-    </View>
-  );
-};
-
-export default WorkoutPlan;
+import { SafeAreaView } from "react-native";
+export default function WorkoutPlan({ navigation }) {
+    return (
+        <SafeAreaView
+            style={{
+                paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+                flex: 1,
+                backgroundColor: "rgba(93, 152, 255, 0.83)",
+            }}
+        />);
+}

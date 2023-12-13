@@ -83,11 +83,6 @@ export default function Main({ navigation }) {
   const [glucoseDatePassed, setGlucoseDatePassed] = useState([0]);
   const [glucosePrediction, setGlucosePrediction] = useState([0]);
 
-  const [idealSystolicBloodPressure, setIdealSystolicBloodPressure] =
-    useState(0);
-  const [idealDiastolicBloodPressure, setIdealDiastolicBloodPressure] =
-    useState(0);
-
   const [bpReadings, setBPReadings] = useState([0]);
   const [bpdReadings, setBPDReadings] = useState([0]);
   const [bpReadingsDates, setBPReadingsDates] = useState([0]);
@@ -521,7 +516,6 @@ export default function Main({ navigation }) {
       GetValueDB("Day" + (7 - mealResetRemainingDays + 1)).then((value) => {
         if (value == "") {
           console.log("empty meal");
-          //ResetMeal();
         } else {
           const mealsStr = value.split("~");
           const e = "EASPORTS";
@@ -561,9 +555,6 @@ export default function Main({ navigation }) {
       calsNeeded = parseInt(calsNeeded);
 
       console.log(calsNeeded + " CALORIES NEEDED");
-    }
-
-    if (age > 0) {
     }
   }, [runAgain]);
 
@@ -2082,25 +2073,25 @@ export default function Main({ navigation }) {
             </View>
           </View>
           {/* <View style={{ backgroundColor: "rgba(0, 33, 59, 0.3)" }}>
-              <Text
-                style={{
-                  fontSize: 50,
-                  alignSelf: "center",
-                  color: "rgba(180, 229, 255, 0.87)",
-                }}
-              >
-                {remainingDays}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 25,
-                  alignSelf: "center",
-                  color: "rgba(190, 239, 255, 0.87)",
-                }}
-              >
-                Days till next checkup
-              </Text>
-            </View> */}
+            <Text
+              style={{
+                fontSize: 50,
+                alignSelf: "center",
+                color: "rgba(180, 229, 255, 0.87)",
+              }}
+            >
+              {remainingDays}
+            </Text>
+            <Text
+              style={{
+                fontSize: 25,
+                alignSelf: "center",
+                color: "rgba(190, 239, 255, 0.87)",
+              }}
+            >
+              Days till next checkup
+            </Text>
+          </View> */}
 
           <View
             style={{
@@ -2534,28 +2525,28 @@ export default function Main({ navigation }) {
               justifyContent: "center",
             }}
           >
-            {/* <TouchableOpacity
+            <TouchableOpacity
+              style={{
+                height: 140,
+                width: 120,
+                alignContent: "flex-end",
+                backgroundColor: "rgba(255, 255, 255, 0.3)",
+                borderRadius: 10,
+                justifyContent: "center",
+              }}
+              onPress={() => navigation.navigate("WorkoutPlan")}
+            >
+              <Image
+                source={require("../assets/WorkoutPlan.png")}
                 style={{
-                  height: 140,
-                  width: 120,
-                  alignContent: "flex-end",
-                  backgroundColor: "rgba(255, 255, 255, 0.3)",
-                  borderRadius: 10,
-                  justifyContent: "center",
+                  width: 100,
+                  height: 100,
+                  position: "absolute",
+                  paddingTop: 40,
+                  alignSelf: "center",
                 }}
-                onPress={() => navigation.navigate("WorkoutPlan")}
-              >
-                <Image
-                  source={require("../assets/WorkoutPlan.png")}
-                  style={{
-                    width: 100,
-                    height: 100,
-                    position: "absolute",
-                    paddingTop: 40,
-                    alignSelf: "center",
-                  }}
-                />
-              </TouchableOpacity> */}
+              />
+            </TouchableOpacity>
             <View style={{ width: 40 }}></View>
             {/* Diet page button */}
             <TouchableOpacity

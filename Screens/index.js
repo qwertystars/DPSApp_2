@@ -1,4 +1,4 @@
-import Profile from "./Profile";
 import Main from "./Main";
+import Profile from "./Profile";
 
-export { Profile, Main };
+export { Main, Profile };

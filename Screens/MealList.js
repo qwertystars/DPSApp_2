@@ -1,12 +1,26 @@
 import { View, Text } from "react-native";
-import React from "react";
+import { useState, useEffect } from "react";
+import Meal from "./Meal";
+//import React from "react";
 
-const MealList = () => {
+export default function MealList({ mealData }) {
+  // const [jsonData, setJsonData] = useState("");
+
+  // useEffect(() => {
+  //   setJsonData(JSON.parse(mealData));
+  // });
+
   return (
-    <View>
-      <Text>MealList</Text>
+    <View
+      style={{
+        paddingLeft: 0,
+        paddingTop: 0,
+        flexDirection: "row",
+      }}
+    >
+      {mealData.map((meal) => {
+        return <Meal meal={meal} key={meal.id} />;
+      })}
     </View>
   );
-};
-
-export default MealList;
+}

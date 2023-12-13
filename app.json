@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "MediCoach",
+    "name": "DoneWithIt",
     "slug": "DoneWithIt",
     "version": "1.0.0",
     "orientation": "default",
@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -29,12 +31,10 @@
     "plugins": [
       "expo-build-properties",
       "@react-native-firebase/app",
-      ["expo-build-properties", {}]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "2f58bb00-f10b-4de1-b989-440b08dc48b0"
-      }
-    }
+      [
+        "expo-build-properties",
+        {}
+      ]
+    ]
   }
 }

@@ -22,6 +22,8 @@ import { Ailments } from "../Screens";
 import { Allergies } from "../Screens";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
+import { printToFileAsync } from "expo-print";
+import { shareAsync } from "expo-sharing";
 
 //GLUCARE
 export default function Profile({ navigation }) {
@@ -86,10 +88,8 @@ export default function Profile({ navigation }) {
 
   const getProfilePicDB = async () => {
     let result = await SecureStore.getItemAsync("profilePic");
-    if (result) {
-      setSelectedImage(result);
-      console.log(result);
-    } else setSelectedImage(require("../assets/user.png"));
+    if (result) setSelectedImage(result);
+    else setSelectedImage(require("../assets/user.png"));
   };
 
   useEffect(() => {
@@ -158,6 +158,501 @@ export default function Profile({ navigation }) {
     );
   };
 
+  const html = `<div
+  style="width: 360px; height: 1065px; position: relative; background: white"
+>
+  <div
+    style="
+      width: 231px;
+      height: 76px;
+      left: 129px;
+      top: 14px;
+      position: absolute;
+      color: black;
+      font-size: 24px;
+      font-family: Inter;
+      font-weight: 700;
+      word-wrap: break-word;
+    "
+  >
+    MediCoach<br /><br />Health Report
+  </div>
+  <div
+    style="
+      width: 322px;
+      height: 0px;
+      left: 17px;
+      top: 115px;
+      position: absolute;
+      border: 3px black solid;
+    "
+  ></div>
+  <div
+    style="
+      width: 322px;
+      height: 0px;
+      left: 17px;
+      top: 283px;
+      position: absolute;
+      border: 3px black solid;
+    "
+  ></div>
+  <div
+    style="
+      width: 322px;
+      height: 0px;
+      left: 17px;
+      top: 465px;
+      position: absolute;
+      border: 3px black solid;
+    "
+  ></div>
+  <div
+    style="
+      width: 99px;
+      height: 132px;
+      left: 23px;
+      top: 130px;
+      position: absolute;
+      color: black;
+      font-size: 14px;
+      font-family: Inter;
+      font-weight: 700;
+      word-wrap: break-word;
+    "
+  >
+    Name:<br />Age:<br />Height:<br />Weight:<br />Gender:<br />Blood Group:<br /><br />
+  </div>
+  <div
+    style="
+      width: 177px;
+      height: 130px;
+      left: 129px;
+      top: 132px;
+      position: absolute;
+      color: black;
+      font-size: 14px;
+      font-family: Inter;
+      font-weight: 400;
+      word-wrap: break-word;
+    "
+  >
+    ${name}<br />${age}<br />${height}<br />${weight}<br />${gender}<br />${bloodGrp}
+  </div>
+  <div
+    style="
+      width: 322px;
+      height: 41px;
+      left: 17px;
+      top: 298px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 20px;
+      font-family: Inter;
+      font-weight: 700;
+      word-wrap: break-word;
+    "
+  >
+    Pre-Existing Conditions
+  </div>
+  <div
+    style="
+      width: 322px;
+      height: 23px;
+      left: 13px;
+      top: 891px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 20px;
+      font-family: Inter;
+      font-weight: 700;
+      word-wrap: break-word;
+    "
+  >
+    Health Results
+  </div>
+  <div
+    style="
+      width: 163px;
+      height: 100px;
+      left: 23px;
+      top: 345px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Diabetes<br />High Blood Pressure<br />Migraine
+  </div>
+  <div
+    style="
+      width: 153px;
+      height: 100px;
+      left: 186px;
+      top: 345px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Arthritis<br />Low Blood Pressure<br />Cholestorol<br /><br /><br /><br />
+  </div>
+  <div
+    style="
+      width: 113px;
+      height: 164px;
+      left: 26px;
+      top: 929px;
+      position: absolute;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 700;
+      word-wrap: break-word;
+    "
+  >
+    BMI: <br />BMR:<br />Daily Calorie <br />Requirement :<br />Obesity:
+  </div>
+  <div
+    style="
+      width: 113px;
+      height: 164px;
+      left: 145px;
+      top: 929px;
+      position: absolute;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 400;
+      word-wrap: break-word;
+    "
+  >
+    18<br />1511 kcal<br /><br />2000 kcal<br />No
+  </div>
+  <img
+    style="
+      width: 83.01px;
+      height: 84px;
+      left: 17px;
+      top: 14px;
+      position: absolute;
+      border-radius: 40px;
+    "
+    src="https://via.placeholder.com/83x84"
+  />
+  <div
+    style="
+      width: 322px;
+      height: 0px;
+      left: 11px;
+      top: 677px;
+      position: absolute;
+      border: 3px black solid;
+    "
+  ></div>
+  <div
+    style="
+      width: 251px;
+      height: 0px;
+      left: 49px;
+      top: 534px;
+      position: absolute;
+      border: 2px black solid;
+    "
+  ></div>
+  <div
+    style="
+      width: 329px;
+      height: 30px;
+      left: 10px;
+      top: 480px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 20px;
+      font-family: Inter;
+      font-weight: 700;
+      word-wrap: break-word;
+    "
+  >
+    Blood Glucose
+  </div>
+  <div
+    style="
+      width: 316px;
+      height: 18px;
+      left: 23px;
+      top: 510px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Prediction(after 2 months): 80
+  </div>
+  <div
+    style="
+      width: 129px;
+      height: 64px;
+      left: 198px;
+      top: 603px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    10/12/2023<br />9/12/2023<br />8/12/2023
+  </div>
+  <div
+    style="
+      width: 166px;
+      height: 18px;
+      left: 23px;
+      top: 540px;
+      position: absolute;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Past Readings:
+  </div>
+  <div
+    style="
+      width: 35px;
+      height: 64px;
+      left: 59px;
+      top: 603px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    81<br />80<br />80
+  </div>
+  <div
+    style="
+      width: 137px;
+      height: 25px;
+      left: 12px;
+      top: 572px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Glucose Reading
+  </div>
+  <div
+    style="
+      width: 137px;
+      height: 25px;
+      left: 187px;
+      top: 572px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Date
+  </div>
+  <div
+    style="
+      width: 322px;
+      height: 0px;
+      left: 15px;
+      top: 877px;
+      position: absolute;
+      border: 3px black solid;
+    "
+  ></div>
+  <div
+    style="
+      width: 251px;
+      height: 0px;
+      left: 49px;
+      top: 727px;
+      position: absolute;
+      border: 2px black solid;
+    "
+  ></div>
+  <div
+    style="
+      width: 329px;
+      height: 30px;
+      left: 8px;
+      top: 691px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 20px;
+      font-family: Inter;
+      font-weight: 700;
+      word-wrap: break-word;
+    "
+  >
+    Blood Pressure
+  </div>
+  <div
+    style="
+      width: 129px;
+      height: 64px;
+      left: 198px;
+      top: 794px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    10/12/2023<br />9/12/2023<br />8/12/2023
+  </div>
+  <div
+    style="
+      width: 166px;
+      height: 18px;
+      left: 23px;
+      top: 739px;
+      position: absolute;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Past Readings:
+  </div>
+  <div
+    style="
+      width: 62px;
+      height: 18px;
+      left: 23px;
+      top: 767px;
+      position: absolute;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Systolic
+  </div>
+  <div
+    style="
+      width: 62px;
+      height: 18px;
+      left: 116px;
+      top: 767px;
+      position: absolute;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Diastolic
+  </div>
+  <div
+    style="
+      width: 62px;
+      height: 18px;
+      left: 231px;
+      top: 767px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    Date
+  </div>
+  <div
+    style="
+      width: 35px;
+      height: 64px;
+      left: 30px;
+      top: 799px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    81<br />80<br />80
+  </div>
+  <div
+    style="
+      width: 35px;
+      height: 64px;
+      left: 132px;
+      top: 795px;
+      position: absolute;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-family: Inter;
+      font-weight: 500;
+      word-wrap: break-word;
+    "
+  >
+    81<br />80<br />80
+  </div>
+</div>
+`;
+
+  let generatePdf = async () => {
+    const file = await printToFileAsync({
+      html: html,
+      base64: false,
+    });
+
+    await shareAsync(file.uri);
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -192,6 +687,16 @@ export default function Profile({ navigation }) {
           justifyContent: "center",
         }}
       >
+        <TouchableOpacity onPress={generatePdf}>
+          <View
+            style={{
+              height: 50,
+              width: 50,
+              backgroundColor: "#FFFF",
+            }}
+          ></View>
+        </TouchableOpacity>
+
         <ScrollView
           style={{
             height: 200,
@@ -215,11 +720,7 @@ export default function Profile({ navigation }) {
                   alignSelf: "center",
                   opacity: 0.9,
                 }}
-                source={{
-                  uri: SelectedImage
-                    ? SelectedImage
-                    : "https://cdn-icons-png.flaticon.com/512/1177/1177568.png",
-                }}
+                source={{ uri: SelectedImage }}
               />
             </TouchableOpacity>
           </View>
