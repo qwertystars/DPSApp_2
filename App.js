@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
+//import { useFonts } from "expo-font";
+//import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import React from "react";
 import BottomTabNav from "./Navigations/BottomTabNav";
@@ -18,7 +18,7 @@ import Loading from "./Screens/Loading";
 import Login from "./Screens/Login";
 import TimerSettings from "./Screens/TimerSettings";
 
-SplashScreen.hideAsync();
+//SplashScreen.hideAsync();
 // SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -36,12 +36,12 @@ export default function App() {
   //   }
   // }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
   return (
-    <NavigationContainer onReady={onLayoutRootView}>
+    <NavigationContainer>
       <Stack.Navigator initialRouteName="Loading">
         <Stack.Screen
           name="BottomTabNavigation"
