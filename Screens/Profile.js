@@ -497,7 +497,7 @@ src="https://i.pinimg.com/736x/a1/ac/15/a1ac15e883ceddaf6c6a6fa413d58e8f.jpg"
       word-wrap: break-word;
     "
   >
-    BMI: <br />BMR:<br />Daily Calorie <br />Requirement :<br />Obesity:
+    BMI: <br />BMR:<br />Obesity:
   </div>
   <div
     style="
@@ -513,9 +513,13 @@ src="https://i.pinimg.com/736x/a1/ac/15/a1ac15e883ceddaf6c6a6fa413d58e8f.jpg"
       word-wrap: break-word;
     "
   >
-    ${
-      weight / ((height / 100) * (height / 100))
-    }<br />${height} kcal<br /><br />2000 kcal<br />No
+    ${(weight / ((height / 100) * (height / 100))).toFixed(2)}<br />${
+    gender == "MALE"
+      ? 10 * weight + 6.25 * height - 5 * age + 5
+      : 10 * weight + 6.25 * height - 5 * age - 161
+  } kcal<br />${
+    (weight / ((height / 100) * (height / 100))).toFixed(2) > 30 ? "Yes" : "No"
+  }
   </div>
   <div
     style="
@@ -863,7 +867,7 @@ src="https://i.pinimg.com/736x/a1/ac/15/a1ac15e883ceddaf6c6a6fa413d58e8f.jpg"
           justifyContent: "center",
         }}
       >
-        <TouchableOpacity onPress={generatePdf}>
+        {/* <TouchableOpacity onPress={generatePdf}>
           <View
             style={{
               height: 50,
@@ -871,7 +875,7 @@ src="https://i.pinimg.com/736x/a1/ac/15/a1ac15e883ceddaf6c6a6fa413d58e8f.jpg"
               backgroundColor: "#FFFF",
             }}
           ></View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <ScrollView
           style={{
@@ -1286,6 +1290,42 @@ src="https://i.pinimg.com/736x/a1/ac/15/a1ac15e883ceddaf6c6a6fa413d58e8f.jpg"
                   }}
                 >
                   Timer Settings
+                </Text>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  style={{
+                    position: "absolute",
+                    paddingLeft: "90%",
+                    paddingTop: 5,
+                    color: "rgba(170, 219, 255, 0.87)",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ paddingTop: 50 }}>
+              <TouchableOpacity
+                style={{
+                  height: 40,
+                  width: "80%",
+                  backgroundColor: "#2e6698",
+                  paddingTop: 5,
+                  borderColor: "#37688d",
+                  borderRadius: 5,
+                  borderWidth: 3,
+                }}
+                onPress={() => generatePdf()}
+              >
+                <Text
+                  style={{
+                    fontSize: 17,
+                    color: "rgba(170, 219, 255, 0.87)",
+                    paddingLeft: 2,
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  Get Health Report
                 </Text>
                 <MaterialIcons
                   name="keyboard-arrow-right"

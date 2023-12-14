@@ -41,7 +41,7 @@ export default function Meal({ meal }) {
     >
       <View
         style={{
-          paddingLeft: 5,
+          paddingHorizontal: 2.5,
         }}
       >
         <View

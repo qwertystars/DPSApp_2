@@ -345,16 +345,16 @@ export default function Login({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
-              style={{
-                height: 2,
-                width: "100%",
-                backgroundColor: "rgba(255,255,255,1)",
-              }}
-              onPress={() => {
-                navigation.navigate("BottomTabNavigation");
-              }}
-            ></TouchableOpacity>
+            {/*<TouchableOpacity*/}
+            {/*  style={{*/}
+            {/*    height: 2,*/}
+            {/*    width: "100%",*/}
+            {/*    backgroundColor: "rgba(255,255,255,1)",*/}
+            {/*  }}*/}
+            {/*  onPress={() => {*/}
+            {/*    navigation.navigate("BottomTabNavigation");*/}
+            {/*  }}*/}
+            {/*></TouchableOpacity>*/}
           </ImageBackground>
         </View>
 

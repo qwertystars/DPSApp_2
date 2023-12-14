@@ -85,13 +85,14 @@ export default function GlucoseGraph({ navigation }) {
       } else {
         setIntercept(parseFloat(value));
       }
-    });
 
-    setNext(true);
+      setNext(true);
+    });
   }, []);
 
   useEffect(() => {
     var pred = (slope * 60 + intercept).toFixed(2);
+    console.log(pred + " PREDEICEGITION");
     if (pred > 0) {
       if (pred > 48) {
         setWarningText("Predicted glucose reaching diabetes range");

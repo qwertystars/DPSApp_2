@@ -236,36 +236,6 @@ export default function Main({ navigation }) {
         SetValueDB("Day6", arr6.join("~"));
         SetValueDB("Day7", arr7.join("~"));
       });
-    // fetch(
-    //   "https://api.spoonacular.com/mealplanner/generate?apiKey=938e60394e4d435ba65fe5e8139f02f2&diet=Primal&timeFrame=week&targetCalories=" +
-    //     calories
-    // )
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     //setMealData(data.week.friday);
-    //     const temp = [
-    //       data.week.friday,
-    //       data.week.saturday,
-    //       data.week.sunday,
-    //       data.week.monday,
-    //       data.week.tuesday,
-    //       data.week.wednesday,
-    //       data.week.thursday,
-    //     ];
-
-    //     setTodaysMeal(data.week.friday);
-
-    //     SetValueDB("Day1", JSON.stringify(data.week.friday));
-    //     SetValueDB("Day2", JSON.stringify(data.week.saturday));
-    //     SetValueDB("Day3", JSON.stringify(data.week.sunday));
-    //     SetValueDB("Day4", JSON.stringify(data.week.monday));
-    //     SetValueDB("Day5", JSON.stringify(data.week.tuesday));
-    //     SetValueDB("Day6", JSON.stringify(data.week.wednesday));
-    //     SetValueDB("Day7", JSON.stringify(data.week.thursday));
-    //   })
-    //   .catch(() => {
-    //     console.log("error");
-    //   });
   }
 
   //SecureStore.deleteItemAsync("mealResetDate");
@@ -278,8 +248,6 @@ export default function Main({ navigation }) {
     setMealResetDay(mealResetDate);
     SetValueDB("mealResetDate", mealResetDate.toDateString());
     setMealResetRemainingDays(mealResetDuration - 1);
-
-    console.log(height + " AMAR HEIGHT");
 
     if (height > 0) {
       const bmi = weight / ((height / 100) * (height / 100));
@@ -1880,7 +1848,7 @@ export default function Main({ navigation }) {
         >
           <View
             style={{
-              height: (Dimensions.get("window").height * 40) / 100,
+              height: (Dimensions.get("window").height * 30) / 100,
               width: "90%",
               backgroundColor: "#FFF",
               alignSelf: "center",
@@ -1953,31 +1921,6 @@ export default function Main({ navigation }) {
                 }}
               >
                 Days till next blood pressure reading entry
-              </Text>
-            </View>
-
-            <View
-              style={{
-                alignItems: "center",
-                paddingTop: 15,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 30,
-                  fontWeight: "bold",
-                }}
-              >
-                {remainingDays}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 20,
-                  width: 350,
-                  textAlign: "center",
-                }}
-              >
-                Days till next user info updation
               </Text>
             </View>
           </View>

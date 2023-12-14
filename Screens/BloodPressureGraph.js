@@ -163,7 +163,7 @@ export default function BloodPressureGraph({ navigation }) {
                   color: "rgba(180, 229, 255, 0.87)",
                 }}
               >
-                Disatolic
+                Diastolic
               </Text>
             </View>
             <View
