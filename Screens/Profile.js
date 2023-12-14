@@ -22,7 +22,7 @@ import { Ailments } from "../Screens";
 import { Allergies } from "../Screens";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
-import { printToFileAsync } from "expo-print";
+import { printAsync, printToFileAsync } from "expo-print";
 import { shareAsync } from "expo-sharing";
 
 //GLUCARE
@@ -40,9 +40,42 @@ export default function Profile({ navigation }) {
   const unitList = ["cm", "feet"];
   const [heightUnit, setHeightUnit] = useState(0);
 
+  const [diabetes, setDiabetes] = useState(false);
+  const [preDiabetes, setPreDiabetes] = useState(false);
+  const [highBloodPressure, setHighBloodPressure] = useState(false);
+  const [lowBloodPressure, setLowBloodPressure] = useState(false);
+  const [obesity, setObesity] = useState(false);
+  const [cholesterol, setCholesterol] = useState(false);
+  const [arthiritis, setArthiritis] = useState(false);
+  const [migraine, setMigraine] = useState(false);
+  const [pulmonaryDisease, setPulmonaryDisease] = useState(false);
+
+  const [glucoseReadings, setGlucoseReadings] = useState([]);
+  const [dates, setDates] = useState([]);
+  const [slope, setSlope] = useState(0);
+  const [intercept, setIntercept] = useState(0);
+
+  const [bpReadings, setBPReadings] = useState([]);
+  const [bpdReadings, setBPDReadings] = useState([]);
+  const [bpDates, setBPDates] = useState([]);
+
+  var data = ["e"];
+
   const [SelectedImage, setSelectedImage] = useState(
     "https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
   );
+
+  const getValueDB = async (key) => {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) return result == "true" ? true : false;
+    else return false;
+  };
+
+  const GetValueDB2 = async (key) => {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) return result;
+    else return "";
+  };
 
   const getNameDB = async () => {
     let result = await SecureStore.getItemAsync("Name");
@@ -93,6 +126,8 @@ export default function Profile({ navigation }) {
   };
 
   useEffect(() => {
+    console.log("FETCHIONG PROFILE DATA");
+
     getNameDB();
     getAgeDB();
     getGenderDB();
@@ -101,6 +136,130 @@ export default function Profile({ navigation }) {
     getWeightDB();
     getBloodGroupDB();
     getProfilePicDB();
+
+    getValueDB("diabetes").then((value) => {
+      setDiabetes(value == true ? true : false);
+    });
+
+    getValueDB("preDiabetes").then((value) => {
+      setPreDiabetes(value == true ? true : false);
+    });
+
+    getValueDB("highBloodPressure").then((value) => {
+      setHighBloodPressure(value == true ? true : false);
+    });
+
+    getValueDB("lowBloodPressure").then((value) => {
+      setLowBloodPressure(value == true ? true : false);
+    });
+
+    getValueDB("cholesterol").then((value) => {
+      setCholesterol(value == true ? true : false);
+    });
+
+    getValueDB("arthiritis").then((value) => {
+      setArthiritis(value == true ? true : false);
+    });
+
+    getValueDB("migraine").then((value) => {
+      setMigraine(value == true ? true : false);
+    });
+
+    getValueDB("pulmonaryDisease").then((value) => {
+      setPulmonaryDisease(value == true ? true : false);
+    });
+
+    GetValueDB2("glucoseReadings").then((value) => {
+      let arr = value.split(",");
+      arr.reverse();
+      arr.forEach((value, index) => {
+        arr[index] = parseInt(arr[index]);
+      });
+      setGlucoseReadings(arr);
+      console.log(arr);
+    });
+
+    GetValueDB2("glucoseReadingsDates").then((value) => {
+      let arr = value.split(",");
+      arr.reverse();
+      arr.forEach((value, index) => {
+        var x = new Date(value);
+        arr[index] = x;
+        //console.log(x.getDate());
+        data.push(x.getDate());
+      });
+      let y = [];
+      for (var i = 0; i < arr.length; i++) {
+        y.push(
+          arr[i].getDate() +
+            "/" +
+            (arr[i].getMonth() + 1) +
+            "/" +
+            arr[i].getFullYear()
+        );
+      }
+      console.log(y);
+      setDates(y);
+    });
+
+    GetValueDB2("PredictionSlope").then((value) => {
+      if (value == "") {
+        setSlope(0);
+      } else {
+        setSlope(parseFloat(value));
+      }
+    });
+
+    GetValueDB2("PredictionIntercept").then((value) => {
+      if (value == "") {
+        setIntercept(0);
+      } else {
+        setIntercept(parseFloat(value));
+      }
+    });
+
+    GetValueDB2("bpReadings").then((value) => {
+      let arr = value.split(",");
+      arr.reverse();
+      arr.forEach((value, index) => {
+        arr[index] = parseInt(arr[index]);
+      });
+      setBPReadings(arr);
+      console.log(arr);
+    });
+
+    GetValueDB2("bpdReadings").then((value) => {
+      let arr = value.split(",");
+      arr.reverse();
+      arr.forEach((value, index) => {
+        arr[index] = parseInt(arr[index]);
+      });
+      setBPDReadings(arr);
+      console.log(arr);
+    });
+
+    GetValueDB2("bpReadingsDates").then((value) => {
+      let arr = value.split(",");
+      arr.reverse();
+      arr.forEach((value, index) => {
+        var x = new Date(value);
+        arr[index] = x;
+        //console.log(x.getDate());
+        data.push(x.getDate());
+      });
+      let y = [];
+      for (var i = 0; i < arr.length; i++) {
+        y.push(
+          arr[i].getDate() +
+            "/" +
+            (arr[i].getMonth() + 1) +
+            "/" +
+            arr[i].getFullYear()
+        );
+      }
+      console.log(y);
+      setBPDates(y);
+    });
   }, []);
 
   async function handleChangeName() {
@@ -161,6 +320,17 @@ export default function Profile({ navigation }) {
   const html = `<div
   style="width: 360px; height: 1065px; position: relative; background: white"
 >
+<img
+style="
+  width: 83.01px;
+  height: 84px;
+  left: 17px;
+  top: 14px;
+  position: absolute;
+  border-radius: 40px;
+"
+src="https://i.pinimg.com/736x/a1/ac/15/a1ac15e883ceddaf6c6a6fa413d58e8f.jpg"
+/>
   <div
     style="
       width: 231px;
@@ -288,7 +458,11 @@ export default function Profile({ navigation }) {
       word-wrap: break-word;
     "
   >
-    Diabetes<br />High Blood Pressure<br />Migraine
+    ${diabetes ? "Diabetes" : ""}<br />${
+    preDiabetes ? "PreDiabetes" : ""
+  }<br />${highBloodPressure ? "High Blood Pressure" : ""}<br />${
+    lowBloodPressure ? "Low Blood Pressure" : ""
+  }
   </div>
   <div
     style="
@@ -305,7 +479,9 @@ export default function Profile({ navigation }) {
       word-wrap: break-word;
     "
   >
-    Arthritis<br />Low Blood Pressure<br />Cholestorol<br /><br /><br /><br />
+  ${arthiritis ? "Arthiritis" : ""}<br />${migraine ? "Migraine" : ""}<br />${
+    pulmonaryDisease ? "Pulmonary Diseases" : ""
+  }<br />${cholesterol ? "Cholestorol" : ""}
   </div>
   <div
     style="
@@ -337,19 +513,10 @@ export default function Profile({ navigation }) {
       word-wrap: break-word;
     "
   >
-    18<br />1511 kcal<br /><br />2000 kcal<br />No
+    ${
+      weight / ((height / 100) * (height / 100))
+    }<br />${height} kcal<br /><br />2000 kcal<br />No
   </div>
-  <img
-    style="
-      width: 83.01px;
-      height: 84px;
-      left: 17px;
-      top: 14px;
-      position: absolute;
-      border-radius: 40px;
-    "
-    src="https://via.placeholder.com/83x84"
-  />
   <div
     style="
       width: 322px;
@@ -402,7 +569,7 @@ export default function Profile({ navigation }) {
       word-wrap: break-word;
     "
   >
-    Prediction(after 2 months): 80
+    Prediction(after 2 months): ${slope * 60 + intercept}
   </div>
   <div
     style="
@@ -419,7 +586,9 @@ export default function Profile({ navigation }) {
       word-wrap: break-word;
     "
   >
-    10/12/2023<br />9/12/2023<br />8/12/2023
+    ${dates.length > 0 ? dates[0] : ""}<br />${
+    dates.length > 1 ? dates[1] : ""
+  }<br />${dates.length > 2 ? dates[2] : ""}
   </div>
   <div
     style="
@@ -452,7 +621,9 @@ export default function Profile({ navigation }) {
       word-wrap: break-word;
     "
   >
-    81<br />80<br />80
+    ${glucoseReadings.length > 0 ? glucoseReadings[0] : ""}<br />${
+    glucoseReadings.length > 1 ? glucoseReadings[1] : ""
+  }<br />${glucoseReadings.length > 2 ? glucoseReadings[2] : ""}
   </div>
   <div
     style="
@@ -540,7 +711,9 @@ export default function Profile({ navigation }) {
       word-wrap: break-word;
     "
   >
-    10/12/2023<br />9/12/2023<br />8/12/2023
+    ${bpDates.length > 0 ? bpDates[0] : ""}<br />${
+    bpDates.length > 1 ? bpDates[1] : ""
+  }<br />${bpDates.length > 2 ? bpDates[2] : ""}
   </div>
   <div
     style="
@@ -622,7 +795,9 @@ export default function Profile({ navigation }) {
       word-wrap: break-word;
     "
   >
-    81<br />80<br />80
+    ${bpReadings.length > 0 ? bpReadings[0] : ""}<br />${
+    bpReadings.length > 1 ? bpReadings[1] : ""
+  }<br />${bpReadings.length > 2 ? bpReadings[2] : ""}
   </div>
   <div
     style="
@@ -639,18 +814,19 @@ export default function Profile({ navigation }) {
       word-wrap: break-word;
     "
   >
-    81<br />80<br />80
+  ${bpdReadings.length > 0 ? bpdReadings[0] : ""}<br />${
+    bpdReadings.length > 1 ? bpdReadings[1] : ""
+  }<br />${bpdReadings.length > 2 ? bpdReadings[2] : ""}
   </div>
 </div>
 `;
 
-  let generatePdf = async () => {
-    const file = await printToFileAsync({
-      html: html,
-      base64: false,
-    });
+  const [selectedPrinter, setSelectedPrinter] = useState();
 
-    await shareAsync(file.uri);
+  let generatePdf = async () => {
+    await printAsync({
+      html: html,
+    });
   };
 
   return (

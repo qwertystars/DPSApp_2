@@ -92,15 +92,17 @@ export default function GlucoseGraph({ navigation }) {
 
   useEffect(() => {
     var pred = (slope * 60 + intercept).toFixed(2);
-    if (pred > 48) {
-      setWarningText("Predicted glucose reaching diabetes range");
-      setWarningContainer(true);
-    } else if (pred < 48 && pred > 39) {
-      setWarningText("Predicted glucose reaching prediabetes range");
-      setWarningContainer(true);
-    } else if (pred < 21) {
-      setWarningText("Predicted glucose reaching hypoglycemia range");
-      setWarningContainer(true);
+    if (pred > 0) {
+      if (pred > 48) {
+        setWarningText("Predicted glucose reaching diabetes range");
+        setWarningContainer(true);
+      } else if (pred < 48 && pred > 39) {
+        setWarningText("Predicted glucose reaching prediabetes range");
+        setWarningContainer(true);
+      } else if (pred < 21) {
+        setWarningText("Predicted glucose reaching hypoglycemia range");
+        setWarningContainer(true);
+      }
     }
   }, [next]);
 
