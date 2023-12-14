@@ -840,6 +840,40 @@ export default function Login({ navigation }) {
                 />
               </TouchableOpacity>
             </View>
+            <View style={{ paddingTop: "25%", width: "100%" }}>
+              <TouchableOpacity
+                style={{
+                  height: 60,
+                  backgroundColor: "rgba(0, 0, 79, 1)",
+                  paddingTop: 5,
+                  borderColor: "rgba(0, 0, 79, 0.7)",
+                  borderRadius: 20,
+                  borderWidth: 3,
+                }}
+                onPress={() => navigation.navigate("BottomTabNavigation")}
+              >
+                <Text
+                  style={{
+                    fontSize: 32,
+                    color: "rgba(200, 247, 255, 0.87)",
+                    paddingLeft: 70,
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  Next
+                </Text>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={50}
+                  style={{
+                    position: "absolute",
+                    paddingLeft: "70%",
+                    paddingTop: 5,
+                    color: "rgba(170, 219, 255, 0.87)",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
           </ImageBackground>
         </View>
       </ImageBackground>
