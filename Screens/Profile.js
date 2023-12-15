@@ -97,8 +97,18 @@ export default function Profile({ navigation }) {
 
   const getHeightDB = async () => {
     let result = await SecureStore.getItemAsync("Height");
-    if (result) setHeight(parseInt(result));
-    else setHeight(140);
+    if (result) {
+      setHeight(parseInt(result));
+      if (unit == "cm") {
+        setHeightUnit(parseInt(result));
+      } else if (unit == "feet") {
+        setHeightUnit(
+          Math.floor(parseInt(result) / 30.48) +
+            "'" +
+            Math.round((height % 30.48) / 2.4)
+        );
+      }
+    } else setHeight(140);
   };
 
   const getUnitDB = async () => {

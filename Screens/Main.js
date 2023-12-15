@@ -433,7 +433,7 @@ export default function Main({ navigation }) {
         mealResetDate = new Date(value);
         const r = Math.floor((mealResetDate - today) / (1000 * 60 * 60 * 24));
         console.log(r + "Meal Reset Remaining Days");
-        if (r == 0) {
+        if (r <= 0) {
           ResetMeal();
         } else {
           setMealResetRemainingDays(r);

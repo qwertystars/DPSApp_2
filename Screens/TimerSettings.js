@@ -14,7 +14,7 @@ import * as SecureStore from "expo-secure-store";
 
 export default function TimerSettings({ navigation }) {
   const [glucoseTimer, setGlucoseTimer] = useState(2);
-  //const [bpTimer, setBPTimer] = useState(2);
+  const [bpTimer, setBPTimer] = useState(2);
 
   const GetValueDB = async (key) => {
     let result = await SecureStore.getItemAsync(key);
@@ -141,7 +141,7 @@ export default function TimerSettings({ navigation }) {
           </View>
         </View>
 
-        {/* <View>
+        <View>
           <View
             style={{
               flexDirection: "column",
@@ -162,7 +162,7 @@ export default function TimerSettings({ navigation }) {
                   justifyContent: "flex-start",
                 }}
               >
-                {bpTimer - 1}
+                {bpTimer - 1 + " Days"}
               </Text>
               <View style={{ position: "absolute", paddingLeft: 40 }}>
                 <Slider
@@ -183,7 +183,7 @@ export default function TimerSettings({ navigation }) {
               </View>
             </View>
           </View>
-        </View> */}
+        </View>
 
         <TouchableOpacity
           onPress={ResetReminder}

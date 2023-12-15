@@ -235,15 +235,6 @@ export default Allergies = ({ navigation }) => {
         resizeMode="cover"
         style={{ flex: 1 /*justifyContent: "center",*/ }}
       >
-        <TouchableOpacity onPress={ResetMeal}>
-          <View
-            style={{
-              height: 50,
-              width: 50,
-              backgroundColor: "#FFF",
-            }}
-          ></View>
-        </TouchableOpacity>
         <View
           style={{
             marginHorizontal: 0,
@@ -421,6 +412,41 @@ export default Allergies = ({ navigation }) => {
             }}
           /> */}
           {/*<Button title="Update" onPress={click} />*/}
+          <View style={{ paddingTop: 50, paddingLeft: 10 }}>
+            <TouchableOpacity
+              onPress={() => ResetMeal()}
+              style={{
+                height: 40,
+                width: "80%",
+                backgroundColor: "#2e6698",
+                paddingTop: 5,
+                borderColor: "#37688d",
+                borderRadius: 5,
+                borderWidth: 3,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: "rgba(170, 219, 255, 0.87)",
+                  paddingLeft: 2,
+                  justifyContent: "flex-start",
+                }}
+              >
+                Regenerate Meal
+              </Text>
+              <MaterialIcons
+                name="cached"
+                size={24}
+                style={{
+                  position: "absolute",
+                  paddingLeft: "90%",
+                  paddingTop: 5,
+                  color: "rgba(170, 219, 255, 0.87)",
+                }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </ImageBackground>
     </SafeAreaView>

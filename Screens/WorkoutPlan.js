@@ -57,11 +57,14 @@ export default function WorkoutPlan({ navigation }) {
   const [weight, setWeight] = useState(0);
   const [age, setAge] = useState(0);
 
-  const [pgNo, setPgNo] = useState("middleAge1");
+  const [pgNo, setPgNo] = useState("middle1");
 
   const [next, setNext] = useState(false);
 
   useEffect(() => {
+    setNext(false);
+    console.log("Reloading");
+
     getHeightDB();
     getWeightDB();
     getAgeDB();
@@ -69,16 +72,44 @@ export default function WorkoutPlan({ navigation }) {
 
   useEffect(() => {
     const bmi = weight / ((height / 100) * (height / 100));
+    console.log(bmi);
+    console.log(age);
     if (bmi < 27) {
       if (age < 30) setPgNo("teen1");
       else if (age < 55) setPgNo("middle1");
-      else if (age < 55) setPgNo("elderly1");
+      else if (age > 55) setPgNo("elderly1");
     } else {
       if (age < 30) setPgNo("teen2");
       else if (age < 55) setPgNo("middle2");
-      else if (age < 55) setPgNo("elderly2");
+      else if (age > 55) setPgNo("elderly2");
     }
+
+    // if (bmi < 27) {
+    //   if (age < 30) console.log("teen1");
+    //   else if (age < 55) console.log("middle1");
+    //   else if (age > 55) console.log("elderly1");
+    // } else {
+    //   if (age < 30) console.log("teen2");
+    //   else if (age < 55) console.log("middle2");
+    //   else if (age > 55) console.log("elderly2");
+    // }
   }, [next]);
+
+  useEffect(() => {
+    const bmi = weight / ((height / 100) * (height / 100));
+    console.log(bmi);
+    console.log(age);
+    if (bmi < 27) {
+      if (age < 30) setPgNo("teen1");
+      else if (age < 55) setPgNo("middle1");
+      else if (age > 55) setPgNo("elderly1");
+    } else {
+      if (age < 30) setPgNo("teen2");
+      else if (age < 55) setPgNo("middle2");
+      else if (age > 55) setPgNo("elderly2");
+    }
+    console.log(pgNo);
+  }, [pgNo]);
 
   return (
     <SafeAreaView
