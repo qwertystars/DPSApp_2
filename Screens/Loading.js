@@ -35,10 +35,6 @@ export default function Loading({ navigation }) {
     await SecureStore.setItemAsync(key, value);
   }
 
-  useEffect(() => {
-    setTimeout(() => navigation.navigate("BottomTabNavigation"), 3000);
-  }, []);
-
   return (
     <ImageBackground
       source={require("../assets/medisplash.png")}
@@ -48,37 +44,15 @@ export default function Loading({ navigation }) {
         justifyContent: "center",
       }}
     >
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={{
-          height: 40,
-          width: 290,
-          backgroundColor: "#00213b",
+          height: 720,
+          width: 400,
+          backgroundColor: "rgba(0,0,0,0)",
           borderRadius: 5,
         }}
         onPress={() => navigation.navigate("BottomTabNavigation")}
-      >
-        <Text
-          style={{
-            fontSize: 22,
-            color: "rgba(170, 219, 255,1)",
-            paddingLeft: "30%",
-            paddingVertical: 5,
-            alignItems: "center",
-          }}
-        >
-          Continue
-        </Text>
-        <MaterialIcons
-          name="keyboard-arrow-right"
-          size={24}
-          style={{
-            position: "absolute",
-            paddingLeft: "90%",
-            paddingVertical: 8,
-            color: "rgba(170, 219, 255, 1)",
-          }}
-        />
-      </TouchableOpacity> */}
+      ></TouchableOpacity>
     </ImageBackground>
   );
 }

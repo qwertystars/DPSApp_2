@@ -168,7 +168,7 @@ export default function BloodPressureGraph({ navigation }) {
             </View>
             <View
               style={{
-                paddingLeft: 98,
+                paddingLeft: 78,
                 paddingTop: 10,
               }}
             >
@@ -220,7 +220,7 @@ export default function BloodPressureGraph({ navigation }) {
                       >
                         {value}
                       </Text>
-                      <View style={{ paddingLeft: 50 }}>
+                      <View style={{ paddingLeft: 90 }}>
                         <Text
                           style={{
                             fontSize: 18,
@@ -232,7 +232,7 @@ export default function BloodPressureGraph({ navigation }) {
                             : "0"}
                         </Text>
                       </View>
-                      <View style={{ paddingLeft: 50 }}>
+                      <View style={{ paddingLeft: 90 }}>
                         <Text
                           style={{
                             fontSize: 18,
