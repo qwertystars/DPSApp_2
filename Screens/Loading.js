@@ -34,20 +34,21 @@ export default function Loading({ navigation }) {
   async function SetValueDB(key, value) {
     await SecureStore.setItemAsync(key, value);
   }
+
+  useEffect(() => {
+    setTimeout(() => navigation.navigate("BottomTabNavigation"), 3000);
+  }, []);
+
   return (
-    <SafeAreaView
+    <ImageBackground
+      source={require("../assets/medisplash.png")}
+      resizeMode="cover"
       style={{
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         flex: 1,
-        backgroundColor: "rgba(93, 152, 255, 0.83)",
+        justifyContent: "center",
       }}
     >
-      {/* <Video
-        source={medicoachLogo} // the video file
-        paused={false} // make it start      // any style you want
-        repeat={true} // make it a loop
-      /> */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{
           height: 40,
           width: 290,
@@ -77,7 +78,7 @@ export default function Loading({ navigation }) {
             color: "rgba(170, 219, 255, 1)",
           }}
         />
-      </TouchableOpacity>
-    </SafeAreaView>
+      </TouchableOpacity> */}
+    </ImageBackground>
   );
 }
