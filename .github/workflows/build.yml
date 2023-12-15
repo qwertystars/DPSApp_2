@@ -1,0 +1,45 @@
+name: Build and Release APK
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build_and_release_apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build APK
+        run: npx react-native run-android --variant=release
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+
+      - name: Sign APK
+        run: |
+          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore path/to/your.keystore -storepass ${{ secrets.KEYSTORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} app-release-unsigned.apk alias_name
+
+      - name: Verify and Align APK
+        run: |
+          zipalign -v 4 app-release-unsigned.apk app-release.apk
+
+      - name: Upload Release APK
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.repository.releases.url }}
+          asset_path: ./app-release.apk
+          asset_name: app-release.apk
+          asset_content_type: application/vnd.android.package-archive
